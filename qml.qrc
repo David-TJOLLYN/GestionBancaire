@@ -8,5 +8,8 @@
         <file>js/extract.js</file>
         <file>customElements/FloatLineEdit.qml</file>
         <file>customElements/ExitButton.qml</file>
+        <file>gui/HomePage.qml</file>
+        <file>gui/AccountsPage.qml</file>
+        <file>gui/TransactionPage.qml</file>
     </qresource>
 </RCC>

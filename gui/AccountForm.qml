@@ -43,22 +43,34 @@ Rectangle{
         anchors.margins: 10
     }
 
-    ChartView{
-        id:graph
-        visible:false
-        anchors{
-            bottom:parent.bottom; top:accountNum.bottom
-            right:parent.right; left:parent.left
-            margins:10
+    ChartView {
+        id: graph
+        visible: false
+        anchors {
+            bottom: parent.bottom
+            top: accountNum.bottom
+            right: parent.right
+            left: parent.left
+            margins: 10
         }
+
         legend.visible: false
 
-        BarSeries{
-            id:soldSeries
-            axisX: BarCategoryAxis{ categories :BDD.generateDateList("2020-01-01","2020-12-01")}
-            BarSet{values: BDD.getAccount(accounts,name).getMonthlyEvolution("2020-01-01","2020-12-01")}
+        BarSeries {
+            id: soldSeries
+            axisX: BarCategoryAxis {
+                categories: BDD.generateDateList("2020-01-01", "2020-12-01")
+            }
+
+            BarSet {
+                id: barSet
+                values: BDD.getAccount(accounts, name).getMonthlyEvolution("2020-01-01", "2020-12-01")
+            }
         }
     }
+
+
+
 
 
     MouseArea{
@@ -68,10 +80,10 @@ Rectangle{
             graph.visible = !chart
 
             chart = !chart
-            animParent.to = (chart ? 400 : 60)
+            animParent.to = (chart ? 350 : 60)
             animParent.running = true
 
-            animGraph.to = (chart ? 340 : 0)
+            animGraph.to = (chart ? 290 : 0)
             animGraph.running = true
         }
     }

@@ -30,7 +30,7 @@ QVariantList Account::getMonthlyEvolution(QString start_date, QString end_date){
         "   AND category="+QString::number(_bdd->category("Bilan"))+" "
         "   AND date BETWEEN '"+start_date+"' AND '"+end_date+"';";
 
-    qDebug()<<_bdd->queryExec(txt);
+    _bdd->queryExec(txt);
     QSqlQuery *query = _bdd->getQuery();
 
     QVariantList list;
