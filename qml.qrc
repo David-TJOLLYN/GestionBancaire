@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>gui/AccountForm.qml</file>
+        <file>gui/MoneyTransactionForm.qml</file>
+        <file>customElements/CustomButton.qml</file>
+        <file>customElements/TextLineEdit.qml</file>
+        <file>js/extract.js</file>
+        <file>customElements/FloatLineEdit.qml</file>
+        <file>customElements/ExitButton.qml</file>
+    </qresource>
+</RCC>
