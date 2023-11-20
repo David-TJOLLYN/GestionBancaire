@@ -2,6 +2,10 @@ import QtQuick 2.15
 import "../customElements"
 
 Item {
+    onVisibleChanged: {
+        console.log("TransactionPage visible",visible)
+    }
+
     Rectangle{
         id:layoutLeft
 

@@ -21,10 +21,33 @@ Window {
         height: 230
     }
 
+    StackLayout{
+        id:body
+        currentIndex: 0
+        anchors{
+            left:parent.left
+            right:parent.right
+            top:parent.top
+            bottom:footer.top
+        }
+
+        HomePage{
+            id:homePage
+        }
+
+        AccountsPage{
+            id:accountPage
+        }
+
+        TransactionPage{
+            id:transactionPage
+        }
+    }
+
     Rectangle{
         id:footer
-        color:"lightblue"
-        height: parent.height>50 ? 50 : parent.height/10
+        color:"white"
+        height: 60
         anchors{
             left:parent.left
             right:parent.right
@@ -34,38 +57,33 @@ Window {
         RowLayout{
             anchors.fill:parent
             anchors.margins: 10
+            property real currentItem: 0
 
-            Rectangle{
-                color:footer.color
+            IconButton{
                 Layout.preferredHeight: parent.height
                 Layout.preferredWidth: parent.width/3
-                Image{
-                    anchors.fill:parent
-                    fillMode: Image.PreserveAspectFit
-                    source: "icon/icon_homepage.png"
-                }
+                focus: homePage.visible
+                icon: "../icon/homepage.png"
+                iconfocus: "../icon/homepagefilled.png"
+                onClicked: body.currentIndex = 0
             }
 
-            Rectangle{
-                color:footer.color
+            IconButton{
                 Layout.preferredHeight: parent.height
                 Layout.preferredWidth: parent.width/3
-                Image{
-                    anchors.fill:parent
-                    fillMode: Image.PreserveAspectFit
-                    source: "icon/icon_accountpage.png"
-                }
+                focus:accountPage.visible
+                icon: "../icon/accountpage.png"
+                iconfocus: "../icon/accountpagefilled.png"
+                onClicked: body.currentIndex = 1
             }
 
-            Rectangle{
-                color:footer.color
+            IconButton{
                 Layout.preferredHeight: parent.height
                 Layout.preferredWidth: parent.width/3
-                Image{
-                    anchors.fill:parent
-                    fillMode: Image.PreserveAspectFit
-                    source: "icon/icon_transactionpage.png"
-                }
+                focus:transactionPage.visible
+                icon: "../icon/transactionpage.png"
+                iconfocus: "../icon/transactionpagefilled.png"
+                onClicked: body.currentIndex = 2
             }
         }
     }

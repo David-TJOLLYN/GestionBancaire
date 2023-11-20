@@ -1,9 +1,16 @@
 import QtQuick 2.15
+import QtQuick.Layouts 1.15
 
-Rectangle {
-    id: accountListView
-    anchors {top: parent.top; left:parent.left; right:parent.right}
-    anchors.fill:parent
+Item {
+    id: accountPage
+    focus: false
+    Layout.fillWidth: true
+    Layout.fillHeight: true
+
+    onVisibleChanged: {
+        console.log("AccountPage visible",visible)
+    }
+
 
     Component{
         id: accountform
