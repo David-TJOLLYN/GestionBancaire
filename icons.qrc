@@ -1,9 +1,10 @@
 <!DOCTYPE RCC><RCC version="1.0">
 <qresource>
-	<file>icon/icon_expense.png</file>
-	<file>icon/icon_revenue.png</file>
-	<file>icon/icon_homepage.png</file>
-	<file>icon/icon_transactionpage.png</file>
-	<file>icon/icon_accountpage.png</file>
+	<file>icon/homepage.png</file>
+	<file>icon/accountpage.png</file>
+	<file>icon/transactionpage.png</file>
+	<file>icon/homepagefilled.png</file>
+	<file>icon/accountpagefilled.png</file>
+	<file>icon/transactionpagefilled.png</file>
 </qresource>
 </RCC>	
