@@ -46,7 +46,6 @@ Window {
 
     Rectangle{
         id:footer
-        color:"white"
         height: 60
         anchors{
             left:parent.left
@@ -60,8 +59,6 @@ Window {
             property real currentItem: 0
 
             IconButton{
-                Layout.preferredHeight: parent.height
-                Layout.preferredWidth: parent.width/3
                 focus: homePage.visible
                 icon: "../icon/homepage.png"
                 iconfocus: "../icon/homepagefilled.png"
@@ -69,8 +66,6 @@ Window {
             }
 
             IconButton{
-                Layout.preferredHeight: parent.height
-                Layout.preferredWidth: parent.width/3
                 focus:accountPage.visible
                 icon: "../icon/accountpage.png"
                 iconfocus: "../icon/accountpagefilled.png"
@@ -78,8 +73,6 @@ Window {
             }
 
             IconButton{
-                Layout.preferredHeight: parent.height
-                Layout.preferredWidth: parent.width/3
                 focus:transactionPage.visible
                 icon: "../icon/transactionpage.png"
                 iconfocus: "../icon/transactionpagefilled.png"

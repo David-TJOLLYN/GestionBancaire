@@ -7,11 +7,6 @@ Item {
     Layout.fillWidth: true
     Layout.fillHeight: true
 
-
-    onVisibleChanged: {
-        console.log("HomePage visible",visible)
-    }
-
     Rectangle{
         width : homePage.width
         height: homePage.height

@@ -7,11 +7,6 @@ Item {
     Layout.fillWidth: true
     Layout.fillHeight: true
 
-    onVisibleChanged: {
-        console.log("AccountPage visible",visible)
-    }
-
-
     Component{
         id: accountform
         AccountForm{
