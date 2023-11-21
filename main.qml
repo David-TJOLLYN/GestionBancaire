@@ -38,6 +38,13 @@ Window {
         }
     }
 
+    TransactionPopup{
+        id:transactionPopup
+        width: parent.width
+        height:parent.height-footer.height
+    }
+
+
     StackLayout{
         id:body
         currentIndex: 0
@@ -62,6 +69,20 @@ Window {
             id:transactionPage
             width: parent.width
             height:parent.height - footer.height
+
+            onOpenInternalPopup: {
+                console.log("popup virement interne")
+            }
+            onOpenExpensePopup: {
+                console.log("Popup dépense")
+                transactionPopup.expense = true
+                transactionPopup.open()
+            }
+            onOpenRevenuPopup:{
+                console.log("popup revenu")
+                transactionPopup.expense = false
+                transactionPopup.open()
+            }
         }
     }
 

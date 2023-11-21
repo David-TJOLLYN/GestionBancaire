@@ -5,9 +5,8 @@ import QtQuick.Layouts
 import "../customElements"
 import "../js/extract.js" as Extract
 
-Item {
+Popup {
     id:popup
-    anchors.centerIn: parent
 
     property bool expense: false
     property alias sold: soldValue.text
@@ -15,49 +14,55 @@ Item {
     property alias details: detailsValue.text
     property alias category: categoryList.currentText
 
+    topPadding:  0
+    leftPadding: 0
+    rightPadding:0
+
+    background: Rectangle{
+        color:"white"
+        anchors.fill: parent
+    }
+
+    modal:true
+    focus:true
+
     Rectangle{
         id:header
+        color:"#3C6888"
+        height: 60
+        width:  parent.width
+
         anchors{
             left:parent.left
             right:parent.right
             top:parent.top
         }
 
-        height: 35
-        Layout.fillWidth: true
-
         RowLayout{
             anchors.fill: parent
             anchors.margins: 4
 
-            spacing:12
+            spacing:10
+            Rectangle{
+                width: parent.height/2
+                height:parent.height/2
+                color:"transparent"
+                StyledText{
+                    anchors.centerIn: parent
+                    text:"X"
+                    color:"white"
+                }
+                MouseArea{
+                    anchors.fill:parent
+                    onClicked: popup.visible = false
+                }
 
-            CustomButton{
-                Layout.preferredHeight: parent.height
-                Layout.preferredWidth:  parent.height+10
-
-                text:  expense ? "- €"     : "+ €"
-                color: expense ? "#F70000" : "#70AD47"
-                fill:  expense ? "#FF7F7F" : "#B7D6A3"
             }
 
-            Text{
-                text:qsTr("Ajouter un"+(expense ? "e dépense" : " revenue"))
+            StyledText{
+                text:qsTr("Ajouter un"+(expense ? "e dépense" : " revenu"))
                 Layout.fillWidth: true
-
-                font.pixelSize: Math.min(parent.height/2+4, parent.height)
-                font.underline: true
-                color:"black"
-            }
-
-            ExitButton{
-                id:btn_exitpopup
-
-                Layout.preferredHeight: parent.height
-                Layout.preferredWidth:  parent.height+25
-
-                onClicked: popup.visible = false
-
+                color:"white"
             }
         }
     }
@@ -136,9 +141,12 @@ Item {
 
             onClicked: {
                 popup.visible = false
-                console.log(account,parseFloat(sold))
-                Extract.getAccount(accounts,account).addTransaction(expense,parseFloat(sold),category,details)
+                Extract.getAccount(accounts,account).addTransaction(expense,sold,category,details)
             }
         }
     }
+
+
+    closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
+
 }
