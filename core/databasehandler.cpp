@@ -559,7 +559,7 @@ void DatabaseHandler::insertMoneyTransaction(QString name, qreal amount, bool ty
         QString::number(account(name)) + ", " + QString::number(category(cat)) + ");";
 
     if (queryExec(insertTransactionQuery)) {
-        qDebug() << "OK - Money transaction inserted";
+        qDebug() << "OK - Money transaction inserted " << number <<" "<<amount;
     }
 
     // Updating the account sold value
@@ -576,10 +576,11 @@ void DatabaseHandler::insertMoneyTransaction(QString name, qreal amount, bool ty
 QString DatabaseHandler::getSoldString(QString name){
     QString query = "SELECT sold from account where id = "+QString::number(account(name))+";";
     if(queryExec(query)){
-        qDebug()<<"OK - Sold retreived";
 
         _query.next();
-        return _query.value(TABLES::Account::sold).toString();
+        QString sold = _query.value("sold").toString();
+        qDebug()<<"OK - Sold retreived "<<sold;
+        return sold;
     }
     return "0.00";
 }

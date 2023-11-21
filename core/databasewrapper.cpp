@@ -4,16 +4,16 @@
 DatabaseWrapper::DatabaseWrapper(QObject *parent) : QObject{parent},
   _wrapper(new DatabaseHandler())
 {
+    _query = _wrapper->getQuery();
 }
 
 void DatabaseWrapper::loadAccounts(){
-    _wrapper->queryExec("Select name, sold from account;");
-    QSqlQuery *query = _wrapper->getQuery();
+    _query->exec("Select name, sold from account;");
 
-    while(query->next()){
-        QString name = query->value("name").toString();
-        float sold = query->value("sold").toFloat();
-        QString num = "3892 9365 8792";
+    while(_query->next()){
+        QString name = _query->value("name").toString();
+        float sold   = _query->value("sold").toFloat();
+        QString num  = "3892 9365 8792";
 
         _accounts.append(new Account(name, sold, num, _wrapper));
     }
@@ -33,14 +33,21 @@ QVariantList DatabaseWrapper::getAccounts() {
 QVariantList DatabaseWrapper::getCategories(){
     QVariantList list;
 
-    _wrapper->queryExec("SELECT name from category;");
-    QSqlQuery *query = _wrapper->getQuery();
-    while(query->next()){
-        list.append(query->value("name"));
+    _query->exec("SELECT name from category;");
+
+    while(_query->next()){
+        list.append(_query->value("name"));
     }
+
     return list;
 }
 
 void DatabaseWrapper::insertTransaction(bool type, QString account, QString amount, QString category, QString details){
     _wrapper->insertMoneyTransaction(account,amount.toFloat(),type,category,QDateTime::currentDateTime().date(),details);
+}
+
+float DatabaseWrapper::getTotalSold(){
+    _query->exec("SELECT SUM(sold) from account;");
+    _query->next();
+    return _query->value(0).toFloat();
 }

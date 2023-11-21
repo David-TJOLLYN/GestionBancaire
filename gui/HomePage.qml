@@ -1,5 +1,7 @@
 import QtQuick 2.15
 import QtQuick.Layouts 1.15
+import "../customElements"
+import "../js/extract.js" as BDD
 
 Item {
     id: homePage
@@ -9,11 +11,12 @@ Item {
     property string font: "Comic Sans MS"
     property real px: 15
     property bool small: false
+    property variant account : accounts[0]
 
     Rectangle {
         id: frame
 
-        height: 100
+        height: 200
         width: parent.width
         border.width: 2
         border.color: parent.color
@@ -26,67 +29,47 @@ Item {
             margins: 0.06 * parent.width
         }
 
-        RowLayout {
-            id: rowLayoutComponent
-            anchors {
-                top: parent.top
-                left: parent.left
-                right: parent.right
-                margins: 10
-            }
+        ColumnLayout{
+            anchors.fill:parent
 
-            Text {
-                id: rowAccount
-                text: "Compte bancaire :"
-                color: homePage.color
-                font.family: homePage.font
-                font.pixelSize: homePage.px
-            }
-
-            Item {
+            RowLayout {
+                id: rowLayoutComponent
+                Layout.margins:10
                 Layout.fillWidth: true
+                Layout.alignment: Qt.AlignTop
+
+                StyledText {
+                    id: rowAccount
+                    text: account.name
+                }
+
+                Item { Layout.fillWidth: true }
+
+                StyledText {
+                    id: rowSold
+                    text: qsTr(account.sold.toFixed(2)+" €")
+                }
             }
 
-            Text {
-                id: rowSold
-                text: "1230.45 €"
-                color: homePage.color
-                font.family: homePage.font
-                font.pixelSize: homePage.px
-                Layout.alignment: Qt.AlignRight
+            ColumnLayout {
+                id: columnLayoutComponent
+                Layout.margins:10
+                Layout.preferredWidth: parent.width
+                Layout.alignment: Qt.AlignTop
+
+                StyledText { text: account.name }
+                StyledText { text: qsTr(account.sold.toFixed(2)+" €")
+                    Layout.alignment: Qt.AlignRight
+                }
+            }
+
+            Rectangle{
+                Layout.preferredWidth: parent.width
+                height:1
+                color:homePage.color
             }
         }
 
-        ColumnLayout {
-            id: columnLayoutComponent
-            anchors {
-                top: parent.top
-                left: parent.left
-                right: parent.right
-                margins: 10
-            }
-
-            Text {
-                id: columnAccount
-                text: "Compte bancaire :"
-                color: homePage.color
-                font.family: homePage.font
-                font.pixelSize: homePage.px
-            }
-
-            Item {
-                Layout.fillWidth: true
-            }
-
-            Text {
-                id: columnSold
-                text: "1230.45 €"
-                color: homePage.color
-                font.family: homePage.font
-                font.pixelSize: homePage.px
-                Layout.alignment: Qt.AlignRight
-            }
-        }
 
         states: [
             State {

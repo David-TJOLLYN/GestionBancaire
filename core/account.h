@@ -3,14 +3,7 @@
 
 #include <QObject>
 #include "databasehandler.h"
-/*
-struct Transaction{
-    QDate date;
-    int account;
-    float amount;
-    int category;
-};
-*/
+
 class Account : public QObject
 {
     Q_OBJECT

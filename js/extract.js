@@ -8,7 +8,7 @@ function extractNames(listOfObjects) {
 
 function getAccount(accounts, name){
     for(var i=0; i<accounts.length; i++){
-        if(accounts[i].name == name) return accounts[i]
+        if(accounts[i].name === name) return accounts[i]
     }
 }
 

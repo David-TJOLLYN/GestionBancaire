@@ -15,7 +15,7 @@ public:
     QList<QString> getAllItems(const QString& tableName, const QString& columnName);
     QList<QMap<QString, QString>> getItemsWithColumns(const QString& tableName, const QStringList& columnNames);
 
-    void insertMoneyTransaction(QString account,  qreal value, bool type, QString cathegory, QDate date, QString details="");
+    void insertMoneyTransaction(QString account, qreal value, bool type, QString cathegory, QDate date, QString details="");
     QString getSoldString(QString account);
 
     QSqlQuery* getQuery(){return &_query;}

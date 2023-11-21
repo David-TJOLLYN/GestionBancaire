@@ -3,7 +3,6 @@ import QtQuick.Layouts 1.15
 
 Item {
     id: accountPage
-    focus: false
     Layout.fillWidth: true
     Layout.fillHeight: true
 

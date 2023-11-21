@@ -13,14 +13,29 @@ Window {
     visible: true
     title: qsTr("Tests coding")
 
-
     minimumWidth: 200
     minimumHeight: 300
 
-    MoneyTransactionForm {
-        id:moneyTransaction
-        width: 0.90*parent.width
-        height: 230
+    Rectangle{
+        id:header
+        color:"#3C6888"
+        height: 60
+        width: parent.width
+        anchors{
+            top:parent.top
+            left:parent.left
+            right:parent.right
+        }
+        StyledText{
+            id:headerTxt
+            text:"Home"
+            color:"white"
+            anchors{
+                left:parent.left
+                verticalCenter: parent.verticalCenter
+                margins:15
+            }
+        }
     }
 
     StackLayout{
@@ -29,7 +44,7 @@ Window {
         anchors{
             left:parent.left
             right:parent.right
-            top:parent.top
+            top:header.bottom
             bottom:footer.top
         }
 
@@ -45,6 +60,8 @@ Window {
 
         TransactionPage{
             id:transactionPage
+            width: parent.width
+            height:parent.height - footer.height
         }
     }
 
@@ -74,21 +91,30 @@ Window {
                 focus: homePage.visible
                 icon: "../icon/homepage.png"
                 iconfocus: "../icon/homepagefilled.png"
-                onClicked: body.currentIndex = 0
+                onClicked:{
+                    headerTxt.text = "Home"
+                    body.currentIndex = 0
+                }
             }
 
             IconButton{
                 focus:accountPage.visible
                 icon: "../icon/accountpage.png"
                 iconfocus: "../icon/accountpagefilled.png"
-                onClicked: body.currentIndex = 1
+                onClicked: {
+                    headerTxt.text = "Comptes et Livrets"
+                    body.currentIndex = 1
+                }
             }
 
             IconButton{
                 focus:transactionPage.visible
                 icon: "../icon/transactionpage.png"
                 iconfocus: "../icon/transactionpagefilled.png"
-                onClicked: body.currentIndex = 2
+                onClicked: {
+                    headerTxt.text = "Transaction"
+                    body.currentIndex = 2
+                }
             }
         }
     }

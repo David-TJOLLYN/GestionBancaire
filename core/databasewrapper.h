@@ -19,12 +19,14 @@ public:
 
 public slots:
     void insertTransaction(bool type, QString account, QString amount, QString category, QString details);
+    float getTotalSold();
 
 signals:
 
 private:
+    QSqlQuery       *_query;
     DatabaseHandler *_wrapper;
-    QList<Account*> _accounts;
+    QList<Account*>  _accounts;
 
     void loadAccounts();
 };

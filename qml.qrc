@@ -2,7 +2,7 @@
     <qresource prefix="/">
         <file>main.qml</file>
         <file>gui/AccountForm.qml</file>
-        <file>gui/MoneyTransactionForm.qml</file>
+        <file>gui/AddTransactionPage.qml</file>
         <file>customElements/CustomButton.qml</file>
         <file>customElements/TextLineEdit.qml</file>
         <file>js/extract.js</file>
@@ -12,6 +12,6 @@
         <file>gui/AccountsPage.qml</file>
         <file>gui/TransactionPage.qml</file>
         <file>customElements/IconButton.qml</file>
-        <file>gui/HomeAccountForm.qml</file>
+        <file>customElements/StyledText.qml</file>
     </qresource>
 </RCC>

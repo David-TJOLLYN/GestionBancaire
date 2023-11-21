@@ -19,6 +19,7 @@ int main(int argc, char *argv[]){
 
     DatabaseWrapper wrapper;
 
+    context->setContextProperty("wrapper",&wrapper);
     context->setContextProperty("accounts", wrapper.getAccounts());
     context->setContextProperty("list_categories", wrapper.getCategories());
 
