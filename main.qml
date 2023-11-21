@@ -14,6 +14,8 @@ Window {
     title: qsTr("Tests coding")
 
 
+    minimumWidth: 200
+    minimumHeight: 300
 
     MoneyTransactionForm {
         id:moneyTransaction
@@ -33,6 +35,8 @@ Window {
 
         HomePage{
             id:homePage
+            width: parent.width
+            height:parent.height - footer.height
         }
 
         AccountsPage{
@@ -53,9 +57,17 @@ Window {
             bottom:parent.bottom
         }
 
+        Rectangle{
+            height: 2
+            width:parent.width
+            color:"#3C6888"
+
+        }
+
         RowLayout{
             anchors.fill:parent
             anchors.margins: 10
+
             property real currentItem: 0
 
             IconButton{

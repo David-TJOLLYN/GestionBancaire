@@ -12,5 +12,6 @@
         <file>gui/AccountsPage.qml</file>
         <file>gui/TransactionPage.qml</file>
         <file>customElements/IconButton.qml</file>
+        <file>gui/HomeAccountForm.qml</file>
     </qresource>
 </RCC>
