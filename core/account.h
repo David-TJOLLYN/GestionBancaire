@@ -24,6 +24,7 @@ public:
 public slots:
     void addTransaction(bool type, QString amount, QString category, QString details);
     QVariantList getMonthlyEvolution(QString start, QString end);
+    QVariantList getLastTransactions(int nbr);
 
 signals:
     void soldChanged();
@@ -32,6 +33,7 @@ public:
     DatabaseHandler *_bdd;
 
     QString _name;
+    QString _id;
     float _sold;
     QString _number;
 };

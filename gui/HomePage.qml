@@ -68,6 +68,29 @@ Item {
                 height:1
                 color:homePage.color
             }
+
+            Component{
+                id: lastTransactions
+                Text{
+                    text: modelData.date+"\t"+modelData.amount+"\t"+modelData.category
+                    anchors{left:parent.left;right:parent.right}
+                }
+            }
+
+            ListView {
+                Layout.preferredWidth: parent.width
+                Layout.fillHeight: true
+
+                model: BDD.getAccount(accounts,account.name).getLastTransactions(4)
+                delegate: lastTransactions
+
+                clip: true
+                spacing:10
+                topMargin: 10
+                leftMargin: 10
+                rightMargin: 10
+                bottomMargin: 10
+            }
         }
 
 

@@ -8,6 +8,7 @@ SOURCES += \
         core/account.cpp \
         core/databasehandler.cpp \
         core/databasewrapper.cpp \
+        core/transaction.cpp \
         main.cpp
 
 RESOURCES += qml.qrc icons.qrc
@@ -26,4 +27,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     core/account.h \
     core/databasehandler.h \
-    core/databasewrapper.h
+    core/databasewrapper.h \
+    core/transaction.h
