@@ -141,7 +141,11 @@ Popup {
 
             onClicked: {
                 popup.visible = false
-                Extract.getAccount(accounts,account).addTransaction(expense,sold,category,details)
+                Extract.getAccount(accounts,account).addTransaction(expense,check(sold),category,details)
+            }
+
+            function check(inputString) {
+                return inputString.replace(",", ".");
             }
         }
     }

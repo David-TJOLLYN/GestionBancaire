@@ -28,7 +28,7 @@ Rectangle {
         id: txt
         text: ""
         color: focus ? "black" : "grey"
-        validator:DoubleValidator{locale: "en"; decimals: 2}
+        validator:DoubleValidator{decimals: 2}
 
         anchors.left: parent.Left
         anchors.right: suffix.left
