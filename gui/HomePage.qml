@@ -1,5 +1,7 @@
 import QtQuick 2.15
 import QtQuick.Layouts 1.15
+import Qt.labs.qmlmodels
+
 import "../customElements"
 import "../js/extract.js" as BDD
 
@@ -51,18 +53,6 @@ Item {
                 }
             }
 
-            ColumnLayout {
-                id: columnLayoutComponent
-                Layout.margins:10
-                Layout.preferredWidth: parent.width
-                Layout.alignment: Qt.AlignTop
-
-                StyledText { text: account.name }
-                StyledText { text: qsTr(account.sold.toFixed(2)+" €")
-                    Layout.alignment: Qt.AlignRight
-                }
-            }
-
             Rectangle{
                 Layout.preferredWidth: parent.width
                 height:1
@@ -70,75 +60,54 @@ Item {
             }
 
             Component{
-                id: lastTransactions
-                Text{
-                    text: modelData.date+"\t"+modelData.amount+"\t"+modelData.category
-                    anchors{left:parent.left;right:parent.right}
+                id:transactionForm
+                Rectangle{
+                    implicitWidth: parent.width
+                    implicitHeight: txt.implicitHeight
+
+                    Text{
+                        id:txt
+                        anchors.left: parent.left
+                        text:BDD.formatDate(modelData.date)
+                        color:"grey"
+                    }
+
+                    Text{
+                        text:modelData.category
+                        anchors.left:txt.right
+                        anchors.margins:20
+                    }
+
+                    Text{
+                        text:modelData.amount+" €"
+                        anchors.right:parent.right
+                    }
                 }
             }
 
             ListView {
+                id:lastTransactionList
                 Layout.preferredWidth: parent.width
                 Layout.fillHeight: true
 
-                model: BDD.getAccount(accounts,account.name).getLastTransactions(4)
-                delegate: lastTransactions
+                model: account.getLastTransactions(5)
 
-                clip: true
+                delegate: transactionForm
+
+                Connections {
+                    target: account
+                    onUpdateLastTransaction: {
+                        lastTransactionList.model = account.getLastTransactions(5)
+                    }
+                }
+
+                interactive: false
+
                 spacing:10
-                topMargin: 10
-                leftMargin: 10
-                rightMargin: 10
-                bottomMargin: 10
-            }
-        }
-
-
-        states: [
-            State {
-                name: "RowLayoutState"
-                when: !small
-                PropertyChanges {
-                    target: rowLayoutComponent
-                    visible: true
-                }
-                PropertyChanges {
-                    target: columnLayoutComponent
-                    visible: false
-                }
-            },
-            State {
-                name: "ColumnLayoutState"
-                when: small
-                PropertyChanges {
-                    target: rowLayoutComponent
-                    visible: false
-                }
-                PropertyChanges {
-                    target: columnLayoutComponent
-                    visible: true
-                }
-            }
-        ]
-
-        transitions: Transition {
-            ParallelAnimation {
-                NumberAnimation {
-                    properties: "opacity"
-                    duration: 250
-                }
-            }
-        }
-
-        onWidthChanged: {
-            var size = rowAccount.implicitWidth + rowSold.implicitWidth + 0.2 * parent.width + 20;
-
-            if (!small && size > parent.width) {
-                small = true;
-                state = "ColumnLayoutState";
-            } else if (small && size < parent.width) {
-                small = false;
-                state = "RowLayoutState";
+                topMargin: 5
+                leftMargin: 20
+                rightMargin: 20
+                bottomMargin: 20
             }
         }
     }

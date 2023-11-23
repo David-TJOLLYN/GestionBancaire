@@ -13,8 +13,8 @@ Window {
     visible: true
     title: qsTr("Tests coding")
 
-    minimumWidth: 200
-    minimumHeight: 300
+    minimumWidth: 300
+    minimumHeight: 400
 
     Rectangle{
         id:header

@@ -28,6 +28,7 @@ public slots:
 
 signals:
     void soldChanged();
+    void updateLastTransaction();
 
 public:
     DatabaseHandler *_bdd;

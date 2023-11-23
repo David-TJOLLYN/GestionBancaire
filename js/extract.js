@@ -39,3 +39,25 @@ function generateDateList(start_date,end_date){
 
     return dates;
 }
+
+function formatDate(inputDate) {
+    var txt = inputDate.split("-");
+    return txt[2] + "/" + txt[1];
+}
+
+function getTableFromLastTransactions(accounts,name, nbr){
+    var account = getAccount(accounts, name);
+    var transactions = account.getLastTransactions(nbr);
+    var array = [];
+
+    for(var i=0; i<transactions.length;i++){
+        var date     = formatDate(transactions[i].date);
+        var amount   = transactions[i].amount;
+        var category = transactions[i].category;
+        var details  = transactions[i].details;
+
+        array.push({"date" : date, "amount":amount, "category":category, "details":details});
+    }
+
+    return array;
+}

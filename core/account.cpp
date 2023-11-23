@@ -21,6 +21,7 @@ QString Account::toString(){
 void Account::addTransaction(bool type, QString amount, QString category, QString details){
     _bdd->insertMoneyTransaction(_name,amount.toFloat(),type,category,QDateTime::currentDateTime().date(),details);
     setSold(_bdd->getSoldString(_name).toFloat());
+    emit updateLastTransaction();
 }
 
 QVariantList Account::getMonthlyEvolution(QString start_date, QString end_date){
@@ -48,21 +49,24 @@ QVariantList Account::getLastTransactions(int nbr){
 
     qDebug()<<"get last "<<nbr<<" transactions";
 
-    QString maxId = "SELECT MAX(id)-4 FROM moneytransaction";
+    QString maxId = "SELECT MAX(id)-"+QString::number(nbr)+" FROM moneytransaction";
 
     QString txt = "SELECT date, amount, category FROM moneytransaction "
                   "WHERE account=0 AND id > ("+maxId+");";
 
-    qDebug()<<_bdd->queryExec(txt);
+    _bdd->queryExec(txt);
 
     while(query->next()){
         QString date = query->value("date").toString();
-        QString amount = query->value("amount").toString();
+        QString amount = QString::number(query->value("amount").toFloat(),'f',2);
         QString category = _bdd->category(query->value("category").toInt());
-        Transaction *t = new Transaction(date,amount,category,_name,"");
-        QVariant variant = QVariant::fromValue(t);
+
+        QVariant variant = QVariant::fromValue(new Transaction(date,amount,category,_name,""));
+
         list.append(variant);
     }
+
+    std::reverse(list.begin(), list.end());
 
     return list;
 }
