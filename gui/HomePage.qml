@@ -1,4 +1,4 @@
-import QtQuick 2.15
+﻿import QtQuick 2.15
 import QtQuick.Layouts 1.15
 import Qt.labs.qmlmodels
 
@@ -28,87 +28,100 @@ Item {
             top: parent.top
             left: parent.left
             right: parent.right
-            margins: 0.06 * parent.width
+            margins:15
         }
 
-        ColumnLayout{
-            anchors.fill:parent
+        Rectangle {
+            id: frametitle
+            height:rowAccount.implicitHeight
+            width: parent.width
 
-            RowLayout {
-                id: rowLayoutComponent
-                Layout.margins:10
-                Layout.fillWidth: true
-                Layout.alignment: Qt.AlignTop
-
-                StyledText {
-                    id: rowAccount
-                    text: account.name
-                }
-
-                Item { Layout.fillWidth: true }
-
-                StyledText {
-                    id: rowSold
-                    text: qsTr(account.sold.toFixed(2)+" €")
-                }
+            anchors {
+                top: parent.top
+                left: parent.left
+                right: parent.right
+                margins:10
             }
 
+            StyledText {
+                id: rowAccount
+                text: account.name
+                anchors.left:parent.left
+
+            }
+
+            StyledText {
+                id: rowSold
+                text: qsTr(account.sold.toFixed(2)+" €")
+                anchors.right:parent.right
+            }
+        }
+
+        Rectangle{
+            id:line
+            width: parent.width
+            height:3
+            color:homePage.color
+            anchors{
+                left:parent.left
+                right:parent.right
+                top:frametitle.bottom
+                topMargin: 10
+            }
+        }
+
+        Component{
+            id:transactionForm
             Rectangle{
-                Layout.preferredWidth: parent.width
-                height:1
-                color:homePage.color
+                width: parent.width
+                height: txt.implicitHeight
+
+                Text{
+                    id:txt
+                    anchors.left: parent.left
+                    text:BDD.formatDate(modelData.date)
+                    color:"grey"
+                }
+
+                Text{
+                    text:modelData.category
+                    anchors.left:txt.right
+                    anchors.margins:20
+                }
+
+                Text{
+                    text:modelData.amount+" €"
+                    anchors.right:parent.right
+                }
+            }
+        }
+
+        ListView {
+            id:lastTransactionList
+            width: parent.width
+            height: parent.height
+
+            anchors{
+                left:parent.left
+                right:parent.right
+                top:line.bottom
+                margins:10
             }
 
-            Component{
-                id:transactionForm
-                Rectangle{
-                    implicitWidth: parent.width
-                    implicitHeight: txt.implicitHeight
+            model: account.getLastTransactions(5)
 
-                    Text{
-                        id:txt
-                        anchors.left: parent.left
-                        text:BDD.formatDate(modelData.date)
-                        color:"grey"
-                    }
+            delegate: transactionForm
 
-                    Text{
-                        text:modelData.category
-                        anchors.left:txt.right
-                        anchors.margins:20
-                    }
-
-                    Text{
-                        text:modelData.amount+" €"
-                        anchors.right:parent.right
-                    }
+            Connections {
+                target: account
+                function onUpdateLastTransaction() {
+                    lastTransactionList.model = account.getLastTransactions(5)
                 }
             }
 
-            ListView {
-                id:lastTransactionList
-                Layout.preferredWidth: parent.width
-                Layout.fillHeight: true
+            interactive: false
 
-                model: account.getLastTransactions(5)
-
-                delegate: transactionForm
-
-                Connections {
-                    target: account
-                    onUpdateLastTransaction: {
-                        lastTransactionList.model = account.getLastTransactions(5)
-                    }
-                }
-
-                interactive: false
-
-                spacing:10
-                topMargin: 5
-                leftMargin: 20
-                rightMargin: 20
-                bottomMargin: 20
-            }
+            spacing:10
         }
     }
 }
