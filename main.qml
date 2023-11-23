@@ -38,7 +38,7 @@ Window {
         }
     }
 
-    TransactionPopup{
+    TransactionPopup2{
         id:transactionPopup
         width: parent.width
         height:parent.height-footer.height
@@ -70,17 +70,8 @@ Window {
             width: parent.width
             height:parent.height - footer.height
 
-            onOpenInternalPopup: {
-                console.log("popup virement interne")
-            }
-            onOpenExpensePopup: {
-                console.log("Popup dépense")
-                transactionPopup.expense = true
-                transactionPopup.open()
-            }
-            onOpenRevenuPopup:{
-                console.log("popup revenu")
-                transactionPopup.expense = false
+            onOpenPopup:{
+                transactionPopup.type = type
                 transactionPopup.open()
             }
         }

@@ -61,3 +61,8 @@ function getTableFromLastTransactions(accounts,name, nbr){
 
     return array;
 }
+
+function addTransaction(accounts,name,date,amount,category,details){
+    var account = getAccount(accounts,name);
+    account.addTransaction(date,amount,category,details);
+}

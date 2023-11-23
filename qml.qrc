@@ -13,5 +13,7 @@
         <file>gui/TransactionPage.qml</file>
         <file>customElements/IconButton.qml</file>
         <file>customElements/StyledText.qml</file>
+        <file>gui/TransactionPopup2.qml</file>
+        <file>customElements/AccountTemplate.qml</file>
     </qresource>
 </RCC>

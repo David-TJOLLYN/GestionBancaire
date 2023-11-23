@@ -5,15 +5,14 @@ import "../customElements"
 
 Item {
     id:page
-    signal openExpensePopup
-    signal openRevenuPopup
-    signal openInternalPopup
+    signal openPopup
+    property real type: 0
 
     ColumnLayout {
         anchors {
             top: parent.top
             horizontalCenter: parent.horizontalCenter
-            margins: 0.06 * parent.width
+            margins: 15
         }
         height: modelList.count*(50+10)
 
@@ -47,18 +46,8 @@ Item {
                     MouseArea{
                         anchors.fill:parent
                         onClicked:{
-                            var nbr = modelList.get(index).type
-                            if(nbr === 0){
-                                openInternalPopup()
-                            }
-                            if(nbr === 1){
-                                openRevenuPopup()
-                            }
-                            if(nbr === 2){
-                                openExpensePopup()
-                            }
-
-                            console.log(modelList.get(index).name, nbr)
+                            type = modelList.get(index).type
+                            openPopup()
                         }
                     }
                 }

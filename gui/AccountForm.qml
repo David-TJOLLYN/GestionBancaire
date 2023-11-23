@@ -1,12 +1,13 @@
 import QtQuick 2.15
 import QtQuick.Layouts 1.15
 import QtCharts 2.3
+import "../customElements"
 import "../js/extract.js" as BDD
 
 Rectangle{
     id:rect
     height: 60
-    width:accountNum.implicitWidth
+    width:parent.width
     radius:4
     border.color: "grey"
 
@@ -15,32 +16,12 @@ Rectangle{
     property string num:  "model.num"
     property bool   chart: false
 
-    anchors.margins: 10
-
-    Text {
-        id: accountName
-        text: qsTr(name)
-        anchors{ left:parent.left; top:parent.top}
-        anchors.margins: 10
-    }
-
-    Item {
-        Layout.fillWidth: true
-        anchors{ top:parent.top; left:accountName.right; right:accountSold.left}
-    }
-
-    Text {
-        id: accountSold
-        text: qsTr(sold.toFixed(2)+" €")
-        anchors{ right:parent.right; top:parent.top}
-        anchors.margins: 10
-    }
-
-    Text{
-        id:accountNum
-        text: qsTr(num)
-        anchors{ top:accountName.bottom; right:parent.right; left:parent.left}
-        anchors.margins: 10
+    AccountTemplate{
+        id:template
+        name:rect.name
+        sold:rect.sold
+        num: rect.num
+        border.color:"transparent"
     }
 
     ChartView {
@@ -48,10 +29,9 @@ Rectangle{
         visible: false
         anchors {
             bottom: parent.bottom
-            top: accountNum.bottom
+            top: template.bottom
             right: parent.right
             left: parent.left
-            margins: 10
         }
 
         legend.visible: false

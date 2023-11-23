@@ -18,7 +18,7 @@ public:
     QVariantList getCategories();
 
 public slots:
-    void insertTransaction(bool type, QString account, QString amount, QString category, QString details);
+    void insertTransaction(QString account, QString amount, QString category, QString details);
     float getTotalSold();
 
 signals:

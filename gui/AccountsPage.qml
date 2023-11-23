@@ -12,7 +12,6 @@ Item {
             name: modelData.name
             sold: modelData.sold
             num:  modelData.number
-            anchors{left:parent.left;right:parent.right}
         }
     }
 
@@ -22,7 +21,7 @@ Item {
         delegate: accountform
         clip: true
         spacing:10
-        topMargin: 10
+        topMargin: 15
         leftMargin: 10
         rightMargin: 10
         bottomMargin: 10

@@ -3,16 +3,16 @@ import QtQuick.Controls 2.15
 import QtQuick.Layouts
 
 import "../customElements"
-import "../js/extract.js" as Extract
+import "../js/extract.js" as BDD
 
 Popup {
     id:popup
 
     property bool expense: false
-    property alias sold: soldValue.text
-    property alias account: accountList.currentText
-    property alias details: detailsValue.text
-    property alias category: categoryList.currentText
+    property string sold: soldValue.prefix+soldValue.text
+    property string account: accountList.currentText
+    property string details: detailsValue.text
+    property string category: categoryList.currentText
 
     topPadding:  0
     leftPadding: 0
@@ -41,7 +41,6 @@ Popup {
         RowLayout{
             anchors.fill: parent
             anchors.margins: 4
-
             spacing:10
             Rectangle{
                 width: parent.height/2
@@ -56,7 +55,6 @@ Popup {
                     anchors.fill:parent
                     onClicked: popup.visible = false
                 }
-
             }
 
             StyledText{
@@ -75,14 +73,13 @@ Popup {
             top:header.bottom
         }
         height:6*parent.height/7-10
-        Layout.fillWidth: true
 
         spacing:5
 
         RowLayout{
 
             Layout.preferredHeight: parent.height/7
-            Layout.preferredWidth:  parent.width
+            Layout.preferredWidth:  parent.width/2
             spacing:5
 
             ComboBox{
@@ -91,7 +88,7 @@ Popup {
                 Layout.preferredWidth:  parent.width/2
 
                 editable:false
-                model: Extract.extractNames(accounts)
+                model: BDD.extractNames(accounts)
             }
 
             FloatLineEdit {
@@ -141,7 +138,7 @@ Popup {
 
             onClicked: {
                 popup.visible = false
-                Extract.getAccount(accounts,account).addTransaction(expense,check(sold),category,details)
+                BDD.addTransaction(accounts,account,check(sold),category,details)
             }
 
             function check(inputString) {

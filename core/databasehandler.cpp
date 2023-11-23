@@ -549,8 +549,8 @@ QList<QMap<QString, QString>> DatabaseHandler::getItemsWithColumns(const QString
 
 
 
-void DatabaseHandler::insertMoneyTransaction(QString name, qreal amount, bool type, QString cat, QDate date, QString details) {
-    QString number = QString(type ? "-" : "+") + " " + QString::number(amount, 'f', 2);
+void DatabaseHandler::insertMoneyTransaction(QString name, qreal amount, QString cat, QDate date, QString details) {
+    QString number = QString::number(amount, 'f', 2);
 
     // Inserting the money transaction
     QString insertTransactionQuery =

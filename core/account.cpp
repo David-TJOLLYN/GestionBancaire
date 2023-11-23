@@ -18,8 +18,8 @@ QString Account::toString(){
     return _name;
 }
 
-void Account::addTransaction(bool type, QString amount, QString category, QString details){
-    _bdd->insertMoneyTransaction(_name,amount.toFloat(),type,category,QDateTime::currentDateTime().date(),details);
+void Account::addTransaction(QString amount, QString category, QString details){
+    _bdd->insertMoneyTransaction(_name,amount.toFloat(),category,QDateTime::currentDateTime().date(),details);
     setSold(_bdd->getSoldString(_name).toFloat());
     emit updateLastTransaction();
 }
