@@ -5,6 +5,9 @@ import "../customElements"
 Item {
     id: accountPage
 
+    width: parent.width
+    height:parent.height
+
     Header{
         id:header
         text:"Comptes et Livrets"

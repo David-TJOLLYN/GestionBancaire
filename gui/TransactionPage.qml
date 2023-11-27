@@ -8,6 +8,9 @@ Item {
     signal openPopup
     property real type: 0
 
+    width: parent.width
+    height:parent.height
+
     Header{
         id:header
         text:"Transactions"

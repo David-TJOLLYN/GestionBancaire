@@ -19,17 +19,17 @@ Window {
     StackLayout{
         id:body
         currentIndex: 0
+
+        width: parent.width
+        height:parent.height - footer.height
+
         anchors{
-            left:parent.left
-            right:parent.right
             top:parent.top
             bottom:footer.top
         }
 
         HomePage{
             id:homePage
-            width: parent.width
-            height:parent.height - footer.height
         }
 
         AccountsPage{
@@ -38,8 +38,6 @@ Window {
 
         TransactionPage{
             id:transactionPage
-            width: parent.width
-            height:parent.height - footer.height
 
             onOpenPopup:{
                 transactionstep1.type = type
@@ -49,8 +47,6 @@ Window {
 
         TransactionStep1{
             id:transactionstep1
-            width: parent.width
-            height:parent.height-footer.height
             onClose: body.currentIndex = 2
         }
     }
