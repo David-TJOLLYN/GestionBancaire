@@ -16,5 +16,6 @@
         <file>customElements/AccountTemplate.qml</file>
         <file>customElements/Header.qml</file>
         <file>gui/TransactionStep2.qml</file>
+        <file>customElements/HeaderAndExitBtn.qml</file>
     </qresource>
 </RCC>

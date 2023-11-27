@@ -30,19 +30,9 @@ Item {
             anchors.fill: parent
             anchors.margins: 4
             spacing:10
-            Rectangle{
-                width: parent.height/2
-                height:parent.height/2
-                color:"transparent"
-                StyledText{
-                    anchors.centerIn: parent
-                    text:"X"
-                    color:"white"
-                }
-                MouseArea{
-                    anchors.fill:parent
-                    onClicked: popup.visible = false
-                }
+
+            ExitButton{
+                onClicked: popup.visible = false
             }
 
             StyledText{

@@ -1,27 +1,34 @@
 import QtQuick 2.15
 
 Item{
+    id:exitbtn
+
     signal clicked
 
-    Rectangle {
-        id:rect
-        anchors.fill: parent
-        color: mouse.containsMouse ? "#E81123" : "transparent"
-    }
+    width: parent.height
+    height:parent.height
+    property color background: "transparent"
+    property color color: "white"
 
-    Text {
-        anchors.centerIn: parent
+    Rectangle{
+        width: parent.height/2
+        height:parent.height/2
+        color: exitbtn.background
 
-        text: "X"
-        color: mouse.containsMouse ? "white" : "#B0B0B0"
-        font.family: "Comic sans MS"
-        font.pixelSize: parent.height - 10
-    }
+        anchors{
+            left: parent.left ; margins: 10
+            verticalCenter: parent.verticalCenter
+        }
 
-    MouseArea {
-        id:mouse
-        hoverEnabled: true
-        anchors.fill: parent
-        onClicked: parent.clicked()
+        StyledText{
+            text:"X"
+            color: exitbtn.color
+            anchors.centerIn: parent
+        }
+
+        MouseArea{
+            anchors.fill:parent
+            onClicked: exitbtn.clicked()
+        }
     }
 }

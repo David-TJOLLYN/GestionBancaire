@@ -4,8 +4,8 @@ import "../customElements"
 
 Popup {
     id:popup
-    property var title:["Virement interne", "Ajouter un revenu", "Ajouter une dépense"]
-    property var info: ["Choix du compte a débiter", "Choix du compte a créditer", "Choix du compte a débiter"];
+    property var titles:["Virement interne", "Ajouter un revenu", "Ajouter une dépense"]
+    property var infos: ["Choix du compte a débiter", "Choix du compte a créditer", "Choix du compte a débiter"];
     property real type : 0
     property real account : 0
 
@@ -18,45 +18,10 @@ Popup {
         color:"white"
     }
 
-    Rectangle{
+    HeaderAndExitBtn{
         id:header
-        width:parent.width
-        height: 60
-        color:"#3C6888"
-
-        anchors.top:parent.top
-
-        Rectangle{
-            id:exitbtn
-            width: parent.height/2
-            height:parent.height/2
-            color: parent.color
-
-            anchors{
-                left: parent.left ; margins: 10
-                verticalCenter: parent.verticalCenter
-            }
-
-            StyledText{
-                text:"X"
-                color:"white"
-                anchors.centerIn: parent
-            }
-
-            MouseArea{
-                anchors.fill:parent
-                onClicked: popup.close()
-            }
-        }
-
-        StyledText{
-            text: title[type]
-            color: "white"
-            anchors{
-                left: exitbtn.right ; margins: 20
-                verticalCenter: parent.verticalCenter
-            }
-        }
+        title: titles[type]
+        onClosed: popup.close()
     }
 
     Rectangle{
@@ -69,7 +34,7 @@ Popup {
         Text{
             id:txt
             anchors.centerIn: parent
-            text: info[type]
+            text: infos[type]
         }
     }
 
