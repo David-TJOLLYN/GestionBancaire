@@ -16,27 +16,6 @@ Window {
     minimumWidth: 300
     minimumHeight: 400
 
-    Rectangle{
-        id:header
-        color:"#3C6888"
-        height: 60
-        width: parent.width
-        anchors{
-            top:parent.top
-            left:parent.left
-            right:parent.right
-        }
-        StyledText{
-            id:headerTxt
-            text:"Home"
-            color:"white"
-            anchors{
-                left:parent.left
-                verticalCenter: parent.verticalCenter
-                margins:15
-            }
-        }
-    }
 
     TransactionPopup2{
         id:transactionPopup
@@ -51,7 +30,7 @@ Window {
         anchors{
             left:parent.left
             right:parent.right
-            top:header.bottom
+            top:parent.top
             bottom:footer.top
         }
 
@@ -103,30 +82,22 @@ Window {
                 focus: homePage.visible
                 icon: "../icon/homepage.png"
                 iconfocus: "../icon/homepagefilled.png"
-                onClicked:{
-                    headerTxt.text = "Home"
-                    body.currentIndex = 0
-                }
+                onClicked: body.currentIndex = 0
             }
 
             IconButton{
                 focus:accountPage.visible
                 icon: "../icon/accountpage.png"
                 iconfocus: "../icon/accountpagefilled.png"
-                onClicked: {
-                    headerTxt.text = "Comptes et Livrets"
+                onClicked:
                     body.currentIndex = 1
-                }
             }
 
             IconButton{
                 focus:transactionPage.visible
                 icon: "../icon/transactionpage.png"
                 iconfocus: "../icon/transactionpagefilled.png"
-                onClicked: {
-                    headerTxt.text = "Transaction"
-                    body.currentIndex = 2
-                }
+                onClicked:  body.currentIndex = 2
             }
         }
     }

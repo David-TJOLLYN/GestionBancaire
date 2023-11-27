@@ -15,5 +15,6 @@
         <file>customElements/StyledText.qml</file>
         <file>gui/TransactionPopup2.qml</file>
         <file>customElements/AccountTemplate.qml</file>
+        <file>customElements/Header.qml</file>
     </qresource>
 </RCC>

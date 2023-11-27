@@ -8,9 +8,14 @@ Item {
     signal openPopup
     property real type: 0
 
+    Header{
+        id:header
+        text:"Transactions"
+    }
+
     ColumnLayout {
         anchors {
-            top: parent.top
+            top: header.bottom
             horizontalCenter: parent.horizontalCenter
             margins: 15
         }

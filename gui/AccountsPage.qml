@@ -1,10 +1,14 @@
 import QtQuick 2.15
 import QtQuick.Layouts 1.15
+import "../customElements"
 
 Item {
     id: accountPage
-    Layout.fillWidth: true
-    Layout.fillHeight: true
+
+    Header{
+        id:header
+        text:"Comptes et Livrets"
+    }
 
     Component{
         id: accountform
@@ -16,7 +20,9 @@ Item {
     }
 
     ListView {
-        anchors.fill:parent
+        anchors.top:header.bottom
+        width: parent.width
+        height: parent.height - header.height
         model: accounts
         delegate: accountform
         clip: true

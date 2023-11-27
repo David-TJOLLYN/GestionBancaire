@@ -15,6 +15,12 @@ Item {
     property bool small: false
     property variant account : accounts[0]
 
+    Header{
+        id:header
+        text:"Home"
+        width: parent.width
+    }
+
     Rectangle {
         id: frame
 
@@ -25,7 +31,7 @@ Item {
         radius: 10
 
         anchors {
-            top: parent.top
+            top: header.bottom
             left: parent.left
             right: parent.right
             margins:15
