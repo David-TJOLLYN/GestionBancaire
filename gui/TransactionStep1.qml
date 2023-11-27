@@ -2,16 +2,13 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import "../customElements"
 
-Popup {
+Item {
     id:popup
     property var title:["Virement interne", "Ajouter un revenu", "Ajouter une dépense"]
     property var info: ["Choix du compte a débiter", "Choix du compte a créditer", "Choix du compte a débiter"];
     property real type : 0
+    signal close
 
-    background: Rectangle{
-        anchors.fill:parent
-        color:"white"
-    }
 
     Rectangle{
         id:header
@@ -40,7 +37,7 @@ Popup {
 
             MouseArea{
                 anchors.fill:parent
-                onClicked: popup.visible = false
+                onClicked: popup.close()
             }
         }
 
@@ -91,6 +88,4 @@ Popup {
         rightMargin: 10
         bottomMargin: 10
     }
-
-    padding: 0
 }

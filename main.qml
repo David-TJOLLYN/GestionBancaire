@@ -11,17 +11,9 @@ Window {
     width: 375
     height: 600
     visible: true
-    title: qsTr("Tests coding")
 
     minimumWidth: 300
     minimumHeight: 400
-
-
-    TransactionPopup2{
-        id:transactionPopup
-        width: parent.width
-        height:parent.height-footer.height
-    }
 
 
     StackLayout{
@@ -50,9 +42,16 @@ Window {
             height:parent.height - footer.height
 
             onOpenPopup:{
-                transactionPopup.type = type
-                transactionPopup.open()
+                transactionstep1.type = type
+                body.currentIndex = 3
             }
+        }
+
+        TransactionStep1{
+            id:transactionstep1
+            width: parent.width
+            height:parent.height-footer.height
+            onClose: body.currentIndex = 2
         }
     }
 
