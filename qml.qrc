@@ -12,8 +12,9 @@
         <file>gui/TransactionPage.qml</file>
         <file>customElements/IconButton.qml</file>
         <file>customElements/StyledText.qml</file>
-        <file>gui/TransactionStep1.qml</file>
+        <file>gui/TransactionPopup.qml</file>
         <file>customElements/AccountTemplate.qml</file>
         <file>customElements/Header.qml</file>
+        <file>gui/TransactionStep2.qml</file>
     </qresource>
 </RCC>

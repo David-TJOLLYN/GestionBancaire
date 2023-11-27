@@ -22,6 +22,8 @@ Rectangle{
         sold:rect.sold
         num: rect.num
         border.color:"transparent"
+        color:"transparent"
+        border.width: 0
     }
 
     ChartView {

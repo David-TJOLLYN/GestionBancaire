@@ -15,6 +15,12 @@ Window {
     minimumWidth: 300
     minimumHeight: 400
 
+    TransactionPopup{
+        id:transactionpopup
+        width: parent.width
+        height:parent.height
+        onClosed: body.currentIndex = 2
+    }
 
     StackLayout{
         id:body
@@ -40,14 +46,9 @@ Window {
             id:transactionPage
 
             onOpenPopup:{
-                transactionstep1.type = type
-                body.currentIndex = 3
+                transactionpopup.type = type
+                transactionpopup.open()
             }
-        }
-
-        TransactionStep1{
-            id:transactionstep1
-            onClose: body.currentIndex = 2
         }
     }
 

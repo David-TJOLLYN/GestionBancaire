@@ -10,6 +10,7 @@ class Account : public QObject
     Q_PROPERTY(QString name READ name CONSTANT)
     Q_PROPERTY(float sold READ sold WRITE setSold NOTIFY soldChanged)
     Q_PROPERTY(QString number READ number CONSTANT)
+    Q_PROPERTY(int id READ id CONSTANT)
 
 public:
     explicit Account(QString name, float sold, QString number, DatabaseHandler *bdd, QObject *parent = nullptr);
@@ -18,6 +19,7 @@ public:
     QString name(){return _name;}
     float sold(){return _sold;}
     QString number(){return _number;}
+    int id(){return _id.toInt();}
 
     void setSold(float sold);
 
