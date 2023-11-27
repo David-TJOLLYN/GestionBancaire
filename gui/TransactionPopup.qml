@@ -18,56 +18,36 @@ Popup {
         color:"white"
     }
 
-    HeaderAndExitBtn{
-        id:header
-        title: titles[type]
-        onClosed: popup.close()
+    onClosed:{
+        swipeView.currentIndex = 0
     }
 
-    Rectangle{
-        id:txtinfo
-        width: parent.width
-        height:txt.implicitHeight+20
-        anchors.top:header.bottom
-        anchors.margins:10
+    SwipeView {
+        id: swipeView
+        anchors.fill: parent
+        interactive: false
 
-        Text{
-            id:txt
-            anchors.centerIn: parent
-            text: infos[type]
-        }
-    }
-
-    Component{
-        id: accountform
-        AccountTemplate{
-            name: modelData.name
-            sold: modelData.sold
-            num:  modelData.number
-
-            MouseArea{
-                anchors.fill:parent
-                onClicked:{
-                    account = modelData.id
-                    popup.accountSelected()
+        Item{
+            TransactionSelectAccount {
+                width: swipeView.width
+                height: swipeView.height
+                title: titles[type]
+                info: infos[type]
+                onClosed: popup.close()
+                onAccountSelected:{
+                    swipeView.currentIndex = 1
+                    extern.account = account
                 }
             }
         }
-    }
 
-    ListView {
-        anchors.top: txtinfo.bottom
-        width: parent.width
-        height:parent.height
-
-        model: accounts
-        delegate: accountform
-        clip: true
-        spacing:10
-        topMargin: 10
-        leftMargin: 10
-        rightMargin: 10
-        bottomMargin: 10
+        Item{
+            TransactionExpenseRevenue{
+                id: extern
+                title: titles[type]
+                onClosed: popup.close()
+            }
+        }
     }
 
     onAboutToShow:{
