@@ -18,9 +18,13 @@ QString Account::toString(){
     return _name;
 }
 
-void Account::addTransaction(QString amount, QString category, QString details){
-    _bdd->insertMoneyTransaction(_name,amount.toFloat(),category,QDateTime::currentDateTime().date(),details);
-    setSold(_bdd->getSoldString(_name).toFloat());
+void Account::addTransaction(QString amount, QString date, QString category, QString details){
+    QString accountId = QString::number(_bdd->account(_name));
+    QString categoryId= QString::number(_bdd->category(category));
+
+    _bdd->insertTransaction(accountId,amount,date,categoryId,details);
+    setSold(_bdd->getSold(accountId));
+
     emit updateLastTransaction();
 }
 

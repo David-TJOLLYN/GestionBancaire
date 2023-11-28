@@ -1,4 +1,6 @@
-import QtQuick 2.15
+import QtQuick
+import QtQuick.Layouts
+import QtQuick.Controls
 import "../customElements"
 import "../js/extract.js" as BDD
 
@@ -8,7 +10,12 @@ Item {
     height:parent.height
 
     property string title: "Default"
+    property bool expense: false
     property var account
+    property string amount: amountValue.prefix+amountValue.text
+    property string details: detailsValue.text
+    property string category: categoryList.currentText
+
     signal closed
 
     HeaderAndExitBtn{
@@ -18,29 +25,12 @@ Item {
     }
 
     Rectangle {
+        id:info
         anchors.top:header.bottom
         width: parent.width
         height: 60
 
         color: "#98D7E5"
-
-        Rectangle {
-            id: clipper
-            anchors.top:parent.bottom
-            width: parent.width
-            height: clipped.radius
-            color: 'transparent'
-            clip: true
-
-            Rectangle {
-                id: clipped
-                width: parent.width
-                height: parent.height + radius
-                y:-radius
-                radius: 15
-                color: "#98D7E5"
-            }
-        }
 
         StyledText {
             anchors{
@@ -62,6 +52,86 @@ Item {
             font.bold: true
             color:"white"
         }
+    }
+    Rectangle {
+        id: clipper
+        anchors.top:info.bottom
+        width: parent.width
+        height: clipped.radius
+        color: 'transparent'
+        clip: true
 
+        Rectangle {
+            id: clipped
+            width: parent.width
+            height: parent.height + radius
+            y:-radius
+            radius: 15
+            color: "#98D7E5"
+        }
+    }
+
+
+
+    ColumnLayout{
+        implicitWidth: 0.8*parent.width
+        spacing: 12
+
+        anchors{
+            top: clipper.bottom
+            horizontalCenter: parent.horizontalCenter
+            margins:25
+        }
+
+        FloatLineEdit{
+            id: amountValue
+            implicitWidth: parent.width
+            implicitHeight: 25
+
+            prefix: (expense ? "-" : "+")
+            suffix: "  €"
+            text: "0.00"
+        }
+
+        ComboBox{
+            id:categoryList
+            Layout.preferredWidth:  parent.width
+            Layout.preferredHeight: 25
+            editable:false
+            model:list_categories
+        }
+
+        TextLineEdit{
+            id: detailsValue
+            implicitWidth: parent.width
+            implicitHeight: 25
+            text: "détails"
+        }
+
+        Rectangle{
+            implicitWidth: parent.width/2
+            implicitHeight: 25
+            Layout.alignment: Qt.AlignHCenter
+            radius: 25
+            color: "#3C6888"
+
+            StyledText{
+                text:"valider"
+                color:"white"
+                anchors.centerIn: parent
+            }
+
+            MouseArea{
+                anchors.fill:parent
+                onClicked: {
+                    page.account.addTransaction(check(amount),BDD.date(),category,details)
+                    page.closed()
+                }
+
+                function check(inputString) {
+                    return inputString.replace(",", ".");
+                }
+            }
+        }
     }
 }

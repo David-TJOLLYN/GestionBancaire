@@ -62,7 +62,12 @@ function getTableFromLastTransactions(accounts,name, nbr){
     return array;
 }
 
-function addTransaction(accounts,name,date,amount,category,details){
-    var account = getAccount(accounts,name);
+function addTransaction(account,date,amount,category,details){
     account.addTransaction(date,amount,category,details);
+}
+
+function date(){
+    var currentDate = new Date();
+    var date = currentDate.toISOString().split('T')[0];
+    return date
 }

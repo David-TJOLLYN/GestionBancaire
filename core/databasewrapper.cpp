@@ -42,9 +42,6 @@ QVariantList DatabaseWrapper::getCategories(){
     return list;
 }
 
-void DatabaseWrapper::insertTransaction(QString account, QString amount, QString category, QString details){
-    _wrapper->insertMoneyTransaction(account,amount.toFloat(),category,QDateTime::currentDateTime().date(),details);
-}
 
 float DatabaseWrapper::getTotalSold(){
     _query->exec("SELECT SUM(sold) from account;");

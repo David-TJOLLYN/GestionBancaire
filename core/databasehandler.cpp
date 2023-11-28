@@ -508,7 +508,8 @@ void DatabaseHandler::loadDefaultValues(){
 
 bool DatabaseHandler::queryExec(QString txt){
     if(!_query.exec(txt)){
-        qDebug()<<"Error - Executing query : "<<txt<<" SQL error "<<_query.lastError().text();
+        qDebug()<<"ERROR - Fail to execute query : "<<txt;
+        qDebug()<<"SQL "<<_query.lastError().text();
         return false;
     }
     return true;
@@ -548,39 +549,34 @@ QList<QMap<QString, QString>> DatabaseHandler::getItemsWithColumns(const QString
 }
 
 
+void DatabaseHandler::insertTransaction(QString accountId, QString amount, QString date, QString categoryId, QString details){
+    QString txt = "";
 
-void DatabaseHandler::insertMoneyTransaction(QString name, qreal amount, QString cat, QDate date, QString details) {
-    QString number = QString::number(amount, 'f', 2);
+    // Insert transaction in database
 
-    // Inserting the money transaction
-    QString insertTransactionQuery =
-        "INSERT INTO moneytransaction(amount, date, account, category) "
-        "VALUES (" + number + ", '" + date.toString("yyyy-MM-dd") + "', " +
-        QString::number(account(name)) + ", " + QString::number(category(cat)) + ");";
+    txt = "INSERT INTO moneytransaction(account, amount, date, category) "
+          "VALUES ("+accountId+",'"+amount+"','"+date+"',"+categoryId+");";
 
-    if (queryExec(insertTransactionQuery)) {
-        qDebug() << "OK - Money transaction inserted " << number <<" "<<amount;
-    }
+    if(!queryExec(txt)) return;
+    qDebug()<< "OK - Transaction inserted " << account(accountId.toInt()) <<" "<<amount;
 
-    // Updating the account sold value
-    QString updateAccountQuery =
-        "UPDATE account SET sold = sold " + number +
-        " WHERE id = '" + QString::number(account(name)) + "';";
 
-    if (queryExec(updateAccountQuery)) {
-        qDebug() << "OK - Account sold computed";
-    }
+    // Update account's sold
+
+    txt = "UPDATE account SET sold = sold +("+amount+") WHERE id = "+accountId+";";
+
+    if(!queryExec(txt)) return;
+    qDebug() << "OK - Account's sold updated";
 }
 
 
-QString DatabaseHandler::getSoldString(QString name){
-    QString query = "SELECT sold from account where id = "+QString::number(account(name))+";";
-    if(queryExec(query)){
+float DatabaseHandler::getSold(QString accountId){
+    QString txt = "SELECT sold from account where id = "+accountId+";";
 
-        _query.next();
-        QString sold = _query.value("sold").toString();
-        qDebug()<<"OK - Sold retreived "<<sold;
-        return sold;
-    }
-    return "0.00";
+    if(!queryExec(txt)) return 0.0;
+
+    _query.next();
+    float sold = _query.value("sold").toFloat();
+    qDebug()<<"OK - Sold retreived "<<sold;
+    return sold;
 }

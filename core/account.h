@@ -24,7 +24,7 @@ public:
     void setSold(float sold);
 
 public slots:
-    void addTransaction(QString amount, QString category, QString details);
+    void addTransaction(QString date, QString amount, QString category, QString details);
     QVariantList getMonthlyEvolution(QString start, QString end);
     QVariantList getLastTransactions(int nbr);
 

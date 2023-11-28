@@ -37,6 +37,7 @@ Popup {
                 onAccountSelected:{
                     swipeView.currentIndex = 1
                     extern.account = account
+                    extern.expense = (type-1)==1
                 }
             }
         }
