@@ -48,7 +48,7 @@ Item {
                 left: parent.left
                 margins:10
             }
-            text: page.account.name
+            text: page.account ? page.account.name : "default"
             color:"white"
         }
 
@@ -58,7 +58,7 @@ Item {
                 right: parent.right
                 margins:10
             }
-            text: page.account.sold.toFixed(2)+" €"
+            text: page.account ? page.account.sold.toFixed(2)+" €" : "N/A €"
             font.bold: true
             color:"white"
         }
