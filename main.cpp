@@ -1,12 +1,12 @@
 #include <QApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
-
-#include "core/databasewrapper.h"
+#include "core/databasehandler.h"
 
 int main(int argc, char *argv[]){
-
     QApplication app(argc, argv);
+
+    DatabaseHandler *bdd = new DatabaseHandler();
 
     QQmlApplicationEngine engine;
 
@@ -17,14 +17,14 @@ int main(int argc, char *argv[]){
 
     QQmlContext *context = engine.rootContext();
 
-    DatabaseWrapper wrapper;
 
-    context->setContextProperty("wrapper",&wrapper);
-    context->setContextProperty("accounts", wrapper.getAccounts());
-    context->setContextProperty("list_categories", wrapper.getCategories());
+
+    context->setContextProperty("accounts", bdd->getAccounts());
+    context->setContextProperty("list_categories", bdd->getCategories());
 
 
     engine.load(url);
 
     return app.exec();
 }
+

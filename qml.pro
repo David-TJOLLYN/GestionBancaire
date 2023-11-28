@@ -7,7 +7,6 @@ QT += quick sql qml charts
 SOURCES += \
         core/account.cpp \
         core/databasehandler.cpp \
-        core/databasewrapper.cpp \
         core/transaction.cpp \
         main.cpp
 
@@ -27,5 +26,4 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     core/account.h \
     core/databasehandler.h \
-    core/databasewrapper.h \
     core/transaction.h

@@ -1,4 +1,5 @@
 #include "databasehandler.h"
+#include "account.h"
 #include <QDebug>
 #include <QDate>
 #include <QSqlError>
@@ -15,6 +16,7 @@ DatabaseHandler::DatabaseHandler()
     openDatabase();
     _query = QSqlQuery(_bdd);
     //createGestionBancaire();
+    loadAccounts();
 }
 
 QString DatabaseHandler::category(int num)      {
@@ -516,39 +518,6 @@ bool DatabaseHandler::queryExec(QString txt){
 }
 
 
-QList<QString> DatabaseHandler::getAllItems(const QString& tableName, const QString& columnName) {
-    QList<QString> list;
-
-    QString queryStr = "SELECT " + columnName + " FROM " + tableName;
-    queryExec(queryStr);
-
-    int id = _query.record().indexOf(columnName);
-    while (_query.next()) {
-        list.append(_query.value(id).toString());
-    }
-
-    return list;
-}
-
-QList<QMap<QString, QString>> DatabaseHandler::getItemsWithColumns(const QString& tableName, const QStringList& columnNames) {
-    QList<QMap<QString, QString>> itemList;
-
-    QString columns = columnNames.join(", ");
-    QString queryStr = "SELECT " + columns + " FROM " + tableName;
-    queryExec(queryStr);
-
-    while (_query.next()) {
-        QMap<QString, QString> itemData;
-        for (const QString& columnName : columnNames) {
-            itemData[columnName] = _query.value(columnName).toString();
-        }
-        itemList.append(itemData);
-    }
-
-    return itemList;
-}
-
-
 void DatabaseHandler::insertTransaction(QString accountId, QString amount, QString date, QString categoryId, QString details){
     QString txt = "";
 
@@ -580,3 +549,42 @@ float DatabaseHandler::getSold(QString accountId){
     qDebug()<<"OK - Sold retreived "<<sold;
     return sold;
 }
+
+
+void DatabaseHandler::loadAccounts(){
+
+    queryExec("Select name, sold from account;");
+
+    while(_query.next()){
+        QString name = _query.value("name").toString();
+        float sold   = _query.value("sold").toFloat();
+        QString num  = "3892 9365 8792";
+
+        _accounts.append(new Account(name, sold, num, this));
+    }
+}
+
+
+QVariantList DatabaseHandler::getAccounts() {
+    QVariantList list;
+
+    foreach(auto account, _accounts){
+        list.append(QVariant::fromValue(account));
+    }
+
+    return list;
+}
+
+QVariantList DatabaseHandler::getCategories(){
+    QVariantList list;
+
+    queryExec("SELECT name from category;");
+
+    while(_query.next()){
+        list.append(_query.value("name"));
+    }
+
+    return list;
+}
+
+

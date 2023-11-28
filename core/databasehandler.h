@@ -5,6 +5,8 @@
 #include <QSqlDatabase>
 #include <QSqlQuery>
 
+class Account;
+
 class DatabaseHandler : public QObject
 {
     Q_OBJECT
@@ -26,6 +28,9 @@ public:
     QString account(int name);
     QString category(int name);
 
+    void loadAccounts();
+    QVariantList getAccounts();
+    QVariantList getCategories();
 
 signals:
     void updateSold(QString account, QString newSold);
@@ -33,6 +38,7 @@ signals:
 private:
     QSqlDatabase _bdd;
     QSqlQuery _query;
+    QList<Account*> _accounts;
 
     bool openDatabase();
 
@@ -42,6 +48,7 @@ private:
     void createGestionBancaire();
     void loadDefaultValues();
     void createDefaultTables();
+
 };
 
 //clazy:suppress=non-pod-static
