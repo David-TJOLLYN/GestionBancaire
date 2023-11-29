@@ -16,9 +16,7 @@ Item {
     Component{
         id: accountform
         AccountForm{
-            name: modelData.name
-            sold: modelData.sold
-            num:  modelData.number
+            account:modelData
         }
     }
 

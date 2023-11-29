@@ -2,15 +2,16 @@ import QtQuick 2.15
 
 Item {
     id:page
-    height:75
-    width: parent.width
+    height:65
+    width: 0.95*parent.width
+    anchors.horizontalCenter: parent.horizontalCenter
 
     property variant account: accounts[0]
 
     Rectangle {
         id:info
         width: parent.width
-        height: 60
+        height: 51
 
         color: "#98D7E5"
 

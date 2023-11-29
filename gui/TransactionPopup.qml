@@ -60,6 +60,19 @@ Popup {
                 id: intern
                 title: titles[type]
                 onClosed: popup.close()
+                onCreditAccountChanged:{
+                    internamount.creditAccount= creditAccount
+                    internamount.debitAccount=debitAccount
+                    swipeView.currentIndex=3
+                }
+            }
+        }
+
+        Item{
+            TransactionInternalAmount{
+                id:internamount
+                title: titles[type]
+                onClosed: popup.close()
             }
         }
     }

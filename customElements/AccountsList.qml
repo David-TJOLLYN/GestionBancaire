@@ -11,9 +11,7 @@ Item {
     Component{
         id: accountform
         AccountTemplate{
-            name: modelData.name
-            sold: modelData.sold
-            num:  modelData.number
+            account: modelData
 
             MouseArea{
                 anchors.fill:parent

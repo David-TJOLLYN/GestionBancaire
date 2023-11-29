@@ -42,7 +42,7 @@ Item {
 
     AccountsList{
         anchors.top: txtinfo.bottom
-        onAccountChanged: console.log(account)
+        onAccountChanged: creditAccount = account
         accountlist: debitAccount ? BDD.removeAccount(accounts,debitAccount.name) : []
     }
 

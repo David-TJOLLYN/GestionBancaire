@@ -21,5 +21,6 @@
         <file>gui/TransactionInternal.qml</file>
         <file>customElements/TransactionAccountSelected.qml</file>
         <file>customElements/AccountsList.qml</file>
+        <file>gui/TransactionInternalAmount.qml</file>
     </qresource>
 </RCC>

@@ -7,20 +7,16 @@ import "../js/extract.js" as BDD
 Rectangle{
     id:rect
     height: 60
-    width:parent.width
+    width: parent.width
     radius:4
     border.color: "grey"
 
-    property string name: "model.name"
-    property real  sold: 0.00
-    property string num:  "model.num"
+    property variant account
     property bool   chart: false
 
     AccountTemplate{
         id:template
-        name:rect.name
-        sold:rect.sold
-        num: rect.num
+        account: rect.account
         border.color:"transparent"
         color:"transparent"
         border.width: 0
@@ -46,14 +42,10 @@ Rectangle{
 
             BarSet {
                 id: barSet
-                values: BDD.getAccount(accounts, name).getMonthlyEvolution("2020-01-01", "2020-12-01")
+                values: if(account) account.getMonthlyEvolution("2020-01-01", "2020-12-01")
             }
         }
     }
-
-
-
-
 
     MouseArea{
         anchors.fill:parent

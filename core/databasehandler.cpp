@@ -35,24 +35,26 @@ QString DatabaseHandler::category(int num)      {
         case 11: return "Bike";
         case 12: return "Car";
         case 13: return "Else";
+        case 14: return "Internal";
         default: return "Unknown";
     }
 }
 int     DatabaseHandler::category(QString name) {
-    if (name == "Bilan") return 0;
-    if (name == "Job") return 1;
+    if (name == "Bilan")return 0;
+    if (name == "Job")  return 1;
     if (name == "Food") return 2;
-    if (name == "Bar") return 3;
+    if (name == "Bar")  return 3;
     if (name == "Restorant") return 4;
-    if (name == "Technology") return 5;
+    if (name == "Technology")return 5;
     if (name == "Numerical") return 6;
-    if (name == "Life") return 7;
-    if (name == "Sport") return 8;
-    if (name == "Health") return 9;
-    if (name == "Transport") return 10;
-    if (name == "Bike") return 11;
-    if (name == "Car") return 12;
-    if (name == "Else") return 13;
+    if (name == "Life")    return 7;
+    if (name == "Sport")   return 8;
+    if (name == "Health")  return 9;
+    if (name == "Transport")return 10;
+    if (name == "Bike")    return 11;
+    if (name == "Car")     return 12;
+    if (name == "Else")    return 13;
+    if (name == "Internal")return 14;
     return -1; // Return -1 for unknown category
 }
 QString DatabaseHandler::account(int num)       {
