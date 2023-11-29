@@ -15,7 +15,6 @@
         <file>gui/TransactionPopup.qml</file>
         <file>customElements/AccountTemplate.qml</file>
         <file>customElements/Header.qml</file>
-        <file>gui/TransactionStep2.qml</file>
         <file>customElements/HeaderAndExitBtn.qml</file>
         <file>gui/TransactionSelectAccount.qml</file>
         <file>gui/TransactionExpenseRevenue.qml</file>

@@ -51,14 +51,13 @@ QVariantList Account::getLastTransactions(int nbr){
     QVariantList list;
     QSqlQuery *query = _bdd->getQuery();
 
-    qDebug()<<"get last "<<nbr<<" transactions";
-
     QString maxId = "SELECT MAX(id)-"+QString::number(nbr)+" FROM moneytransaction";
 
     QString txt = "SELECT date, amount, category FROM moneytransaction "
                   "WHERE account=0 AND id > ("+maxId+");";
 
-    _bdd->queryExec(txt);
+    if(!_bdd->queryExec(txt)) return list;
+    qDebug()<<"OK - Get last "<<nbr<<" transactions";
 
     while(query->next()){
         QString date = query->value("date").toString();
