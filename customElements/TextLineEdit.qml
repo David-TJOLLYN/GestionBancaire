@@ -10,7 +10,7 @@ Rectangle {
     TextInput{
         id: txt
         text: "Enter value ..."
-        color: focus ? "black" : "grey"
+        color: activeFocus ? "black" : "grey"
 
         anchors.fill: parent
         anchors.margins: 2
@@ -21,7 +21,7 @@ Rectangle {
         anchors.fill: parent
         onClicked: {
             text = ""
-            txt.focus= true
+            txt.forceActiveFocus()
         }
     }
 }
