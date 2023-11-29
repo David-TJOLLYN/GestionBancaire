@@ -7,7 +7,6 @@ Popup {
     property var titles:["Virement interne", "Ajouter un revenu", "Ajouter une dépense"]
     property var infos: ["Choix du compte a débiter", "Choix du compte a créditer", "Choix du compte a débiter"];
     property real type : 0
-    property real account : 0
 
     modal: true
     focus: true
@@ -34,10 +33,16 @@ Popup {
                 title: titles[type]
                 info: infos[type]
                 onClosed: popup.close()
-                onAccountSelected:{
-                    swipeView.currentIndex = 1
-                    extern.account = account
-                    extern.expense = (type-1)==1
+                onAccountChanged: {
+                    if(type == 0){
+                        swipeView.currentIndex = 2
+                        intern.debitAccount = account
+                    }
+                    else{
+                        swipeView.currentIndex = 1
+                        extern.account = account
+                        extern.expense = (type-1)==1
+                    }
                 }
             }
         }
@@ -45,6 +50,14 @@ Popup {
         Item{
             TransactionExpenseRevenue{
                 id: extern
+                title: titles[type]
+                onClosed: popup.close()
+            }
+        }
+
+        Item{
+            TransactionInternal{
+                id: intern
                 title: titles[type]
                 onClosed: popup.close()
             }

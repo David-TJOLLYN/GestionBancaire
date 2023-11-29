@@ -11,7 +11,7 @@ Item {
 
     property string title: "Default"
     property bool expense: false
-    property var account
+    property variant account
     property string amount: amountValue.prefix+amountValue.text
     property string details: detailsValue.text
     property string category: categoryList.currentText
@@ -24,61 +24,18 @@ Item {
         onClosed: page.closed()
     }
 
-    Rectangle {
+    TransactionAccountSelected{
         id:info
+        account: page.account
         anchors.top:header.bottom
-        width: parent.width
-        height: 60
-
-        color: "#98D7E5"
-
-        StyledText {
-            anchors{
-                verticalCenter: parent.verticalCenter
-                left: parent.left
-                margins:10
-            }
-            text: page.account ? page.account.name : "default"
-            color:"white"
-        }
-
-        StyledText {
-            anchors{
-                verticalCenter: parent.verticalCenter
-                right: parent.right
-                margins:10
-            }
-            text: page.account ? page.account.sold.toFixed(2)+" €" : "N/A €"
-            font.bold: true
-            color:"white"
-        }
     }
-    Rectangle {
-        id: clipper
-        anchors.top:info.bottom
-        width: parent.width
-        height: clipped.radius
-        color: 'transparent'
-        clip: true
-
-        Rectangle {
-            id: clipped
-            width: parent.width
-            height: parent.height + radius
-            y:-radius
-            radius: 15
-            color: "#98D7E5"
-        }
-    }
-
-
 
     ColumnLayout{
         implicitWidth: 0.8*parent.width
         spacing: 12
 
         anchors{
-            top: clipper.bottom
+            top: info.bottom
             horizontalCenter: parent.horizontalCenter
             margins:25
         }
@@ -105,6 +62,7 @@ Item {
             id: detailsValue
             implicitWidth: parent.width
             implicitHeight: 25
+
             text: "détails"
         }
 

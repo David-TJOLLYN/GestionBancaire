@@ -12,6 +12,14 @@ function getAccount(accounts, name){
     }
 }
 
+function removeAccount(accounts, name){
+    var list=[];
+    for(var i=0; i<accounts.length; i++){
+        if(accounts[i].name !== name) list.push(accounts[i])
+    }
+    return list;
+}
+
 function generateDateList(start_date,end_date){
 
     //Convert chain date in objects

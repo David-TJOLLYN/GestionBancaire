@@ -1,0 +1,56 @@
+import QtQuick 2.15
+
+Item {
+    id:page
+    height:75
+    width: parent.width
+
+    property variant account: accounts[0]
+
+    Rectangle {
+        id:info
+        width: parent.width
+        height: 60
+
+        color: "#98D7E5"
+
+        StyledText {
+            anchors{
+                verticalCenter: parent.verticalCenter
+                left: parent.left
+                margins:10
+            }
+            text: page.account ? page.account.name : "default"
+            color:"white"
+        }
+
+        StyledText {
+            anchors{
+                verticalCenter: parent.verticalCenter
+                right: parent.right
+                margins:10
+            }
+            text: page.account ? page.account.sold.toFixed(2)+" €" : "N/A €"
+            font.bold: true
+            color:"white"
+        }
+    }
+
+    Rectangle {
+        id: clipper
+        anchors.top:info.bottom
+        width: parent.width
+        height: clipped.radius
+        color: 'transparent'
+        clip: true
+
+        Rectangle {
+            id: clipped
+            width: parent.width
+            height: parent.height + radius
+            y:-radius
+            radius: 15
+            color: "#98D7E5"
+        }
+    }
+}

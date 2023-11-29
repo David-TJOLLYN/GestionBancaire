@@ -8,8 +8,7 @@ Item {
 
     property string title: "DEFAULT"
     property string info: "default"
-    property var account
-    signal accountSelected
+    property variant account
     signal closed
 
     HeaderAndExitBtn{
@@ -32,35 +31,9 @@ Item {
         }
     }
 
-    Component{
-        id: accountform
-        AccountTemplate{
-            name: modelData.name
-            sold: modelData.sold
-            num:  modelData.number
-
-            MouseArea{
-                anchors.fill:parent
-                onClicked:{
-                    account = modelData
-                    page.accountSelected()
-                }
-            }
-        }
-    }
-
-    ListView {
+    AccountsList{
         anchors.top: txtinfo.bottom
-        width: parent.width
-        height:parent.height
-
-        model: accounts
-        delegate: accountform
-        clip: true
-        spacing:10
-        topMargin: 10
-        leftMargin: 10
-        rightMargin: 10
-        bottomMargin: 10
+        onAccountChanged: page.account = account
+        accountlist: accounts
     }
 }

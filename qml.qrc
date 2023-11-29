@@ -18,5 +18,8 @@
         <file>customElements/HeaderAndExitBtn.qml</file>
         <file>gui/TransactionSelectAccount.qml</file>
         <file>gui/TransactionExpenseRevenue.qml</file>
+        <file>gui/TransactionInternal.qml</file>
+        <file>customElements/TransactionAccountSelected.qml</file>
+        <file>customElements/AccountsList.qml</file>
     </qresource>
 </RCC>
