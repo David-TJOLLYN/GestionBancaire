@@ -15,7 +15,7 @@ DatabaseHandler::DatabaseHandler()
 {
     openDatabase();
     _query = QSqlQuery(_bdd);
-    createGestionBancaire();
+    //createGestionBancaire();
     loadAccounts();
 }
 

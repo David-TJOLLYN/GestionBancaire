@@ -14,14 +14,15 @@ Item {
         text:"Comptes et Livrets"
     }
 
-    ScrollView {
+    Flickable {
         width: parent.width
         height: parent.height-header.height
         contentHeight: listView.height+btn.height+40
-        anchors.top:header.bottom
-        clip: true
 
-        ScrollBar.vertical.policy: ScrollBar.AlwaysOn
+        clip:true
+        anchors.top:header.bottom
+
+        boundsMovement: Flickable.StopAtBounds
 
         AccountsList{
             id:listView

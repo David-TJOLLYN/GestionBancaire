@@ -35,5 +35,6 @@ Item {
         anchors.top: txtinfo.bottom
         onAccountChanged: page.account = account
         accountlist: handler.accounts
+        height: parent.height-header.height-txtinfo.height-20
     }
 }

@@ -19,12 +19,29 @@ Item {
             }
         }
     }
+    ListView {
+        id: list
+        width: parent.width
+        height: parent.height
+        contentHeight: 700
 
+        model: accountlist
+        delegate: accountform
+
+        clip: true
+        spacing: 10
+        topMargin: 10
+        leftMargin: 10
+        rightMargin: 10
+        bottomMargin: 10
+        boundsMovement: Flickable.StopAtBounds
+    }
+/*
     ListView {
         id:list
         width: parent.width
         height:parent.height
-        contentHeight: 500
+        contentHeight: 1000
 
         model: accountlist
         delegate: accountform
@@ -34,6 +51,6 @@ Item {
         leftMargin: 10
         rightMargin: 10
         bottomMargin: 10
-        interactive: parent.interactive
-    }
+        boundsMovement: Flickable.StopAtBounds
+    }*/
 }

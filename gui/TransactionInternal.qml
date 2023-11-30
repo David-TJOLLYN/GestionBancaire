@@ -41,6 +41,7 @@ Item {
     }
 
     AccountsList{
+        height: parent.height-header.height-info.height-txtinfo.height-40
         anchors.top: txtinfo.bottom
         onAccountChanged: creditAccount = account
         accountlist: debitAccount ? BDD.removeAccount(handler.accounts,debitAccount.name) : []
