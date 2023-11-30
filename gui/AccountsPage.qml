@@ -1,5 +1,6 @@
 import QtQuick 2.15
 import QtQuick.Layouts 1.15
+import QtQuick.Controls 2.15
 import "../customElements"
 
 Item {
@@ -13,24 +14,51 @@ Item {
         text:"Comptes et Livrets"
     }
 
-    Component{
-        id: accountform
-        AccountForm{
-            account:modelData
+    ScrollView {
+        width: parent.width
+        height: parent.height-header.height
+        contentHeight: listView.height+btn.height+40
+        anchors.top:header.bottom
+        clip: true
+
+        ScrollBar.vertical.policy: ScrollBar.AlwaysOn
+
+        AccountsList{
+            id:listView
+            height: handler.accounts.length*(60+10)
+            anchors.top:parent.top
+            accountlist: handler.accounts
+            interactive:false
+        }
+
+        Rectangle{
+            id:btn
+            height: 60
+            width: parent.width-20
+            radius: 4
+            border.color: "grey"
+
+            anchors{
+                horizontalCenter: parent.horizontalCenter
+                top: listView.bottom
+                margins:20
+            }
+
+            Text{
+                text:"Ajouter un compte ou livret"
+                anchors.centerIn: parent
+            }
+
+            MouseArea{
+                anchors.fill:parent
+                onClicked:{
+                    popup.open()
+                }
+            }
         }
     }
 
-    ListView {
-        anchors.top:header.bottom
-        width: parent.width
-        height: parent.height - header.height
-        model: accounts
-        delegate: accountform
-        clip: true
-        spacing:10
-        topMargin: 15
-        leftMargin: 10
-        rightMargin: 10
-        bottomMargin: 10
+    CreateAccountPopup{
+        id:popup
     }
 }

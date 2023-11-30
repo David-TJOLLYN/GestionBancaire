@@ -66,29 +66,18 @@ Item {
             text: "détails"
         }
 
-        Rectangle{
+        CustomButton{
             implicitWidth: parent.width/2
             implicitHeight: 25
             Layout.alignment: Qt.AlignHCenter
-            radius: 25
-            color: "#3C6888"
 
-            StyledText{
-                text:"valider"
-                color:"white"
-                anchors.centerIn: parent
+            onClicked: {
+                page.account.addTransaction(check(amount),BDD.date(),category,details)
+                page.closed()
             }
 
-            MouseArea{
-                anchors.fill:parent
-                onClicked: {
-                    page.account.addTransaction(check(amount),BDD.date(),category,details)
-                    page.closed()
-                }
-
-                function check(inputString) {
-                    return inputString.replace(",", ".");
-                }
+            function check(inputString) {
+                return inputString.replace(",", ".");
             }
         }
     }

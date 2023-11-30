@@ -16,7 +16,7 @@ Item {
     property string font: "Comic Sans MS"
     property real px: 15
     property bool small: false
-    property variant account : accounts[0]
+    property variant account : handler.accounts[0]
 
     Header{
         id:header

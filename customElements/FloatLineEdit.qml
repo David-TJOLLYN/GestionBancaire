@@ -13,7 +13,7 @@ Rectangle {
     Text {
         id: prefix
         text: ""
-        color: txt.activeFocus ? "black" : "grey"
+        color: "black"
 
         anchors.left: parent.left
         anchors.right:txt.left
@@ -27,7 +27,7 @@ Rectangle {
     TextInput{
         id: txt
         text: ""
-        color: activeFocus ? "black" : "grey"
+        color: "black"
         validator:DoubleValidator{decimals: 2}
 
         anchors.left: parent.Left
@@ -42,7 +42,7 @@ Rectangle {
     Text {
         id: suffix
         text: ""
-        color: txt.activeFocus ? "black" : "grey"
+        color: "black"
 
         anchors.right: parent.right
         anchors.rightMargin: 8

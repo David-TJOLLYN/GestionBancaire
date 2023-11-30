@@ -2,10 +2,10 @@
 #include "core/transaction.h"
 #include <QDateTime>
 
-Account::Account(QString name, float sold, QString number, DatabaseHandler *bdd, QObject *parent) :
-    QObject{parent}, _bdd(bdd), _name(name), _sold(sold), _number(number)
+Account::Account(int id, QString name, float sold, QString number, DatabaseHandler *bdd, QObject *parent) :
+    QObject{parent}, _bdd(bdd),_name(name), _id(QString::number(id)), _sold(sold), _number(number)
 {
-    _id = QString::number(_bdd->account(_name));
+    qDebug()<<"Create account : "<<toString();
 }
 
 void Account::setSold(float sold){
@@ -15,12 +15,12 @@ void Account::setSold(float sold){
 }
 
 QString Account::toString(){
-    return _name;
+    return _id+" "+_name+" "+QString::number(_sold,'f',2);
 }
 
 void Account::addTransaction(QString amount, QString date, QString category, QString details){
-    QString accountId = QString::number(_bdd->account(_name));
-    QString categoryId= QString::number(_bdd->category(category));
+    QString accountId = _id;
+    QString categoryId= _bdd->getCategorieId(category);
 
     _bdd->insertTransaction(accountId,amount,date,categoryId,details);
     setSold(_bdd->getSold(accountId));
@@ -33,7 +33,7 @@ QVariantList Account::getMonthlyEvolution(QString start_date, QString end_date){
     QString txt =
         "SELECT date, amount FROM moneytransaction "
         "   WHERE account="+_id+" "
-        "   AND category="+QString::number(_bdd->category("Bilan"))+" "
+        "   AND category="+_bdd->getCategorieId("Bilan")+" "
         "   AND date BETWEEN '"+start_date+"' AND '"+end_date+"';";
 
     _bdd->queryExec(txt);
@@ -55,8 +55,10 @@ QVariantList Account::getLastTransactions(int nbr){
                   "WHERE account="+_id+" ORDER BY id DESC "
                   "LIMIT "+QString::number(nbr);
 
-    QString txt = "SELECT date, amount, category FROM moneytransaction "
-                  "WHERE id IN ("+ids+");";
+    QString txt = "SELECT moneytransaction.date, moneytransaction.amount, category.name "
+                  "FROM moneytransaction "
+                  "JOIN category ON moneytransaction.category = category.id "
+                  "WHERE moneytransaction.id IN ("+ids+");";
 
     if(!_bdd->queryExec(txt)) return list;
     qDebug()<<"OK - Get last "<<nbr<<" transactions";
@@ -64,12 +66,13 @@ QVariantList Account::getLastTransactions(int nbr){
     while(query->next()){
         QString date = query->value("date").toString();
         QString amount = QString::number(query->value("amount").toFloat(),'f',2);
-        QString category = _bdd->category(query->value("category").toInt());
+        QString category = query->value("name").toString();
 
         QVariant variant = QVariant::fromValue(new Transaction(date,amount,category,_name,""));
 
         list.append(variant);
     }
+
 
     std::reverse(list.begin(), list.end());
 

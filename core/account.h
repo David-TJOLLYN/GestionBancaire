@@ -13,7 +13,7 @@ class Account : public QObject
     Q_PROPERTY(int id READ id CONSTANT)
 
 public:
-    explicit Account(QString name, float sold, QString number, DatabaseHandler *bdd, QObject *parent = nullptr);
+    explicit Account(int id, QString name, float sold, QString number, DatabaseHandler *bdd, QObject *parent = nullptr);
     Q_INVOKABLE QString toString();
 
     QString name(){return _name;}

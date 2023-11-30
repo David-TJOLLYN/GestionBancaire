@@ -9,8 +9,8 @@ Rectangle {
 
     TextInput{
         id: txt
-        text: "Enter value ..."
-        color: activeFocus ? "black" : "grey"
+        text: ""
+        color: "black"
 
         anchors.fill: parent
         anchors.margins: 2
@@ -19,10 +19,8 @@ Rectangle {
 
     MouseArea{
         anchors.fill: parent
-        onClicked: {
-            text = ""
-            txt.forceActiveFocus()
-        }
+        onClicked: txt.forceActiveFocus()
+        onDoubleClicked: txt.selectAll()
     }
 }
 

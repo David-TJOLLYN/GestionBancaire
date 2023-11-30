@@ -17,9 +17,7 @@ int main(int argc, char *argv[]){
 
     QQmlContext *context = engine.rootContext();
 
-
-
-    context->setContextProperty("accounts", bdd->getAccounts());
+    context->setContextProperty("handler", bdd);
     context->setContextProperty("list_categories", bdd->getCategories());
 
 

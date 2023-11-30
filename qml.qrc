@@ -22,5 +22,6 @@
         <file>customElements/TransactionAccountSelected.qml</file>
         <file>customElements/AccountsList.qml</file>
         <file>gui/TransactionInternalAmount.qml</file>
+        <file>gui/CreateAccountPopup.qml</file>
     </qresource>
 </RCC>

@@ -7,12 +7,12 @@ Item {
 
     property var accountlist
     property variant account
+    property bool interactive: true
 
     Component{
         id: accountform
         AccountTemplate{
             account: modelData
-
             MouseArea{
                 anchors.fill:parent
                 onClicked: page.account = modelData
@@ -21,8 +21,10 @@ Item {
     }
 
     ListView {
+        id:list
         width: parent.width
         height:parent.height
+        contentHeight: 500
 
         model: accountlist
         delegate: accountform
@@ -32,5 +34,6 @@ Item {
         leftMargin: 10
         rightMargin: 10
         bottomMargin: 10
+        interactive: parent.interactive
     }
 }

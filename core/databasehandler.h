@@ -10,6 +10,7 @@ class Account;
 class DatabaseHandler : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(QVariantList accounts READ accounts NOTIFY accountsChanged FINAL)
 
 public:
     DatabaseHandler();
@@ -23,17 +24,21 @@ public:
     QSqlQuery* getQuery(){return &_query;}
     bool queryExec(QString txt);
 
-    int account(QString name);
-    int category(QString name);
-    QString account(int name);
-    QString category(int name);
-
     void loadAccounts();
-    QVariantList getAccounts();
+    QVariantList accounts();
     QVariantList getCategories();
+
+    QString getCategorieId(QString name);
+    QString getCategoryName(int id);
+    QString getAccountId(QString name);
+    QString getAccountName(int id);
+
+public slots:
+    void addAccount(QString bank, QString name, QString sold, QString number);
 
 signals:
     void updateSold(QString account, QString newSold);
+    void accountsChanged();
 
 private:
     QSqlDatabase _bdd;
@@ -49,48 +54,11 @@ private:
     void loadDefaultValues();
     void createDefaultTables();
 
+    int account(QString name);
+    int category(QString name);
+    QString account(int name);
+    QString category(int name);
+
 };
-
-//clazy:suppress=non-pod-static
-namespace TABLES {
-
-    const QString account = "account";
-    const QString cathegory = "cathegory";
-    const QString moneytransaction = "moneytransaction";
-    const QString monthlyrecords = "monthlyrecords";
-
-    namespace Account{
-        const QString name = "name";
-        const QString sold = "sold";
-        const QString details = "details";
-
-        namespace Name {
-            const QString compte_courant = "'Compte courant'";
-            const QString livret_bleu = "'Livret Beu'";
-            const QString livret_jeune= "'Livret Jeune'";
-        }
-    }
-
-    namespace Cathegory{
-        const QString Name = "name";
-        const QString Details = "details";
-    }
-
-    namespace MoneyTransaction{
-        const QString Id = "id";
-        const QString value = "amount";
-        const QString Date = "date";
-        const QString Account = "account";
-        const QString Cathegory = "cathegory";
-    }
-
-    namespace MonthlyRecords{
-        const QString Id = "id";
-        const QString value = "amount";
-        const QString Date = "date";
-        const QString Account = "account";
-        const QString Cathegory = "cathegory";
-    }
-}
 
 #endif // DATABASEHANDLER_H

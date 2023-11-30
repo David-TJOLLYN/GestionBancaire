@@ -34,6 +34,6 @@ Item {
     AccountsList{
         anchors.top: txtinfo.bottom
         onAccountChanged: page.account = account
-        accountlist: accounts
+        accountlist: handler.accounts
     }
 }

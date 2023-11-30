@@ -43,7 +43,7 @@ Item {
     AccountsList{
         anchors.top: txtinfo.bottom
         onAccountChanged: creditAccount = account
-        accountlist: debitAccount ? BDD.removeAccount(accounts,debitAccount.name) : []
+        accountlist: debitAccount ? BDD.removeAccount(handler.accounts,debitAccount.name) : []
     }
 
 }
