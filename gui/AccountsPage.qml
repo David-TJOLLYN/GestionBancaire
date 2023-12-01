@@ -83,8 +83,6 @@ Item {
         CreateAccountPopup{
             height: parent.height+60
             onClosed: loader.active = false
-            Component.onCompleted: console.log("popup created")
-            Component.onDestruction: console.log("popup destroyed")
         }
     }
 
