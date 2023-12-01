@@ -65,6 +65,10 @@ Popup {
                 width: 0.75*parent.width
                 height: parent.height
                 text:""
+
+                //Setup next focus
+                KeyNavigation.tab: number
+                Keys.onReturnPressed: KeyNavigation.tab.forceActiveFocus();
             }
         }
 
@@ -108,6 +112,11 @@ Popup {
                             text = formattedText.trim(); // Trim to remove the extra space at the end
                         }
                     }
+
+                    //Setup next focus
+                    KeyNavigation.tab: sold
+                    Keys.onReturnPressed: KeyNavigation.tab.forceActiveFocus();
+                    Keys.onTabPressed: KeyNavigation.tab.forceActiveFocus();
                 }
 
                 MouseArea{
@@ -135,6 +144,11 @@ Popup {
                 height: parent.height
                 text:"0.00"
                 suffix: " €"
+
+                //Setup next focus
+                KeyNavigation.tab: btn
+                Keys.onReturnPressed: KeyNavigation.tab.forceActiveFocus();
+                Keys.onTabPressed: KeyNavigation.tab.forceActiveFocus();
             }
         }
 
@@ -143,6 +157,7 @@ Popup {
         }
 
         CustomButton{
+            id:btn
             implicitWidth: parent.width/2
             implicitHeight: 25
             Layout.alignment: Qt.AlignHCenter
@@ -171,6 +186,13 @@ Popup {
             duration: 250
             easing.type: Easing.InOutQuad
         }
+    }
+
+    onOpened:{
+        name.text = ""
+        sold.text = ""
+        number.text = ""
+        name.forceActiveFocus()
     }
 
     function checkNumber(txt){

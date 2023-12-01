@@ -5,6 +5,7 @@ Rectangle {
     property alias text: txt.text
     property alias suffix: suffix.text
     property alias prefix: prefix.text
+    signal forceActiveFocus
 
     color:  "white"
     border.color:"#B0B0B0"
@@ -59,5 +60,7 @@ Rectangle {
             txt.forceActiveFocus()
         }
     }
+
+    onForceActiveFocus: txt.forceActiveFocus()
 
 }

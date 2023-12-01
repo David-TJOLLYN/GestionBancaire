@@ -2,6 +2,7 @@ import QtQuick 2.15
 
 Rectangle {
     property alias text: txt.text
+    signal forceActiveFocus
 
     color:  "white"
     border.color:"#B0B0B0"
@@ -21,6 +22,11 @@ Rectangle {
         anchors.fill: parent
         onClicked: txt.forceActiveFocus()
         onDoubleClicked: txt.selectAll()
+    }
+
+    onForceActiveFocus: {
+        txt.forceActiveFocus()
+        console.log("force active focus")
     }
 }
 

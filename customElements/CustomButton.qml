@@ -1,4 +1,5 @@
 import QtQuick 2.15
+import QtQuick.Controls
 
 Item{
     id:btn
@@ -8,11 +9,15 @@ Item{
     property string font: "Comic sans MS"
     signal clicked
 
+    signal forceActiveFocus
+
     Rectangle{
         width: parent.width
         height: 25
         radius: 25
         color: btn.fill
+        border.color: btn.focus ? "grey" : "transparent"
+        border.width: 1
 
         StyledText{
             text: btn.text
@@ -24,5 +29,17 @@ Item{
             anchors.fill:parent
             onClicked: btn.clicked()
         }
+    }
+
+    Keys.onReturnPressed: {
+        if(focus){
+            console.log("btn return key pressed")
+            btn.clicked()
+        }
+    }
+
+    onForceActiveFocus: {
+        console.log("btn active focus")
+        focus=true
     }
 }
