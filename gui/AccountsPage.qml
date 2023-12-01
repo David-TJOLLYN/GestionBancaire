@@ -22,7 +22,25 @@ Item {
         clip:true
         anchors.top:header.bottom
 
-        boundsMovement: Flickable.StopAtBounds
+        interactive: false
+
+        MouseArea {
+            anchors.fill: parent
+            preventStealing: true
+
+            onWheel: event => {
+                if (event.angleDelta.y > 0) {
+                    scrollBar.decrease()
+                } else {
+                    scrollBar.increase()
+                }
+            }
+        }
+
+        ScrollBar.vertical: ScrollBar {
+            id: scrollBar
+            visible: false
+        }
 
         AccountsList{
             id:listView

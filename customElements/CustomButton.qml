@@ -31,15 +31,6 @@ Item{
         }
     }
 
-    Keys.onReturnPressed: {
-        if(focus){
-            console.log("btn return key pressed")
-            btn.clicked()
-        }
-    }
-
-    onForceActiveFocus: {
-        console.log("btn active focus")
-        focus=true
-    }
+    Keys.onReturnPressed: if(focus) btn.clicked()
+    onForceActiveFocus: focus=true
 }

@@ -24,6 +24,7 @@ Item {
         width: parent.width
         height: parent.height
         contentHeight: 700
+        interactive: page.interactive
 
         model: accountlist
         delegate: accountform
@@ -36,21 +37,4 @@ Item {
         bottomMargin: 10
         boundsMovement: Flickable.StopAtBounds
     }
-/*
-    ListView {
-        id:list
-        width: parent.width
-        height:parent.height
-        contentHeight: 1000
-
-        model: accountlist
-        delegate: accountform
-        clip: true
-        spacing:10
-        topMargin: 10
-        leftMargin: 10
-        rightMargin: 10
-        bottomMargin: 10
-        boundsMovement: Flickable.StopAtBounds
-    }*/
 }
