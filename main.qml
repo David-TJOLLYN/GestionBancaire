@@ -85,15 +85,14 @@ Window {
                 focus:accountPage.visible
                 icon: "../icon/accountpage.png"
                 iconfocus: "../icon/accountpagefilled.png"
-                onClicked:
-                    body.currentIndex = 1
+                onClicked: body.currentIndex = 1
             }
 
             IconButton{
                 focus:transactionPage.visible
                 icon: "../icon/transactionpage.png"
                 iconfocus: "../icon/transactionpagefilled.png"
-                onClicked:  body.currentIndex = 2
+                onClicked: body.currentIndex = 2
             }
         }
     }

@@ -18,7 +18,6 @@ Item {
     MouseArea{
         anchors.fill:parent
         onClicked: {
-            parent.focus = !parent.focus
             parent.clicked()
         }
     }
