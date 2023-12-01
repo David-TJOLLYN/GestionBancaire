@@ -155,16 +155,22 @@ Popup {
     }
 
 
-
-    onAboutToShow:{
-        animation.restart();
+    enter: Transition {
+        NumberAnimation{
+            property: "y"
+            from: parent.height ; to:0
+            duration: 350
+            easing.type: Easing.OutQuad
+        }
     }
 
-    NumberAnimation on y {
-        id:animation
-        from: parent.height ; to:0
-        duration: 350
-        easing.type: Easing.OutQuad
+    exit: Transition{
+        NumberAnimation {
+            property: "y"
+            from: 0 ; to: parent.height
+            duration: 250
+            easing.type: Easing.InOutQuad
+        }
     }
 
     function checkNumber(txt){

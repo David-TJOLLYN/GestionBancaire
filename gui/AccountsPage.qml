@@ -61,5 +61,6 @@ Item {
 
     CreateAccountPopup{
         id:popup
+        height: parent.height+60
     }
 }
