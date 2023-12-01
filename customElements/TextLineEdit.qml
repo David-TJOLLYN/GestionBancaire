@@ -24,14 +24,5 @@ Rectangle {
         onDoubleClicked: txt.selectAll()
     }
 
-    onForceActiveFocus: {
-        txt.forceActiveFocus()
-        console.log("force active focus")
-    }
+    onForceActiveFocus: txt.forceActiveFocus()
 }
-
-/* TODO :
-            -> when clicked outside unfocus
-            -> disable owervrite txt when refocus with text entered by user
-            -> rewrite default value when unfocus and txt empty
-*/

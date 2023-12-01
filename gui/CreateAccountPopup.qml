@@ -163,6 +163,9 @@ Popup {
             Layout.alignment: Qt.AlignHCenter
 
             onClicked: {
+                if(name.text===""){ popup.close(); return; }
+                if(sold.text==="") sold.text = "0.00";
+                if(number.text==="") number.text = "xxxx xxxx xxxx"
                 handler.addAccount(bank.currentText, name.text, checkSold(sold.text), checkNumber(number.text));
                 popup.close()
             }

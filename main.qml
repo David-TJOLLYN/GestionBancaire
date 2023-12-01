@@ -15,13 +15,6 @@ Window {
     minimumWidth: 300
     minimumHeight: 400
 
-    TransactionPopup{
-        id:transactionpopup
-        width: parent.width
-        height:parent.height
-        onClosed: body.currentIndex = 2
-    }
-
     StackLayout{
         id:body
         currentIndex: 0
@@ -46,8 +39,8 @@ Window {
             id:transactionPage
 
             onOpenPopup:{
-                transactionpopup.type = type
-                transactionpopup.open()
+                loader.active = true
+                loader.item.open()
             }
         }
     }
@@ -95,5 +88,28 @@ Window {
                 onClicked: body.currentIndex = 2
             }
         }
+    }
+
+    Component{
+        id:transactionpopup
+        TransactionPopup{
+            width: parent.width
+            height:parent.height
+            onClosed: {
+                body.currentIndex = 2
+                loader.active = false
+            }
+            type: transactionPage.type
+
+            Component.onCompleted: console.log("popup created")
+            Component.onDestruction: console.log("popup destroyed")
+        }
+    }
+
+    Loader{
+        id:loader
+        active: false
+        anchors.fill:parent
+        sourceComponent:transactionpopup
     }
 }
