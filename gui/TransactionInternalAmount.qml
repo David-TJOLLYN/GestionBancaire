@@ -12,6 +12,7 @@ Item {
     property variant creditAccount
 
     signal closed
+    signal forceActiveFocus
 
 
     HeaderAndExitBtn{
@@ -60,6 +61,11 @@ Item {
         }
     }
 
+    onForceActiveFocus:{
+        sold.text=""
+        sold.forceActiveFocus()
+    }
+
     FloatLineEdit{
         id:sold
         height: 25
@@ -91,16 +97,27 @@ Item {
         }
 
         MouseArea{
+            id:mouseare
             anchors.fill:parent
             onClicked: {
-                page.creditAccount.addTransaction("+"+check(sold.text),BDD.date(),"Internal","")
-                page.debitAccount.addTransaction("-"+check(sold.text),BDD.date(),"Internal","")
-                page.closed()
-            }
-
-            function check(inputString) {
-                return inputString.replace(",", ".");
+                handleTransaction()
             }
         }
+    }
+
+    Keys.onReturnPressed: handleTransaction()
+
+    function handleTransaction(){
+        if(sold.text === ""){
+            page.closed()
+            return;
+        }
+        page.creditAccount.addTransaction("+"+check(sold.text),BDD.date(),"Internal","")
+        page.debitAccount.addTransaction("-"+check(sold.text),BDD.date(),"Internal","")
+        page.closed()
+    }
+
+    function check(inputString) {
+        return inputString.replace(",", ".");
     }
 }

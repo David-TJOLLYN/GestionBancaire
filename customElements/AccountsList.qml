@@ -19,6 +19,7 @@ Item {
             }
         }
     }
+
     ListView {
         id: list
         width: parent.width

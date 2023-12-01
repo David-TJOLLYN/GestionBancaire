@@ -64,6 +64,7 @@ Popup {
                     internamount.creditAccount= creditAccount
                     internamount.debitAccount=debitAccount
                     swipeView.currentIndex=3
+                    internamount.forceActiveFocus()
                 }
             }
         }
