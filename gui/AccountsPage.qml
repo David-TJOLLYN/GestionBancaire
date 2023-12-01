@@ -71,14 +71,27 @@ Item {
             MouseArea{
                 anchors.fill:parent
                 onClicked:{
-                    popup.open()
+                    loader.active = true
+                    loader.item.open()
                 }
             }
         }
     }
 
-    CreateAccountPopup{
+    Component{
         id:popup
-        height: parent.height+60
+        CreateAccountPopup{
+            height: parent.height+60
+            onClosed: loader.active = false
+            Component.onCompleted: console.log("popup created")
+            Component.onDestruction: console.log("popup destroyed")
+        }
+    }
+
+    Loader{
+        id:loader
+        active: false
+        anchors.fill:parent
+        sourceComponent:popup
     }
 }

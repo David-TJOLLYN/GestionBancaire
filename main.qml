@@ -100,9 +100,6 @@ Window {
                 loader.active = false
             }
             type: transactionPage.type
-
-            Component.onCompleted: console.log("popup created")
-            Component.onDestruction: console.log("popup destroyed")
         }
     }
 
