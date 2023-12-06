@@ -34,7 +34,7 @@ public:
     QString getAccountName(int id);
 
 public slots:
-    void addAccount(QString bank, QString name, QString sold, QString number);
+    void addAccount(QString name, QString number, QString bank, QString type);
 
 signals:
     void updateSold(QString account, QString newSold);
@@ -53,12 +53,6 @@ private:
     void createGestionBancaire();
     void loadDefaultValues();
     void createDefaultTables();
-
-    int account(QString name);
-    int category(QString name);
-    QString account(int name);
-    QString category(int name);
-
 };
 
 #endif // DATABASEHANDLER_H

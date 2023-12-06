@@ -114,7 +114,7 @@ Popup {
                     }
 
                     //Setup next focus
-                    KeyNavigation.tab: sold
+                    KeyNavigation.tab: btn
                     Keys.onReturnPressed: KeyNavigation.tab.forceActiveFocus();
                     Keys.onTabPressed: KeyNavigation.tab.forceActiveFocus();
                 }
@@ -124,31 +124,6 @@ Popup {
                     onClicked: number.forceActiveFocus()
                     onDoubleClicked: number.selectAll()
                 }
-            }
-        }
-
-        Rectangle{
-            implicitHeight: 25
-            implicitWidth: parent.width
-
-            Text{
-                text:"Sold :"
-                anchors.left:parent.left
-                anchors.verticalCenter: parent.verticalCenter
-            }
-
-            FloatLineEdit{
-                id:sold
-                anchors.right:parent.right
-                width: 0.75*parent.width
-                height: parent.height
-                text:"0.00"
-                suffix: " €"
-
-                //Setup next focus
-                KeyNavigation.tab: btn
-                Keys.onReturnPressed: KeyNavigation.tab.forceActiveFocus();
-                Keys.onTabPressed: KeyNavigation.tab.forceActiveFocus();
             }
         }
 
@@ -164,9 +139,8 @@ Popup {
 
             onClicked: {
                 if(name.text===""){ popup.close(); return; }
-                if(sold.text==="") sold.text = "0.00";
                 if(number.text==="") number.text = "xxxx xxxx xxxx"
-                handler.addAccount(bank.currentText, name.text, checkSold(sold.text), checkNumber(number.text));
+                handler.addAccount(name.text, checkNumber(number.text), bank.currentText, 0);
                 popup.close()
             }
         }
@@ -193,15 +167,11 @@ Popup {
 
     onOpened:{
         name.text = ""
-        sold.text = ""
         number.text = ""
         name.forceActiveFocus()
     }
 
     function checkNumber(txt){
         return txt.replace(/[^0-9]/g, "");
-    }
-    function checkSold(inputString) {
-        return inputString.replace(",", ".");
     }
 }

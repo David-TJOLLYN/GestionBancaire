@@ -23,5 +23,9 @@
         <file>customElements/AccountsList.qml</file>
         <file>gui/TransactionInternalAmount.qml</file>
         <file>gui/CreateAccountPopup.qml</file>
+        <file>gui/AccountFocusMain.qml</file>
+        <file>gui/AccountDisplay.qml</file>
+        <file>customElements/Tabs.qml</file>
+        <file>gui/AccountFocusParameter.qml</file>
     </qresource>
 </RCC>

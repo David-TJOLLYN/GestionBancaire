@@ -12,7 +12,7 @@ class Transaction : public QObject
     Q_PROPERTY(QString details READ details CONSTANT)
 
 public:
-    explicit Transaction(QString _date, QString amount, QString category, QString account, QString details, QObject *parent = nullptr);
+    explicit Transaction(QString _date, QString amount, QString category, QString accountId, QString details, QObject *parent = nullptr);
     Q_INVOKABLE QString toString();
 
     QString date(){return _date;}

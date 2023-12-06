@@ -15,63 +15,9 @@ DatabaseHandler::DatabaseHandler()
 {
     openDatabase();
     _query = QSqlQuery(_bdd);
-    //createGestionBancaire();
+    createGestionBancaire();
     loadAccounts();
 }
-
-QString DatabaseHandler::category(int num)      {
-    switch (num) {
-        case 0: return "Bilan";
-        case 1: return "Job";
-        case 2: return "Food";
-        case 3: return "Bar";
-        case 4: return "Restorant";
-        case 5: return "Technology";
-        case 6: return "Numerical";
-        case 7: return "Life";
-        case 8: return "Sport";
-        case 9: return "Health";
-        case 10: return "Transport";
-        case 11: return "Bike";
-        case 12: return "Car";
-        case 13: return "Else";
-        case 14: return "Internal";
-        default: return "Unknown";
-    }
-}
-int     DatabaseHandler::category(QString name) {
-    if (name == "Bilan")return 0;
-    if (name == "Job")  return 1;
-    if (name == "Food") return 2;
-    if (name == "Bar")  return 3;
-    if (name == "Restorant") return 4;
-    if (name == "Technology")return 5;
-    if (name == "Numerical") return 6;
-    if (name == "Life")    return 7;
-    if (name == "Sport")   return 8;
-    if (name == "Health")  return 9;
-    if (name == "Transport")return 10;
-    if (name == "Bike")    return 11;
-    if (name == "Car")     return 12;
-    if (name == "Else")    return 13;
-    if (name == "Internal")return 14;
-    return -1; // Return -1 for unknown category
-}
-QString DatabaseHandler::account(int num)       {
-    switch (num) {
-        case 0: return "Compte courant";
-        case 1: return "Livret Beu";
-        case 2: return "Livret Jeune";
-        default: return "Unknown";
-    }
-}
-int     DatabaseHandler::account(QString name)  {
-    if (name == "Compte courant") return 0;
-    if (name == "Livret Beu") return 1;
-    if (name == "Livret Jeune") return 2;
-    return -1; // Return -1 for unknown account type
-}
-
 
 bool DatabaseHandler::openDatabase(){
 
@@ -95,13 +41,16 @@ void DatabaseHandler::createGestionBancaire(){
     loadDefaultValues();
 }
 void DatabaseHandler::createDefaultTables(){
-    QString createTable[3];
+    QString createTable[4];
 
     createTable[0] =
         "CREATE TABLE account ("
         "   id      INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
         "   name    CHAR(50) NOT NULL UNIQUE, "
-        "   sold    REAL NOT NULL "
+        "   number  CHAR(16) NOT NULL, "
+        "   bank    INTEGER NOT NULL, "
+        "   type    INTEGER NOT NULL, "
+        "   FOREIGN KEY (bank) REFERENCES bank(id) "
         ");"
     ;
 
@@ -124,8 +73,15 @@ void DatabaseHandler::createDefaultTables(){
         ");"
     ;
 
+    createTable[3] =
+        "CREATE TABLE bank ("
+        "   id      INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
+        "   name    CHAR(50) NOT NULL UNIQUE"
+        ");"
+        ;
 
-    for(int i=0;i<3;i++){
+
+    for(int i=0;i<4;i++){
         if(!_query.exec(createTable[i])){
             qDebug() << "Error - creating table: " << _query.lastError().text();
             return;
@@ -136,27 +92,14 @@ void DatabaseHandler::createDefaultTables(){
     qDebug()<<"OK - Tables added successfully.";
 }
 
-double getInitialSoldValue(int accountId) {
-    switch (accountId) {
-        case 0: return 849.32;
-        case 1: return 11500.00;
-        case 2: return 1661.82;
-        default: return 0.0;
-    }
-}
-
 QString DatabaseHandler::getAccountInsertStatement()  {
-    QString insertStatement = "INSERT INTO account (name, sold) VALUES ";
-
-    for (int i = 0; i <= 2; ++i) {
-        insertStatement += QString("('%1', %2)").arg(account(i)).arg(getInitialSoldValue(i));
-        if (i < 2) {
-            insertStatement += ",";
-        }
-    }
-
-    insertStatement += ";";
-
+    QString insertStatement =
+        "INSERT INTO account (name, number, bank, type) "
+        "VALUES "
+            "('Compte courant','258963247456','Credit Mutuel',0),"
+            "('Livret Bleu','147858742369','Credit Mutuel',1),"
+            "('Livret Jeune','357852198652','Credit Mutuel',1);"
+        ;
     return insertStatement;
 }
 QString DatabaseHandler::getCategoryInsertStatement() {
@@ -173,7 +116,7 @@ QString DatabaseHandler::getCategoryInsertStatement() {
 }
 
 void DatabaseHandler::loadDefaultValues(){
-    QString fillTable[3];
+    QString fillTable[4];
 
     fillTable[0] = getCategoryInsertStatement();
     fillTable[1] = getAccountInsertStatement();
@@ -499,8 +442,21 @@ void DatabaseHandler::loadDefaultValues(){
         ";"
     ;
 
+    fillTable[3] =
+        "INSERT INTO bank (name) "
+        "VALUES "
+            "('BNP Parisbas'),"
+            "('Credit Agricole'),"
+            "('Societe Generale'),"
+            "('Groupe BPCE'),"
+            "('Credit Mutuel'),"
+            "('LCL'),"
+            "('HSBC France'),"
+            "('La Banque Postale'),"
+            "('Natixis'),"
+            "('Credit du Nord');";
 
-    for(int i=0;i<3;i++){
+    for(int i=0;i<4;i++){
         if(!_query.exec(fillTable[i])){
             qDebug() << "Error - filling table: " << _query.lastError().text();
             if(_query.lastError().nativeErrorCode()!="1555") return;
@@ -513,7 +469,6 @@ void DatabaseHandler::loadDefaultValues(){
 
 
 bool DatabaseHandler::queryExec(QString txt){
-    //qDebug()<<txt;
     if(!_query.exec(txt)){
         qDebug()<<"ERROR - Fail to execute query : "<<txt;
         qDebug()<<"SQL "<<_query.lastError().text();
@@ -524,26 +479,19 @@ bool DatabaseHandler::queryExec(QString txt){
 
 
 void DatabaseHandler::insertTransaction(QString accountId, QString amount, QString date, QString categoryId, QString details){
-    QString txt = "";
+    _query.prepare("INSERT INTO moneytransaction(account, amount, date, category) "
+                  "VALUES (:accountId, :amount, :date, :categoryId)");
 
-    // Insert transaction in database
+    _query.bindValue(":accountId", accountId);
+    _query.bindValue(":amount", amount);
+    _query.bindValue(":date", date);
+    _query.bindValue(":categoryId", categoryId);
 
-    txt = "INSERT INTO moneytransaction(account, amount, date, category) "
-          "VALUES ("+accountId+",'"+amount+"','"+date+"',"+categoryId+");";
-
-    if(!queryExec(txt)) return;
-    qDebug()<< "OK - Transaction inserted " << getAccountName(accountId.toInt()) <<" "<<amount;
-
-
-    // Update account's sold
-
-    txt = "UPDATE account SET sold = sold +("+amount+") WHERE id = "+accountId+";";
-
-    if(!queryExec(txt)) return;
-    qDebug() << "OK - Account's sold updated";
+    if (!_query.exec()) return;
+    qDebug()<< "OK - Transaction inserted " << accountId <<" "<<amount;
 }
 
-
+/*
 float DatabaseHandler::getSold(QString accountId){
     QString txt = "SELECT sold from account where id = "+accountId+";";
 
@@ -553,37 +501,44 @@ float DatabaseHandler::getSold(QString accountId){
     float sold = _query.value("sold").toFloat();
     qDebug()<<"OK - Sold retreived "<<sold;
     return sold;
-}
+}*/
 
 
 void DatabaseHandler::loadAccounts(){
 
-    if(!queryExec("Select id, name, sold from account;"))return;
+    if(!queryExec("SELECT id FROM account;"))return;
     qDebug()<<"OK - Load accounts";
 
     while(_query.next()){
         int id   = _query.value("id").toInt();
-        QString name = _query.value("name").toString();
-        float sold   = _query.value("sold").toFloat();
-        QString num  = "3892 9365 8792";
-
-        _accounts.append(new Account(id, name, sold, num, this));
+        qDebug()<<id;
+        _accounts.append(new Account(id, this));
     }
 }
 
-void DatabaseHandler::addAccount(QString bank, QString name, QString sold, QString number){
-    QString txt =
-        "INSERT INTO account (name, sold) "
-        "VALUES ('"+name+"',"+sold+");";
+void DatabaseHandler::addAccount(QString name, QString number, QString bank, QString type){
+    qDebug()<<"Adding account";
 
-    if(!queryExec(txt)) return;
+    _query.prepare("INSERT INTO account (name, number, bank, type) "
+                   "VALUES (:name, :number, :bank, :type)");
 
-    int id = getCategorieId(name).toInt();
+    _query.bindValue(":name", name);
+    _query.bindValue(":number", number);
+    _query.bindValue(":bank", bank);
+    _query.bindValue(":type", type);
 
-    _accounts.append(new Account(id,name,sold.toFloat(),number,this));
+    if(!_query.exec()){
+        qDebug()<<"ERROR - Fail to execute query : "<<_query.lastQuery();
+        qDebug()<<"SQL "<<_query.lastError().text();
+        return;
+    }
+
+    int id = getAccountId(name).toInt();
+
+    _accounts.append(new Account(id,this));
     emit accountsChanged();
 
-    qDebug()<<"Add account"<<bank<<" "<<name<<" "<<sold<<" "<<number;
+    qDebug()<<"Add account"<<bank<<" "<<name<<" "<<number;
 }
 
 

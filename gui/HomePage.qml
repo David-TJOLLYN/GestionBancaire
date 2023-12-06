@@ -55,6 +55,7 @@ Item {
             StyledText {
                 id: rowAccount
                 text: account.name
+                color: homePage.color
                 anchors.left:parent.left
 
             }
@@ -62,6 +63,7 @@ Item {
             StyledText {
                 id: rowSold
                 text: qsTr(account.sold.toFixed(2)+" €")
+                color: homePage.color
                 anchors.right:parent.right
             }
         }

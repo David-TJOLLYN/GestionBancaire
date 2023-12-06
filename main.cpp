@@ -20,7 +20,6 @@ int main(int argc, char *argv[]){
     context->setContextProperty("handler", bdd);
     context->setContextProperty("list_categories", bdd->getCategories());
 
-
     engine.load(url);
 
     return app.exec();
