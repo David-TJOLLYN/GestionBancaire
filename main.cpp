@@ -6,7 +6,13 @@
 int main(int argc, char *argv[]){
     QApplication app(argc, argv);
 
-    DatabaseHandler *bdd = new DatabaseHandler();
+    bool status = true;
+    DatabaseHandler *bdd = new DatabaseHandler(&status);
+
+    if(!status){
+        delete bdd;
+        return -1;
+    }
 
     QQmlApplicationEngine engine;
 

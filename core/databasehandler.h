@@ -13,7 +13,7 @@ class DatabaseHandler : public QObject
     Q_PROPERTY(QVariantList accounts READ accounts NOTIFY accountsChanged FINAL)
 
 public:
-    DatabaseHandler();
+    DatabaseHandler(bool *status);
 
     QList<QString> getAllItems(const QString& tableName, const QString& columnName);
     QList<QMap<QString, QString>> getItemsWithColumns(const QString& tableName, const QStringList& columnNames);
@@ -21,20 +21,18 @@ public:
     void insertTransaction(QString accountId, QString amount, QString date, QString categoryId, QString details);
     float getSold(QString accountId);
 
-    QSqlQuery* getQuery(){return &_query;}
-    bool queryExec(QString txt);
+    bool exec(QSqlQuery *query);
 
-    void loadAccounts();
     QVariantList accounts();
     QVariantList getCategories();
 
     QString getCategorieId(QString name);
-    QString getCategoryName(int id);
+//    QString getCategoryName(int id);
     QString getAccountId(QString name);
-    QString getAccountName(int id);
+//    QString getAccountName(int id);
 
 public slots:
-    void addAccount(QString name, QString number, QString bank, QString type);
+    bool addAccount(QString name, QString number, QString bank, QString type);
 
 signals:
     void updateSold(QString account, QString newSold);
@@ -42,17 +40,24 @@ signals:
 
 private:
     QSqlDatabase _bdd;
-    QSqlQuery _query;
     QList<Account*> _accounts;
 
     bool openDatabase();
+    bool createGestionBancaire();
+    bool loadAccounts();
 
-    QString getCategoryInsertStatement();
-    QString getAccountInsertStatement();
+    bool createAccountTable();
+    bool createCategoryTable();
+    bool createTransactionTable();
+    bool createBankTables();
+    bool createTables();
 
-    void createGestionBancaire();
-    void loadDefaultValues();
-    void createDefaultTables();
+    bool insertDefaultAccounts();
+    bool insertDefaultCategories();
+    bool insertDefaultTransactions();
+    bool insertDefaultBanks();
+    bool insertDefaultValues();
+
 };
 
 #endif // DATABASEHANDLER_H

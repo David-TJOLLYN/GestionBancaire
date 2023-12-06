@@ -11,12 +11,12 @@ QString userPassword = "MySQL";
 QString databaseDriver = "QSQLITE";
 
 
-DatabaseHandler::DatabaseHandler()
-{
-    openDatabase();
-    _query = QSqlQuery(_bdd);
-    createGestionBancaire();
-    loadAccounts();
+DatabaseHandler::DatabaseHandler(bool *status){
+    bool state = true;
+    if(state) state &= openDatabase();
+    //if(state) state &= createGestionBancaire();
+    if(state) state &= loadAccounts();
+    *status = state;
 }
 
 bool DatabaseHandler::openDatabase(){
@@ -36,14 +36,13 @@ bool DatabaseHandler::openDatabase(){
     qDebug()<<"OK - Database opened";
     return true;
 }
-void DatabaseHandler::createGestionBancaire(){
-    createDefaultTables();
-    loadDefaultValues();
+bool DatabaseHandler::createGestionBancaire(){
+    return createTables() && insertDefaultValues();
 }
-void DatabaseHandler::createDefaultTables(){
-    QString createTable[4];
 
-    createTable[0] =
+bool DatabaseHandler::createAccountTable(){
+    QSqlQuery query;
+    query.prepare(
         "CREATE TABLE account ("
         "   id      INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
         "   name    CHAR(50) NOT NULL UNIQUE, "
@@ -51,17 +50,31 @@ void DatabaseHandler::createDefaultTables(){
         "   bank    INTEGER NOT NULL, "
         "   type    INTEGER NOT NULL, "
         "   FOREIGN KEY (bank) REFERENCES bank(id) "
-        ");"
-    ;
+        ")"
+    );
 
-    createTable[1] =
+    if(exec(&query)) return true;
+
+    qDebug()<<"Fail to create account table.";
+    return false;
+}
+bool DatabaseHandler::createCategoryTable(){
+    QSqlQuery query;
+    query.prepare(
         "CREATE TABLE category ("
         "   id      INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
         "   name    CHAR(50) NOT NULL UNIQUE"
-        ");"
-    ;
+        ")"
+    );
 
-    createTable[2] =
+    if(exec(&query)) return true;
+
+    qDebug()<<"Fail to create category table.";
+    return false;
+}
+bool DatabaseHandler::createTransactionTable(){
+    QSqlQuery query;
+    query.prepare(
         "CREATE TABLE moneytransaction ("
         "    id        INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
         "    amount    REAL NOT NULL, "
@@ -71,57 +84,72 @@ void DatabaseHandler::createDefaultTables(){
         "    FOREIGN KEY (account) REFERENCES account(id), "
         "    FOREIGN KEY (category) REFERENCES category(id) "
         ");"
-    ;
+    );
 
-    createTable[3] =
+    if(exec(&query)) return true;
+
+    qDebug()<<"Fail to create transaction table.";
+    return false;
+}
+bool DatabaseHandler::createBankTables(){
+    QSqlQuery query;
+    query.prepare(
         "CREATE TABLE bank ("
         "   id      INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
         "   name    CHAR(50) NOT NULL UNIQUE"
-        ");"
-        ;
+        ")"
+    );
 
+    if(exec(&query)) return true;
 
-    for(int i=0;i<4;i++){
-        if(!_query.exec(createTable[i])){
-            qDebug() << "Error - creating table: " << _query.lastError().text();
-            return;
-        }
-        qDebug()<< "OK - Table "<<i<<" added ";
-    }
+    qDebug()<<"Fail to create bank table.";
+    return false;
+}
+bool DatabaseHandler::createTables(){
+    bool status = true;
 
-    qDebug()<<"OK - Tables added successfully.";
+    status &= createAccountTable();
+    status &= createCategoryTable();
+    status &= createTransactionTable();
+    status &= createBankTables();
+
+    if(status) qDebug()<<"OK - Tables added successfully.";
+
+    return status;
 }
 
-QString DatabaseHandler::getAccountInsertStatement()  {
-    QString insertStatement =
+bool DatabaseHandler::insertDefaultAccounts()  {
+    QSqlQuery query;
+    query.prepare(
         "INSERT INTO account (name, number, bank, type) "
         "VALUES "
             "('Compte courant','258963247456','Credit Mutuel',0),"
             "('Livret Bleu','147858742369','Credit Mutuel',1),"
             "('Livret Jeune','357852198652','Credit Mutuel',1);"
-        ;
-    return insertStatement;
+    );
+
+    if(exec(&query)) return true;
+
+    qDebug()<<"Fail to insert accounts.";
+    return false;
 }
-QString DatabaseHandler::getCategoryInsertStatement() {
-    QString insertStatement = "INSERT INTO category (name) VALUES ";
+bool DatabaseHandler::insertDefaultCategories() {
+    QSqlQuery query;
+    query.prepare(
+        "INSERT INTO category (name) "
+        "VALUES "
+            "('Bilan'),('Job'),('Food'),('Bar'),('Restorant'),('Technology'),"
+            "('Numerical'),('Life'),('Sport'),('Health'),('Transport'),('Bike'),"
+            "('Car'),('Else'),('Internal')"
+    );
+    if(exec(&query)) return true;
 
-    for (int i = 0; i <= 14; ++i) {
-        insertStatement += QString("('%1')").arg(category(i));
-        if (i < 14) insertStatement += ",";
-    }
-
-    insertStatement += ";";
-
-    return insertStatement;
+    qDebug()<<"Fail to insert categories.";
+    return false;
 }
-
-void DatabaseHandler::loadDefaultValues(){
-    QString fillTable[4];
-
-    fillTable[0] = getCategoryInsertStatement();
-    fillTable[1] = getAccountInsertStatement();
-
-    fillTable[2] =
+bool DatabaseHandler::insertDefaultTransactions(){
+    QSqlQuery query;
+    query.prepare(
         "INSERT INTO moneytransaction (date, account, amount, category)"
         "VALUES"
 
@@ -440,9 +468,16 @@ void DatabaseHandler::loadDefaultValues(){
         "   ('2023-09-01', 1, 1580.39, 1),"
         "   ('2023-10-01', 1, 1911.65, 1)"
         ";"
-    ;
+    );
 
-    fillTable[3] =
+    if(exec(&query)) return true;
+
+    qDebug()<<"Fail to insert default transactions";
+    return false;
+}
+bool DatabaseHandler::insertDefaultBanks(){
+    QSqlQuery query;
+    query.prepare(
         "INSERT INTO bank (name) "
         "VALUES "
             "('BNP Parisbas'),"
@@ -454,24 +489,46 @@ void DatabaseHandler::loadDefaultValues(){
             "('HSBC France'),"
             "('La Banque Postale'),"
             "('Natixis'),"
-            "('Credit du Nord');";
+            "('Credit du Nord')"
+    );
 
-    for(int i=0;i<4;i++){
-        if(!_query.exec(fillTable[i])){
-            qDebug() << "Error - filling table: " << _query.lastError().text();
-            if(_query.lastError().nativeErrorCode()!="1555") return;
-        }
-        qDebug()<<"OK - Data "<<i<<" sucessfuly imported";
-    }
+    if(exec(&query)) return true;
 
-    qDebug()<<"OK - Datas sucessfuly imported";
+    qDebug()<<"Fail to insert default accounts";
+    return false;
+}
+bool DatabaseHandler::insertDefaultValues(){
+    bool status = true;
+
+    status &= insertDefaultAccounts();
+    status &= insertDefaultCategories();
+    status &= insertDefaultBanks();
+    status &= insertDefaultTransactions();
+
+    if(status) qDebug()<<"Default values successfull inserted.";
+
+    return status;
 }
 
+bool DatabaseHandler::loadAccounts(){
+    QSqlQuery query;
+    query.prepare("SELECT id FROM account");
 
-bool DatabaseHandler::queryExec(QString txt){
-    if(!_query.exec(txt)){
-        qDebug()<<"ERROR - Fail to execute query : "<<txt;
-        qDebug()<<"SQL "<<_query.lastError().text();
+    if(!exec(&query))return false;
+
+    while(query.next()){
+        int id   = query.value("id").toInt();
+        _accounts.append(new Account(id, this));
+    }
+
+    qDebug()<<"OK - Account loaded.";
+    return true;
+}
+
+bool DatabaseHandler::exec(QSqlQuery *query){
+    if(!query->exec()){
+        qDebug()<<"ERROR - Fail to execute query : "<<query->executedQuery();
+        qDebug()<<"SQL "<<query->lastError().text();
         return false;
     }
     return true;
@@ -479,15 +536,16 @@ bool DatabaseHandler::queryExec(QString txt){
 
 
 void DatabaseHandler::insertTransaction(QString accountId, QString amount, QString date, QString categoryId, QString details){
-    _query.prepare("INSERT INTO moneytransaction(account, amount, date, category) "
+    QSqlQuery query;
+    query.prepare("INSERT INTO moneytransaction(account, amount, date, category) "
                   "VALUES (:accountId, :amount, :date, :categoryId)");
 
-    _query.bindValue(":accountId", accountId);
-    _query.bindValue(":amount", amount);
-    _query.bindValue(":date", date);
-    _query.bindValue(":categoryId", categoryId);
+    query.bindValue(":accountId", accountId);
+    query.bindValue(":amount", amount);
+    query.bindValue(":date", date);
+    query.bindValue(":categoryId", categoryId);
 
-    if (!_query.exec()) return;
+    if (!exec(&query)) return;
     qDebug()<< "OK - Transaction inserted " << accountId <<" "<<amount;
 }
 
@@ -504,41 +562,30 @@ float DatabaseHandler::getSold(QString accountId){
 }*/
 
 
-void DatabaseHandler::loadAccounts(){
 
-    if(!queryExec("SELECT id FROM account;"))return;
-    qDebug()<<"OK - Load accounts";
-
-    while(_query.next()){
-        int id   = _query.value("id").toInt();
-        qDebug()<<id;
-        _accounts.append(new Account(id, this));
-    }
-}
-
-void DatabaseHandler::addAccount(QString name, QString number, QString bank, QString type){
-    qDebug()<<"Adding account";
-
-    _query.prepare("INSERT INTO account (name, number, bank, type) "
+bool DatabaseHandler::addAccount(QString name, QString number, QString bank, QString type){
+    QSqlQuery query;
+    query.prepare("INSERT INTO account (name, number, bank, type) "
                    "VALUES (:name, :number, :bank, :type)");
 
-    _query.bindValue(":name", name);
-    _query.bindValue(":number", number);
-    _query.bindValue(":bank", bank);
-    _query.bindValue(":type", type);
+    query.bindValue(":name", name);
+    query.bindValue(":number", number);
+    query.bindValue(":bank", bank);
+    query.bindValue(":type", type);
 
-    if(!_query.exec()){
-        qDebug()<<"ERROR - Fail to execute query : "<<_query.lastQuery();
-        qDebug()<<"SQL "<<_query.lastError().text();
-        return;
+    if(!exec(&query)){
+        qDebug()<<"Fail to execute add account "<<name;
+        return false;
     }
 
-    int id = getAccountId(name).toInt();
+
+    int id = query.lastInsertId().toInt();
 
     _accounts.append(new Account(id,this));
     emit accountsChanged();
 
-    qDebug()<<"Add account"<<bank<<" "<<name<<" "<<number;
+    qDebug()<<"OK - Add account"<<id<<" "<<name<<" "<<bank<<" "<<number;
+    return true;
 }
 
 
@@ -555,39 +602,51 @@ QVariantList DatabaseHandler::accounts() {
 QVariantList DatabaseHandler::getCategories(){
     QVariantList list;
 
-    queryExec("SELECT name from category;");
+    QSqlQuery query;
+    query.prepare("SELECT name from category;");
 
-    while(_query.next()){
-        list.append(_query.value("name"));
+    exec(&query);
+
+    while(query.next()){
+        list.append(query.value("name"));
+        qDebug()<<query.value("name");
     }
 
     return list;
 }
 
 QString DatabaseHandler::getCategorieId(QString name){
-    queryExec("SELECT id FROM category WHERE name='"+name+"';");
-    _query.next();
-    //qDebug()<<"get category id : "<<name<<" "<<_query.value(0).toString();
-    return _query.value(0).toString();
+    QSqlQuery query;
+    query.prepare("SELECT id FROM category WHERE name=:categoryName;");
+    query.bindValue(":categoryName",name);
+    exec(&query);
+    query.next();
+    return query.value(0).toString();
 }
-
+/*
 QString DatabaseHandler::getCategoryName(int id){
     queryExec("SELECT name FROM category WHERE id="+QString::number(id));
     _query.next();
     //qDebug()<<"get category name :"<<_query.value("name").toString();
     return _query.value("name").toString();
 }
+*/
 
 QString DatabaseHandler::getAccountId(QString name){
-    queryExec("SELECT id FROM account WHERE name='"+name+"';");
-    _query.next();
-    //qDebug()<<"get account id :"<<_query.value("id").toString();
-    return _query.value("id").toString();
+    QSqlQuery query;
+    query.prepare("SELECT id FROM account WHERE name=:categoryName;");
+    query.bindValue(":categoryName",name);
+
+    exec(&query);
+    query.next();
+    //qDebug()<<"get category id : "<<name<<" "<<_query.value(0).toString();
+    return query.value(0).toString();
 }
 
+/*
 QString DatabaseHandler::getAccountName(int id){
     queryExec("SELECT name FROM account WHERE id="+QString::number(id));
     _query.next();
     //qDebug()<<"get account name :"<<_query.value("name").toString();
     return _query.value("name").toString();
-}
+}*/
