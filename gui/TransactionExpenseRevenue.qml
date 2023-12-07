@@ -55,7 +55,7 @@ Item {
             Layout.preferredWidth:  parent.width
             Layout.preferredHeight: 25
             editable:false
-            model:list_categories
+            model:handler.categories
         }
 
         TextLineEdit{

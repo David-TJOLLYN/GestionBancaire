@@ -72,9 +72,6 @@ Item {
             }
         }
 
-
-
-
         Component.onCompleted: console.log("Focus account main completed")
         Component.onDestruction: console.log("Focus account main destroyed")
 

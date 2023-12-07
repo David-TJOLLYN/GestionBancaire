@@ -549,19 +549,6 @@ void DatabaseHandler::insertTransaction(QString accountId, QString amount, QStri
     qDebug()<< "OK - Transaction inserted " << accountId <<" "<<amount;
 }
 
-/*
-float DatabaseHandler::getSold(QString accountId){
-    QString txt = "SELECT sold from account where id = "+accountId+";";
-
-    if(!queryExec(txt)) return 0.0;
-
-    _query.next();
-    float sold = _query.value("sold").toFloat();
-    qDebug()<<"OK - Sold retreived "<<sold;
-    return sold;
-}*/
-
-
 
 bool DatabaseHandler::addAccount(QString name, QString number, QString bank, QString type){
     QSqlQuery query;
@@ -574,7 +561,7 @@ bool DatabaseHandler::addAccount(QString name, QString number, QString bank, QSt
     query.bindValue(":type", type);
 
     if(!exec(&query)){
-        qDebug()<<"Fail to execute add account "<<name;
+        qDebug()<<"Fail to add new account "<<name<<".";
         return false;
     }
 
@@ -587,19 +574,44 @@ bool DatabaseHandler::addAccount(QString name, QString number, QString bank, QSt
     qDebug()<<"OK - Add account"<<id<<" "<<name<<" "<<bank<<" "<<number;
     return true;
 }
+bool DatabaseHandler::addCategory(QString name){
+    QSqlQuery query;
+    query.prepare("INSERT INTO category (name) VALUES (:name)");
+    query.bindValue(":name",name);
 
+    if(exec(&query)){
+        qDebug()<<"Fail to add new category "<<name<<".";
+        return false;
+    }
+
+    emit categoriesChanged();
+    return true;
+}
+bool DatabaseHandler::addBank(QString name){
+    QSqlQuery query;
+    query.prepare("INSERT INTO bank (name) VALUES (:name)");
+    query.bindValue(":name",name);
+
+    if(exec(&query)){
+        qDebug()<<"Fail to add new bank "<<name<<".";
+        return false;
+    }
+
+    emit banksChanged();
+    return true;
+}
 
 QVariantList DatabaseHandler::accounts() {
     QVariantList list;
 
     foreach(auto account, _accounts){
         list.append(QVariant::fromValue(account));
+        //qDebug()<<QVariant::fromValue(account);
     }
 
     return list;
 }
-
-QVariantList DatabaseHandler::getCategories(){
+QVariantList DatabaseHandler::categories(){
     QVariantList list;
 
     QSqlQuery query;
@@ -609,7 +621,22 @@ QVariantList DatabaseHandler::getCategories(){
 
     while(query.next()){
         list.append(query.value("name"));
-        qDebug()<<query.value("name");
+        //qDebug()<<query.value("name");
+    }
+
+    return list;
+}
+QVariantList DatabaseHandler::banks(){
+    QVariantList list;
+
+    QSqlQuery query;
+    query.prepare("SELECT name from bank");
+
+    exec(&query);
+
+    while(query.next()){
+        list.append(query.value("name"));
+        //qDebug()<<query.value("name");
     }
 
     return list;
@@ -623,15 +650,6 @@ QString DatabaseHandler::getCategorieId(QString name){
     query.next();
     return query.value(0).toString();
 }
-/*
-QString DatabaseHandler::getCategoryName(int id){
-    queryExec("SELECT name FROM category WHERE id="+QString::number(id));
-    _query.next();
-    //qDebug()<<"get category name :"<<_query.value("name").toString();
-    return _query.value("name").toString();
-}
-*/
-
 QString DatabaseHandler::getAccountId(QString name){
     QSqlQuery query;
     query.prepare("SELECT id FROM account WHERE name=:categoryName;");
@@ -642,11 +660,3 @@ QString DatabaseHandler::getAccountId(QString name){
     //qDebug()<<"get category id : "<<name<<" "<<_query.value(0).toString();
     return query.value(0).toString();
 }
-
-/*
-QString DatabaseHandler::getAccountName(int id){
-    queryExec("SELECT name FROM account WHERE id="+QString::number(id));
-    _query.next();
-    //qDebug()<<"get account name :"<<_query.value("name").toString();
-    return _query.value("name").toString();
-}*/

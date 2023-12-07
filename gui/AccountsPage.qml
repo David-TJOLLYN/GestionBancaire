@@ -27,8 +27,8 @@ Item {
                 swipeview.currentIndex = 1
             }
 
-            //Component.onCompleted: console.log("Display account completed")
-            //Component.onDestruction: console.log("Display account destroyed")
+            Component.onCompleted: console.log("Display account completed")
+            Component.onDestruction: console.log("Display account destroyed")
         }
 
         AccountFocusMain{

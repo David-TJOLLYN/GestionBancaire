@@ -11,32 +11,32 @@ class DatabaseHandler : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QVariantList accounts READ accounts NOTIFY accountsChanged FINAL)
+    Q_PROPERTY(QVariantList categories READ categories NOTIFY categoriesChanged FINAL)
+    Q_PROPERTY(QVariantList banks READ banks NOTIFY banksChanged FINAL)
 
 public:
     DatabaseHandler(bool *status);
 
-    QList<QString> getAllItems(const QString& tableName, const QString& columnName);
-    QList<QMap<QString, QString>> getItemsWithColumns(const QString& tableName, const QStringList& columnNames);
-
     void insertTransaction(QString accountId, QString amount, QString date, QString categoryId, QString details);
-    float getSold(QString accountId);
 
     bool exec(QSqlQuery *query);
 
     QVariantList accounts();
-    QVariantList getCategories();
+    QVariantList categories();
+    QVariantList banks();
 
     QString getCategorieId(QString name);
-//    QString getCategoryName(int id);
     QString getAccountId(QString name);
-//    QString getAccountName(int id);
 
 public slots:
     bool addAccount(QString name, QString number, QString bank, QString type);
+    bool addCategory(QString name);
+    bool addBank(QString name);
 
 signals:
-    void updateSold(QString account, QString newSold);
     void accountsChanged();
+    void categoriesChanged();
+    void banksChanged();
 
 private:
     QSqlDatabase _bdd;

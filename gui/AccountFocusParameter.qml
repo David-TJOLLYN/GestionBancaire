@@ -42,7 +42,7 @@ Item {
                 width: 0.75*parent.width
                 anchors.right: parent.right
                 editable:false
-                model:["Credit Mutuel","CICE","Credit Agricole"]
+                model:handler.banks
             }
         }
 
