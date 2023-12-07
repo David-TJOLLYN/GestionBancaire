@@ -16,7 +16,7 @@ Item {
     property string font: "Comic Sans MS"
     property real px: 15
     property bool small: false
-    property variant account : handler.accounts[0]
+    property variant account : handler.account(1)
 
     Header{
         id:header
@@ -83,27 +83,8 @@ Item {
 
         Component{
             id:transactionForm
-            Rectangle{
-                width: parent.width
-                height: txt.implicitHeight
-
-                Text{
-                    id:txt
-                    anchors.left: parent.left
-                    text:BDD.formatDate(modelData.date)
-                    color:"grey"
-                }
-
-                Text{
-                    text:modelData.category
-                    anchors.left:txt.right
-                    anchors.margins:20
-                }
-
-                Text{
-                    text:modelData.amount+" €"
-                    anchors.right:parent.right
-                }
+            TransactionForm{
+                transaction:modelData
             }
         }
 

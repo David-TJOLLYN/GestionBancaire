@@ -4,6 +4,7 @@ import QtQuick.Controls
 import "../customElements"
 
 Item {
+    id:page
     width: parent.width
     height:parent.height
     property variant account
@@ -43,6 +44,17 @@ Item {
                 anchors.right: parent.right
                 editable:false
                 model:handler.banks
+
+                Component.onCompleted: {
+                    var desiredText = page.account.bank;
+                    for (var i = 0; i < model.length; ++i) {
+                        if (model[i] === desiredText) {
+                            currentIndex = i;
+                            break;
+                        }
+                    }
+                }
+
             }
         }
 

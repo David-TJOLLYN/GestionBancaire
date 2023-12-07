@@ -18,7 +18,7 @@ public:
     explicit Account(int id, DatabaseHandler *bdd, QObject *parent = nullptr);
     Q_INVOKABLE QString toString();
 
-    int   id(){return _id.toInt();}
+    int id(){return _id.toInt();}
     QString name();
     QString number();
     QString bank();
@@ -33,6 +33,7 @@ public:
 public slots:
     void addTransaction(QString amount, QString date, QString category, QString details="");
     QVariantList getLastTransactions(int nbr);
+    QVariantList transactions();
 
 signals:
     void soldChanged();

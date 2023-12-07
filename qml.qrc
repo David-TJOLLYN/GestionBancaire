@@ -27,5 +27,7 @@
         <file>gui/AccountDisplay.qml</file>
         <file>customElements/Tabs.qml</file>
         <file>gui/AccountFocusParameter.qml</file>
+        <file>gui/AccountFocusTransactions.qml</file>
+        <file>customElements/TransactionForm.qml</file>
     </qresource>
 </RCC>

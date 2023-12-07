@@ -10,7 +10,6 @@ QString userName = "root";
 QString userPassword = "MySQL";
 QString databaseDriver = "QSQLITE";
 
-
 DatabaseHandler::DatabaseHandler(bool *status){
     bool state = true;
     if(state) state &= openDatabase();
@@ -123,9 +122,9 @@ bool DatabaseHandler::insertDefaultAccounts()  {
     query.prepare(
         "INSERT INTO account (name, number, bank, type) "
         "VALUES "
-            "('Compte courant','258963247456','Credit Mutuel',0),"
-            "('Livret Bleu','147858742369','Credit Mutuel',1),"
-            "('Livret Jeune','357852198652','Credit Mutuel',1);"
+            "('Compte courant','258963247456',5,0),"
+            "('Livret Bleu','147858742369',5,1),"
+            "('Livret Jeune','357852198652',5,1);"
     );
 
     if(exec(&query)) return true;
@@ -505,7 +504,7 @@ bool DatabaseHandler::insertDefaultValues(){
     status &= insertDefaultBanks();
     status &= insertDefaultTransactions();
 
-    if(status) qDebug()<<"Default values successfull inserted.";
+    if(status) qDebug()<<"OK - Default values successfull inserted.";
 
     return status;
 }
@@ -534,7 +533,6 @@ bool DatabaseHandler::exec(QSqlQuery *query){
     return true;
 }
 
-
 void DatabaseHandler::insertTransaction(QString accountId, QString amount, QString date, QString categoryId, QString details){
     QSqlQuery query;
     query.prepare("INSERT INTO moneytransaction(account, amount, date, category) "
@@ -549,15 +547,16 @@ void DatabaseHandler::insertTransaction(QString accountId, QString amount, QStri
     qDebug()<< "OK - Transaction inserted " << accountId <<" "<<amount;
 }
 
-
 bool DatabaseHandler::addAccount(QString name, QString number, QString bank, QString type){
+    QString bankId = getBankId(bank);
+
     QSqlQuery query;
     query.prepare("INSERT INTO account (name, number, bank, type) "
                    "VALUES (:name, :number, :bank, :type)");
 
     query.bindValue(":name", name);
     query.bindValue(":number", number);
-    query.bindValue(":bank", bank);
+    query.bindValue(":bank", bankId);
     query.bindValue(":type", type);
 
     if(!exec(&query)){
@@ -601,6 +600,17 @@ bool DatabaseHandler::addBank(QString name){
     return true;
 }
 
+QVariant     DatabaseHandler::account(int id){
+    QVariant var;
+    qDebug()<<"Search for account "<<id;
+    foreach(auto account, _accounts){
+        if(account->id()==id){
+            var = QVariant::fromValue(account);
+            qDebug()<<"Default account "<<account->name();
+        }
+    }
+    return var;
+}
 QVariantList DatabaseHandler::accounts() {
     QVariantList list;
 
@@ -658,5 +668,15 @@ QString DatabaseHandler::getAccountId(QString name){
     exec(&query);
     query.next();
     //qDebug()<<"get category id : "<<name<<" "<<_query.value(0).toString();
+    return query.value(0).toString();
+}
+QString DatabaseHandler::getBankId(QString name){
+    QSqlQuery query;
+    query.prepare("SELECT id FROM bank WHERE name=:categoryName;");
+    query.bindValue(":categoryName",name);
+
+    exec(&query);
+    query.next();
+    //qDebug()<<"get bank id : "<<name<<" "<<_query.value(0).toString();
     return query.value(0).toString();
 }

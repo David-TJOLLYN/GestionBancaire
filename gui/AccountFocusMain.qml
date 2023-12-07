@@ -57,6 +57,14 @@ Item {
                 }
             }
 
+            Item{
+                AccountFocusTransactions{
+                    height:swipeview.height
+                    width:swipeview.width
+                    account: page.account
+                }
+            }
+
             Rectangle{
                 height:swipeview.height
                 width:swipeview.width

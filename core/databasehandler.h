@@ -27,11 +27,13 @@ public:
 
     QString getCategorieId(QString name);
     QString getAccountId(QString name);
+    QString getBankId(QString name);
 
 public slots:
     bool addAccount(QString name, QString number, QString bank, QString type);
     bool addCategory(QString name);
     bool addBank(QString name);
+    QVariant account(int id);
 
 signals:
     void accountsChanged();

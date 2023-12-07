@@ -5,7 +5,7 @@
 Account::Account(int id, DatabaseHandler *bdd, QObject *parent) :
     QObject{parent}, _bdd(bdd), _id(QString::number(id))
 {
-    qDebug()<<"Create account : "<<toString();
+    //qDebug()<<"Create account : "<<toString();
 }
 
 QString Account::name(){
@@ -34,6 +34,7 @@ QString Account::bank(){
     query.bindValue(":accountId", _id);
     query.exec();
     query.next();
+    //qDebug()<<"Account "<<_id<<" bank "<<query.value(0).toString();
     return query.value(0).toString();
 }
 bool Account::type(){
@@ -50,7 +51,7 @@ float Account::sold(){
     query.bindValue(":accountId", _id);
     query.exec();
     query.next();
-    qDebug()<<"OK - "<<_id<<" sold retreived "<<query.value(0).toFloat();
+    //qDebug()<<"OK - "<<_id<<" sold retreived "<<query.value(0).toFloat();
     return query.value(0).toFloat();
 }
 
@@ -142,7 +143,7 @@ QVariantList Account::getLastTransactions(int nbr){
 
         list.append(variant);
 
-        qDebug()<<date<<" "<<amount<<" "<<category;
+        //qDebug()<<date<<" "<<amount<<" "<<category;
     }
 
 
@@ -150,3 +151,37 @@ QVariantList Account::getLastTransactions(int nbr){
 
     return list;
 }
+
+QVariantList Account::transactions(){
+    QVariantList list;
+    QSqlQuery query;
+
+    query.prepare(
+        "SELECT mt.date, mt.amount, c.name "
+        "FROM moneytransaction mt "
+        "JOIN category c ON mt.category = c.id "
+        "WHERE mt.account = :accountId ");
+
+    query.bindValue(":accountId", _id);
+
+    if (!query.exec()) return list;
+
+    qDebug()<<"OK - Get all transactions";
+
+    while(query.next()){
+        QString date = query.value("date").toString();
+        QString amount = QString::number(query.value("amount").toFloat(),'f',2);
+        QString category = query.value("name").toString();
+
+        QVariant variant = QVariant::fromValue(new Transaction(date,amount,category,_id,""));
+
+        list.append(variant);
+
+        //qDebug()<<date<<" "<<amount<<" "<<category;
+    }
+
+    std::reverse(list.begin(), list.end());
+
+    return list;
+}
+
