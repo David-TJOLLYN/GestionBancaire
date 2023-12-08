@@ -35,6 +35,10 @@ public slots:
     QVariantList getLastTransactions(int nbr);
     QVariantList transactions();
 
+    QVariantList getMonthlySold(QString start, QString end, int type=0);
+    QVariantList getMonthlyPositiveSold(QString start, QString end);
+    QVariantList getMonthlyNegativeSold(QString start, QString end);
+
 signals:
     void soldChanged();
     void nameChanged();

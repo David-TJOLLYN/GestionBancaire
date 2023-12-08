@@ -29,5 +29,6 @@
         <file>gui/AccountFocusParameter.qml</file>
         <file>gui/AccountFocusTransactions.qml</file>
         <file>customElements/TransactionForm.qml</file>
+        <file>gui/AccountFocusSold.qml</file>
     </qresource>
 </RCC>

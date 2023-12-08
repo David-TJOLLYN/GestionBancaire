@@ -29,34 +29,6 @@ Item {
             horizontalCenter: parent.horizontalCenter
         }
 
-        Rectangle{
-            implicitHeight: 25
-            implicitWidth: parent.width
-            Text{
-                text:"Banque :"
-                anchors.left:parent.left
-                anchors.verticalCenter: parent.verticalCenter
-            }
-            ComboBox{
-                id:bank
-                height: parent.height
-                width: 0.75*parent.width
-                anchors.right: parent.right
-                editable:false
-                model:handler.banks
-
-                Component.onCompleted: {
-                    var desiredText = page.account.bank;
-                    for (var i = 0; i < model.length; ++i) {
-                        if (model[i] === desiredText) {
-                            currentIndex = i;
-                            break;
-                        }
-                    }
-                }
-
-            }
-        }
 
         Rectangle{
             implicitHeight: 25
@@ -86,6 +58,38 @@ Item {
         Rectangle{
             implicitHeight: 25
             implicitWidth: parent.width
+            Text{
+                text:"Banque :"
+                anchors.left:parent.left
+                anchors.verticalCenter: parent.verticalCenter
+            }
+            ComboBox{
+                id:bank
+                height: parent.height
+                width: 0.75*parent.width
+                anchors.right: parent.right
+                editable:false
+                model:handler.banks
+                property bool modified: false
+
+                Component.onCompleted: {
+                    var desiredText = page.account.bank;
+                    for (var i = 0; i < model.length; ++i) {
+                        if (model[i] === desiredText) {
+                            currentIndex = i;
+                            break;
+                        }
+                    }
+                    modified = false;
+                }
+
+                onCurrentIndexChanged: modified = true
+            }
+        }
+
+        Rectangle{
+            implicitHeight: 25
+            implicitWidth: parent.width
 
             Text{
                 text:"Numéro :"
@@ -106,6 +110,7 @@ Item {
                     id: number
                     text: account.number
                     color: "black"
+                    property bool modified: false
 
                     anchors.fill: parent
                     anchors.margins: 2
@@ -122,6 +127,8 @@ Item {
                         if (formattedText !== text) {
                             text = formattedText.trim(); // Trim to remove the extra space at the end
                         }
+
+                        modified = true;
                     }
                 }
 
@@ -153,11 +160,10 @@ Item {
             Layout.alignment: Qt.AlignHCenter
 
             onClicked: {
-                if(name.text===""){ popup.close(); return; }
-                if(sold.text==="")  sold.text = "0.00";
-                if(number.text==="") number.text = "xxxx xxxx xxxx"
-                handler.addAccount(bank.currentText, name.text, checkSold(sold.text), checkNumber(number.text));
-                popup.close()
+                if(name.text===""){ return; }
+                if(name.modified)   account.name = name.text;
+                if(bank.modified)   account.bank = bank.currentText
+                if(number.modified) account.number = checkNumber(number.text)
             }
         }
     }

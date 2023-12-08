@@ -83,7 +83,7 @@ void Account::setNumber(QString number){
     query.bindValue(":newNumber", number);
     query.bindValue(":accountId", _id);
 
-    if(query.exec()) emit typeChanged();
+    if(query.exec()) emit numberChanged();
 }
 void Account::setBank(QString bank){
     if(bank == Account::bank()) return;
@@ -185,3 +185,46 @@ QVariantList Account::transactions(){
     return list;
 }
 
+
+QVariantList Account::getMonthlySold(QString start, QString end, int type) {
+    QVariantList list;
+
+    if(type>2) return list;
+    QString condition[] = {"1=1","amount >= 0","amount<=0"};
+
+    QSqlQuery query;
+    query.prepare(
+        "SELECT "
+        "    strftime('%Y-%m', date) AS month, "
+        "    SUM(amount) AS monthly_sum "
+        "FROM moneytransaction "
+        "WHERE "
+        "    (:typeCondition) AND "
+        "    account = :account AND "
+        "    date BETWEEN :start_date AND :end_date "
+        "GROUP BY month, account;"
+    );
+
+    query.bindValue(":typeCondition", condition[type]);
+    query.bindValue(":account", _id);
+    query.bindValue(":start_date", start);
+    query.bindValue(":end_date", end);
+
+    if (!_bdd->exec(&query)){
+        qDebug()<<"Fail to get monthly sold.";
+        return list;
+    }
+
+    while (query.next()) {
+        //qDebug() << query.value("month").toString() << " " << query.value("monthly_sum").toDouble();
+        list.append(query.value("monthly_sum").toFloat());
+    }
+    return list;
+}
+
+QVariantList Account::getMonthlyPositiveSold(QString start, QString end){
+    return getMonthlySold(start,end,true);
+}
+QVariantList Account::getMonthlyNegativeSold(QString start, QString end){
+    return getMonthlySold(start,end,false);
+}

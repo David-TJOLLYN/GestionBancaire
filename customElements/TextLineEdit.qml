@@ -2,6 +2,7 @@ import QtQuick 2.15
 
 Rectangle {
     property alias text: txt.text
+    property bool modified: false
     signal forceActiveFocus
 
     color:  "white"
@@ -16,6 +17,8 @@ Rectangle {
         anchors.fill: parent
         anchors.margins: 2
         verticalAlignment:   TextInput.AlignVCenter
+
+        onTextChanged: parent.modified = true;
     }
 
     MouseArea{

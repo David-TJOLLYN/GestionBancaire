@@ -24,7 +24,7 @@ Rectangle {
 
     Text{
         id:accountNum
-        text: account ? account.number : "xxxx xxxx xxxx"
+        text: account ? account.number.replace(/(.{4})/g, "$1 ") : "xxxx xxxx xxxx"
         anchors{ top:accountName.bottom; right:parent.right; left:parent.left}
         anchors.margins: 10
     }
