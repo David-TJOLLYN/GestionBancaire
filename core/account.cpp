@@ -192,6 +192,8 @@ QVariantList Account::getMonthlySold(QString start, QString end, int type) {
     if(type>2) return list;
     QString condition[] = {"1=1","amount >= 0","amount<=0"};
 
+    //qDebug()<<"Get monthly sum type "<<type;
+
     QSqlQuery query;
     query.prepare(
         "SELECT "
@@ -199,13 +201,12 @@ QVariantList Account::getMonthlySold(QString start, QString end, int type) {
         "    SUM(amount) AS monthly_sum "
         "FROM moneytransaction "
         "WHERE "
-        "    (:typeCondition) AND "
+        "    "+condition[type]+" AND "
         "    account = :account AND "
         "    date BETWEEN :start_date AND :end_date "
         "GROUP BY month, account;"
     );
 
-    query.bindValue(":typeCondition", condition[type]);
     query.bindValue(":account", _id);
     query.bindValue(":start_date", start);
     query.bindValue(":end_date", end);
@@ -223,8 +224,8 @@ QVariantList Account::getMonthlySold(QString start, QString end, int type) {
 }
 
 QVariantList Account::getMonthlyPositiveSold(QString start, QString end){
-    return getMonthlySold(start,end,true);
+    return getMonthlySold(start,end,1);
 }
 QVariantList Account::getMonthlyNegativeSold(QString start, QString end){
-    return getMonthlySold(start,end,false);
+    return getMonthlySold(start,end,2);
 }
