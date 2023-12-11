@@ -89,3 +89,14 @@ function date(){
     var date = currentDate.toISOString().split('T')[0];
     return date
 }
+
+function maxAbsoluteValue(arr) {
+  if (!Array.isArray(arr) || arr.length === 0) {
+    return null; // Return null for an empty or non-array input
+  }
+
+  // Use Math.abs to get the absolute values, then find the maximum
+  const maxAbsolute = Math.max(...arr.map(num => Math.abs(num)));
+
+  return maxAbsolute;
+}
