@@ -9,8 +9,16 @@ Item {
     width: parent.width
     height: parent.height
     property variant account
-    property var posList: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180]
-    property real absMax: BDD.maxAbsoluteValue(posList)
+    property real spacing : 35
+
+    //Private
+    property var posList: if(account) account.getMonthlyPositiveSold("2019-05-01", "2021-12-01")
+    property var negList: if(account) account.getMonthlyNegativeSold("2019-05-01", "2021-12-01")
+    property real difference: if(account) posList[focusIndex]+negList[focusIndex]
+    property var xlabels: BDD.generateDateList("2019-05-01", "2022-01-01")
+    property real absMax: Math.max(BDD.maxAbsoluteValue(posList),BDD.maxAbsoluteValue(negList))
+    property real focusIndex: xlabels.length-1
+    property real minOpacity: 0.4
 
     Rectangle{
         id:info
@@ -31,10 +39,26 @@ Item {
             border.color:"transparent"
             radius:10
 
-            Text{
+            Rectangle{
+                height: infoMonth.height+infoYear.height
+                width: infoMonth.width+infoYear.width
                 anchors.centerIn: parent
-                text:"Décembre\n2023"
-                font.bold: true
+
+                Text{
+                    id:infoMonth
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.top:parent.top
+                    text: extractMonthToLongString(xlabels[focusIndex])
+                    font.bold: true
+                }
+
+                Text{
+                    id:infoYear
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.bottom: parent.bottom
+                    text: "20"+extractYear(xlabels[focusIndex])
+                    font.bold: true
+                }
             }
         }
 
@@ -57,7 +81,7 @@ Item {
 
             Text{
                 id:expense
-                text:"- 214.20 €"
+                text:negList[focusIndex].toFixed(2)+" €"
                 color:"blue"
                 Layout.alignment: Qt.AlignCenter
             }
@@ -69,7 +93,7 @@ Item {
 
             Text{
                 id:revenue
-                text:"+ 480.65 €"
+                text:"+ "+posList[focusIndex].toFixed(2)+" €"
                 color:"black"
                 Layout.alignment: Qt.AlignCenter
             }
@@ -82,15 +106,17 @@ Item {
 
             Rectangle{
                 radius:10
-                width: sold.width+15
-                height:sold.height+2
-                color:"green"
+                width: 80
+                height: 20
+                color:(difference>=0) ? "green" : "red"
                 Layout.alignment: Qt.AlignCenter
+
                 Text{
                     id:sold
                     anchors.centerIn: parent
-                    text:"+ 214.20 €"
+                    text:(difference>0 ? "+" : "") + difference.toFixed(2) + "€"
                     color:"white"
+                    font.bold: true
                 }
             }
         }
@@ -98,7 +124,7 @@ Item {
 
     Rectangle{
         id:yAxis
-        height:parent.height-20-info.height - xAxis.height
+        height:parent.height-20-info.height - xAxis.height-5
         width: 35
         anchors{
             top:info.bottom
@@ -127,7 +153,8 @@ Item {
             topMargin: 10
         }
 
-        contentWidth: posList.length*30
+        contentWidth: posList.length*(spacing+5)
+        contentX: Math.max(0, contentWidth - width) //To initialy show the last data
 
         clip:true
         interactive: false
@@ -157,16 +184,23 @@ Item {
                 model: page.posList
 
                 Rectangle {
-                    width: 25
-                    height: modelData*parent.height/absMax
-                    Layout.alignment: Qt.AlignBottom
+                    width: spacing
+                    height: parent.height
 
                     Rectangle{
-                        height:parent.height
+                        id:dataBarUp
                         width: 10
-                        color:"green"
+                        height: modelData*parent.height/absMax
+                        anchors.bottom:parent.bottom
+                        color: "green"
+                        opacity: (focusIndex==index) ? 1 : minOpacity
                         radius:5
                         anchors.horizontalCenter: parent.horizontalCenter
+                    }
+
+                    MouseArea{
+                        anchors.fill:parent
+                        onClicked: focusIndex = index
                     }
                 }
             }
@@ -188,19 +222,26 @@ Item {
             anchors.bottom: xAxis.top
             height: (parent.height-xAxis.height)/2-5
             Repeater {
-                model: page.posList
+                model: page.negList
 
                 Rectangle {
-                    width: 25
-                    height: modelData*parent.height/absMax
+                    width: spacing
+                    height: parent.height
                     Layout.alignment: Qt.AlignTop
 
                     Rectangle{
-                        height:parent.height
                         width: 10
+                        height: -1*modelData*parent.height/absMax
+                        anchors.top:parent.top
                         color:"red"
                         radius:5
+                        opacity: (focusIndex == index) ? 1 : minOpacity
                         anchors.horizontalCenter: parent.horizontalCenter
+                    }
+
+                    MouseArea{
+                        anchors.fill:parent
+                        onClicked: focusIndex = index
                     }
                 }
             }
@@ -212,20 +253,57 @@ Item {
             height:40
 
             Repeater {
-                model: page.posList
+                model: page.xlabels
 
                 Rectangle {
-                    width: 25
+                    width: spacing
                     height:20
                     Layout.alignment: Qt.AlignVCenter
 
-                    Text{
-                        text:modelData
-                        color:"black"
-                        anchors.centerIn:parent
+                    Rectangle{
+                        height: labelMonth.height+labelYear.height
+                        width: labelMonth.width+labelYear.width
+                        anchors.centerIn: parent
+
+                        Text{
+                            id:labelMonth
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            anchors.top:parent.top
+                            text: extractMonthToShortString(modelData)
+                            font.bold: (focusIndex==index)
+                        }
+
+                        Text{
+                            id:labelYear
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            anchors.bottom: parent.bottom
+                            text: extractYear(modelData)
+                            font.bold: (focusIndex==index)
+                        }
+
+                        MouseArea{
+                            anchors.fill:parent
+                            onClicked: focusIndex = index
+                        }
                     }
                 }
             }
         }
+    }
+
+    // Assuming inputDate is in the format "MM/YYYY"
+
+    function extractMonthToLongString(inputDate) {
+        var monthNames =["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
+        return monthNames[parseInt(inputDate.split('/')[0])-1];
+    }
+
+    function extractYear(inputDate){
+        return inputDate.split('/')[1]
+    }
+
+    function extractMonthToShortString(inputDate) {
+        var monthNames =["jan.", "fév.", "mars", "avr.", "mai", "juin", "juil.", "août", "sept.", "oct.", "nov.", "dec."];
+        return monthNames[parseInt(inputDate.split('/')[0])-1];
     }
 }

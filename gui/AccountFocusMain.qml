@@ -8,7 +8,7 @@ Item {
     width:parent.width
     height:parent.height
 
-    property var tablist: ["Paramètres","Transactions","Graphiques","Solde","Options","Analyse","Rapport"]
+    property var tablist: ["Paramètres","Solde","Transactions","Graphiques","Options","Analyse","Rapport"]
     property variant account
     property bool show: false
     signal close
@@ -58,7 +58,7 @@ Item {
             }
 
             Item{
-                AccountFocusTransactions{
+                AccountFocusSold{
                     height:swipeview.height
                     width:swipeview.width
                     account: page.account
@@ -66,7 +66,7 @@ Item {
             }
 
             Item{
-                AccountFocusSold{
+                AccountFocusTransactions{
                     height:swipeview.height
                     width:swipeview.width
                     account: page.account
