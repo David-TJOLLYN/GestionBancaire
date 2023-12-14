@@ -20,6 +20,14 @@ Item {
     property real focusIndex: xlabels.length-1
     property real minOpacity: 0.4
 
+    Connections{
+        target: account
+        function onTransactionsChanged() {
+            posList = account.getMonthlyPositiveSold("2019-05-01", "2021-12-01")
+            negList = account.getMonthlyNegativeSold("2019-05-01", "2021-12-01")
+        }
+    }
+
     Rectangle{
         id:info
         anchors.top:parent.top

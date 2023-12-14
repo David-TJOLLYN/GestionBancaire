@@ -5,29 +5,27 @@ import "../js/extract.js" as BDD
 
 Item {
     width: parent.width
-    height: txt.implicitHeight
+    height: 17
     property variant transaction
 
-    Rectangle {
-        width: parent.width
-        height: txt.implicitHeight
+    Text {
+        id: txt
+        text: BDD.formatDate(transaction.date)
+        color: "grey"
+        anchors.left: parent.left
+        anchors.verticalCenter: parent.verticalCenter
+    }
 
-        Text {
-            id: txt
-            anchors.left: parent.left
-            text: BDD.formatDate(transaction.date)
-            color: "grey"
-        }
+    Text {
+        text: transaction.category
+        anchors.left: txt.right
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.margins: 20
+    }
 
-        Text {
-            text: transaction.category
-            anchors.left: txt.right
-            anchors.margins: 20
-        }
-
-        Text {
-            text: transaction.amount + " €"
-            anchors.right: parent.right
-        }
+    Text {
+        text: transaction.amount + " €"
+        anchors.right: parent.right
+        anchors.verticalCenter: parent.verticalCenter
     }
 }

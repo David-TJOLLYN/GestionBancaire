@@ -1,62 +1,124 @@
 import QtQuick 2.15
 import QtQuick.Controls
+import QtQuick.Layouts
 import "../customElements"
 
 Item {
+    id: root
     width: parent.width
     height: parent.height
 
     property variant account
+    property real focusIndex: -1
 
-    Component{
-        id:transactionsModel
+    Component {
+        id: transactionsModel
 
-        Item{
+        Item {
             width: parent ? parent.width : 200
-            height:info.height+10
-            property var k : modelData
-
-            TransactionForm{
-                id:info
-                transaction: parent.k                
-            }
-
-            Rectangle{
-                anchors.top:info.bottom
-                anchors.margins: 10
-                width: parent.width
-                height:1
-                color:"lightgrey"
-                radius:2
-            }
+            height: info.height+10
+            property var k: modelData
+            property bool options: (focusIndex === index)
 
             MouseArea {
                 anchors.fill: parent
-                acceptedButtons: Qt.LeftButton | Qt.RightButton
-                onClicked: mouse => { if (mouse.button === Qt.RightButton) contextMenu.popup() }
+                onDoubleClicked: if(focusIndex!==index) focusIndex = index;
             }
 
-            Menu {
-                id: contextMenu
-                MenuItem {
-                    text: "Modifier"
-                    onTriggered: {
-                        console.log("Menu action edit ",k.id);
+            TransactionForm {
+                id: info
+                transaction: parent.k
+                anchors.verticalCenter: parent.verticalCenter
+            }
+
+
+            Rectangle {
+                anchors.left: info.right
+                anchors.margins: 5
+                height: parent.height
+                width: 1
+                color: "lightgrey"
+                visible: options
+            }
+
+            Rectangle {
+                id: actionsRectangle
+                width: 0
+                height: parent.height
+                anchors.left: info.right
+                anchors.margins: 5
+                color:"transparent"
+
+                Rectangle{
+                    width:50
+                    height:parent.height
+                    anchors.centerIn: parent
+                    visible: parent.width>=width
+                    color:"transparent"
+
+                    Rectangle{
+                        id:edit
+                        width:parent.height/2
+                        height:parent.height/2
+                        anchors.left:parent.left
+                        anchors.margins: 5
+                        anchors.verticalCenter: parent.verticalCenter
+                        color:"blue"
+                    }
+
+                    Rectangle{
+                        id:supp
+                        width:parent.height/2
+                        height:parent.height/2
+                        anchors.left: edit.right
+                        anchors.margins: 5
+                        anchors.verticalCenter: parent.verticalCenter
+                        color:"red"
+                        MouseArea{
+                            anchors.fill:parent
+                            onClicked:{
+                                focusIndex = -1
+                                account.deleteTransaction(k.id)
+                            }
+                        }
                     }
                 }
-                MenuItem {
-                    text: "Supprimer"
-                    onTriggered: {
-                        console.log("Menu action delete",k.id);
-                        account.deleteTransaction(k.id);
-                    }
+            }
+
+            Rectangle {
+                anchors.top: parent.bottom
+                width: parent.width
+                height: 1
+                color: "lightgrey"
+                radius: 2
+            }
+
+            onOptionsChanged: showActions.restart()
+
+            ParallelAnimation {
+                id: showActions
+
+                PropertyAnimation {
+                    target: actionsRectangle
+                    property: "width"
+                    to: (options ? 65 : 0) - 10
+                    duration: 500
+                    easing.type: Easing.Linear
+                }
+
+                PropertyAnimation {
+                    target: info
+                    property: "width"
+                    to: (options ? root.width - 65 : root.width - 10) -10
+                    duration: 500
+                    easing.type: Easing.Linear
                 }
             }
         }
     }
 
-    ListView{
-        id:list
+    ListView {
+        id: list
         width: parent.width
         height: parent.height
         model: account.transactions
@@ -70,7 +132,7 @@ Item {
         }
 
         clip: true
-        spacing: 10
+        spacing: 0
         topMargin: 10
         leftMargin: 10
         rightMargin: 10

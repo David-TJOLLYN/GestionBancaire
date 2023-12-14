@@ -4,6 +4,7 @@ Rectangle {
     property alias text: txt.text
     property bool modified: false
     signal forceActiveFocus
+    signal accepted
 
     color:  "white"
     border.color:"#B0B0B0"
@@ -19,6 +20,7 @@ Rectangle {
         verticalAlignment:   TextInput.AlignVCenter
 
         onTextChanged: parent.modified = true;
+        onAccepted: parent.accepted()
     }
 
     MouseArea{
