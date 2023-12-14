@@ -1,4 +1,5 @@
 import QtQuick 2.15
+import QtQuick.Controls
 import "../customElements"
 
 Item {
@@ -8,7 +9,7 @@ Item {
     property variant account
 
     Component{
-        id:transactions
+        id:transactionsModel
 
         Item{
             width: parent ? parent.width : 200
@@ -17,8 +18,9 @@ Item {
 
             TransactionForm{
                 id:info
-                transaction: parent.k
+                transaction: parent.k                
             }
+
             Rectangle{
                 anchors.top:info.bottom
                 anchors.margins: 10
@@ -27,6 +29,29 @@ Item {
                 color:"lightgrey"
                 radius:2
             }
+
+            MouseArea {
+                anchors.fill: parent
+                acceptedButtons: Qt.LeftButton | Qt.RightButton
+                onClicked: mouse => { if (mouse.button === Qt.RightButton) contextMenu.popup() }
+            }
+
+            Menu {
+                id: contextMenu
+                MenuItem {
+                    text: "Modifier"
+                    onTriggered: {
+                        console.log("Menu action edit ",k.id);
+                    }
+                }
+                MenuItem {
+                    text: "Supprimer"
+                    onTriggered: {
+                        console.log("Menu action delete",k.id);
+                        account.deleteTransaction(k.id);
+                    }
+                }
+            }
         }
     }
 
@@ -34,8 +59,15 @@ Item {
         id:list
         width: parent.width
         height: parent.height
-        model: account.transactions()
-        delegate: transactions
+        model: account.transactions
+        delegate: transactionsModel
+
+        Connections {
+            target: account
+            function onTransactionsChanged() {
+                list.model = account.transactions
+            }
+        }
 
         clip: true
         spacing: 10

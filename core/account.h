@@ -7,12 +7,13 @@
 class Account : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
-    Q_PROPERTY(QString bank READ bank WRITE setBank NOTIFY bankChanged)
-    Q_PROPERTY(float   sold READ sold NOTIFY soldChanged)
-    Q_PROPERTY(int     type READ type WRITE setType NOTIFY typeChanged)
-    Q_PROPERTY(QString number READ number WRITE setNumber NOTIFY numberChanged)
     Q_PROPERTY(int id READ id CONSTANT)
+    Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged FINAL)
+    Q_PROPERTY(QString bank READ bank WRITE setBank NOTIFY bankChanged FINAL)
+    Q_PROPERTY(float   sold READ sold NOTIFY soldChanged FINAL)
+    Q_PROPERTY(int     type READ type WRITE setType NOTIFY typeChanged FINAL)
+    Q_PROPERTY(QString number READ number WRITE setNumber NOTIFY numberChanged FINAL)
+    Q_PROPERTY(QVariantList transactions READ transactions NOTIFY transactionsChanged FINAL)
 
 public:
     explicit Account(int id, DatabaseHandler *bdd, QObject *parent = nullptr);
@@ -24,6 +25,7 @@ public:
     QString bank();
     bool  type();
     float sold();
+    QVariantList transactions();
 
     void setName(QString name);
     void setType(int type);
@@ -32,8 +34,9 @@ public:
 
 public slots:
     void addTransaction(QString amount, QString date, QString category, QString details="");
+    void deleteTransaction(int id);
+
     QVariantList getLastTransactions(int nbr);
-    QVariantList transactions();
 
     QVariantList getMonthlySold(QString start, QString end, int type=0);
     QVariantList getMonthlyPositiveSold(QString start, QString end);
@@ -45,7 +48,7 @@ signals:
     void typeChanged();
     void numberChanged();
     void bankChanged();
-    void updateLastTransaction();
+    void transactionsChanged();
 
 public:
     DatabaseHandler *_bdd;

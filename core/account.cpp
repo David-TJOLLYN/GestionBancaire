@@ -110,7 +110,16 @@ void Account::addTransaction(QString amount, QString date, QString category, QSt
 
     _bdd->insertTransaction(accountId,amount,date,categoryId,details);
     emit soldChanged();
-    emit updateLastTransaction();
+    emit transactionsChanged();
+}
+
+void Account::deleteTransaction(int id){
+    QSqlQuery query;
+    query.prepare("DELETE FROM moneytransaction WHERE id=:transactionId");
+    query.bindValue(":transactionId",id);
+    _bdd->exec(&query);
+    emit soldChanged();
+    emit transactionsChanged();
 }
 
 
@@ -119,7 +128,7 @@ QVariantList Account::getLastTransactions(int nbr){
     QSqlQuery query;
 
     query.prepare(
-        "SELECT mt.date, mt.amount, c.name "
+        "SELECT mt.id, mt.date, mt.amount, c.name "
         "FROM moneytransaction mt "
         "JOIN category c ON mt.category = c.id "
         "WHERE mt.account = :accountId "
@@ -135,11 +144,12 @@ QVariantList Account::getLastTransactions(int nbr){
     qDebug()<<"OK - Get last "<<nbr<<" transactions";
 
     while(query.next()){
+        int id = query.value("id").toInt();
         QString date = query.value("date").toString();
         QString amount = QString::number(query.value("amount").toFloat(),'f',2);
         QString category = query.value("name").toString();
 
-        QVariant variant = QVariant::fromValue(new Transaction(date,amount,category,_id,""));
+        QVariant variant = QVariant::fromValue(new Transaction(id,date,amount,category,_id,""));
 
         list.append(variant);
 
@@ -157,7 +167,7 @@ QVariantList Account::transactions(){
     QSqlQuery query;
 
     query.prepare(
-        "SELECT mt.date, mt.amount, c.name "
+        "SELECT mt.id, mt.date, mt.amount, c.name "
         "FROM moneytransaction mt "
         "JOIN category c ON mt.category = c.id "
         "WHERE mt.account = :accountId ");
@@ -169,11 +179,12 @@ QVariantList Account::transactions(){
     qDebug()<<"OK - Get all transactions";
 
     while(query.next()){
+        int id = query.value("id").toInt();
         QString date = query.value("date").toString();
         QString amount = QString::number(query.value("amount").toFloat(),'f',2);
         QString category = query.value("name").toString();
 
-        QVariant variant = QVariant::fromValue(new Transaction(date,amount,category,_id,""));
+        QVariant variant = QVariant::fromValue(new Transaction(id,date,amount,category,_id,""));
 
         list.append(variant);
 

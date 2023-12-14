@@ -51,16 +51,7 @@ function generateDateList(start_date, end_date) {
 
 function formatDate(inputDate) {
     var txt = inputDate.split("-");
-    var currentDate = new Date();
-    var currentYear = currentDate.getFullYear();
-
-    if (parseInt(txt[0]) !== currentYear) {
-        // If the year is the current year, format as dd/mm/yyyy
-        return txt[2] + "/" + txt[1] + "/" + txt[0];
-    } else {
-        // If the year is not the current year, format as dd/mm
-        return txt[2] + "/" + txt[1];
-    }
+    return txt[2] + "/" + txt[1] + "/" + txt[0];
 }
 
 function getTableFromLastTransactions(accounts,name, nbr){

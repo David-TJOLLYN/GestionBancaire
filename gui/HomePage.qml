@@ -106,7 +106,7 @@ Item {
 
             Connections {
                 target: account
-                function onUpdateLastTransaction() {
+                function onTransactionsChanged() {
                     lastTransactionList.model = account.getLastTransactions(5)
                 }
             }
