@@ -102,7 +102,7 @@ Item {
                     target: actionsRectangle
                     property: "width"
                     to: (options ? 65 : 0) - 10
-                    duration: 500
+                    duration: 250
                     easing.type: Easing.Linear
                 }
 
@@ -110,7 +110,7 @@ Item {
                     target: info
                     property: "width"
                     to: (options ? root.width - 65 : root.width - 10) -10
-                    duration: 500
+                    duration: 250
                     easing.type: Easing.Linear
                 }
             }

@@ -1,11 +1,13 @@
 import QtQuick 2.15
 
 Rectangle {
-
+    id:itm
+    property string defaultText: ""
     property alias text: txt.text
     property alias suffix: suffix.text
     property alias prefix: prefix.text
     signal forceActiveFocus
+    signal accepted
 
     color:  "white"
     border.color:"#B0B0B0"
@@ -27,9 +29,9 @@ Rectangle {
 
     TextInput{
         id: txt
-        text: ""
+        text: defaultText
         color: "black"
-        validator:DoubleValidator{decimals: 2}
+        validator: DoubleValidator{decimals: 2}
 
         anchors.left: parent.Left
         anchors.right: suffix.left
@@ -38,6 +40,8 @@ Rectangle {
 
         verticalAlignment:   TextInput.AlignVCenter
         horizontalAlignment: TextInput.AlignRight
+
+        onAccepted: itm.accepted()
     }
 
     Text {
@@ -56,7 +60,6 @@ Rectangle {
     MouseArea{
         anchors.fill: parent
         onClicked: {
-            text = ""
             txt.forceActiveFocus()
         }
     }

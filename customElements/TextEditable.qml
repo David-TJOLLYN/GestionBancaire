@@ -2,21 +2,40 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 
 Item {
+    id:itm
     property bool editing: false
     property bool enebleEditing: true
+    property string text: "default"
+    property color textColor: "grey"
+    property real type:0 // 0 : editText , 1 : editFloat , 2 : editDate
+    width: parent.width
+    height: parent.height
+    property bool textAnchorLeft: true
+    property bool textAnchorRight: false
+    property real textAnchorMargins: 0
 
     Loader {
         id: contentLoader
-        anchors.fill: parent
-        sourceComponent: (editing && enebleEditing) ? editComponent : textComponent
+        anchors.fill:parent
+        sourceComponent: getSourceComponent()
     }
 
     Component {
         id: textComponent
-        Text {
-            id: txt
-            text: "default"
-            anchors.centerIn: parent
+        Rectangle{
+            id:textRect
+            width: itm.width
+            height: itm.height
+            anchors.left: parent.left
+            color: "transparent"
+            Text {
+                id: txt
+                text: itm.text
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.left: if(textAnchorLeft) parent.left
+                anchors.right: if(textAnchorRight) parent.right
+                anchors.margins: itm.textAnchorMargins
+            }
             MouseArea{
                 anchors.fill:parent
                 onDoubleClicked: editing = true;
@@ -25,16 +44,63 @@ Item {
     }
 
     Component {
-        id: editComponent
+        id: editTextComponent
         TextLineEdit {
-            id: edit
-            anchors.fill:parent
+            id: editText
+            width: itm.width
+            height: itm.height
+            anchors.left: parent.left
+            defaultText: itm.text
             onAccepted: {
                 editing = false
-                txt.text = text
+                itm.text = text
             }
         }
     }
+
+    Component {
+        id: editFloatComponent
+        FloatLineEdit {
+            id: editFloat
+            width: itm.width
+            height: itm.height
+            anchors.left: parent.left
+            defaultText: formatAmount(itm.text)
+            suffix: "  €"
+            onAccepted: {
+                editing = false
+                itm.text = parseFloat(text.replace(",",".")).toFixed(2) + " €";
+            }
+        }
+    }
+
+    Component {
+        id: editDateComponent
+        TextLineEdit {
+            id: editText
+            width: itm.width
+            height: itm.height
+            anchors.left: parent.left
+            defaultText: itm.text
+            onAccepted: {
+                editing = false
+                itm.text = text
+            }
+        }
+    }
+
+    function getSourceComponent(){
+        if(!(editing && enebleEditing)) return textComponent
+
+        if(type === 1)      return editFloatComponent
+        else if(type === 2) return editDateComponent
+        else                return editTextComponent
+    }
+
+    function formatAmount(input){
+        var str = input.replace(".",",");
+        str = str.replace(" €","");
+        return str;
+    }
 }
 
-//Currently not used

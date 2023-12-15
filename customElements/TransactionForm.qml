@@ -8,24 +8,31 @@ Item {
     height: 17
     property variant transaction
 
-    Text {
+    TextEditable {
         id: txt
         text: BDD.formatDate(transaction.date)
-        color: "grey"
+        type: 2
         anchors.left: parent.left
         anchors.verticalCenter: parent.verticalCenter
+        width: 0.2*parent.width
     }
 
-    Text {
+    TextEditable {
         text: transaction.category
+        type: 0
         anchors.left: txt.right
         anchors.verticalCenter: parent.verticalCenter
-        anchors.margins: 20
+        width: 0.6*parent.width
+        textAnchorMargins: 20
     }
 
-    Text {
+    TextEditable {
+        type: 1
         text: transaction.amount + " €"
         anchors.right: parent.right
         anchors.verticalCenter: parent.verticalCenter
+        width: 0.2*parent.width
+        textAnchorLeft: false
+        textAnchorRight: true
     }
 }

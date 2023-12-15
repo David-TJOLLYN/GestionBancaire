@@ -1,6 +1,7 @@
 import QtQuick 2.15
 
 Rectangle {
+    property string defaultText: ""
     property alias text: txt.text
     property bool modified: false
     signal forceActiveFocus
@@ -12,12 +13,12 @@ Rectangle {
 
     TextInput{
         id: txt
-        text: ""
         color: "black"
+        text: defaultText
 
         anchors.fill: parent
         anchors.margins: 2
-        verticalAlignment:   TextInput.AlignVCenter
+        verticalAlignment: TextInput.AlignVCenter
 
         onTextChanged: parent.modified = true;
         onAccepted: parent.accepted()
