@@ -8,7 +8,7 @@ Item {
     width:parent.width
     height:parent.height
 
-    property var tablist: ["Solde","Transactions","Paramètres"]
+    property var tablist: ["Compte","Solde","Transactions","Paramètres"]
     property variant account
     property bool show: false
     signal close
@@ -47,6 +47,14 @@ Item {
             height:page.height-header.height-tab.height
             currentIndex: tab.currentIndex
             interactive: false
+
+            Item{
+                AccountFocusAccount{
+                    height:swipeview.height
+                    width:swipeview.width
+                    account: page.account
+                }
+            }
 
             Item{
                 AccountFocusSold{

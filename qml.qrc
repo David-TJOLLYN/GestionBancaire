@@ -31,5 +31,6 @@
         <file>gui/AccountFocusSold.qml</file>
         <file>customElements/TextEditable.qml</file>
         <file>customElements/AccountHeaderForm.qml</file>
+        <file>gui/AccountFocusAccount.qml</file>
     </qresource>
 </RCC>
