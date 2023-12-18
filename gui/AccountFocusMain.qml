@@ -8,7 +8,7 @@ Item {
     width:parent.width
     height:parent.height
 
-    property var tablist: ["Paramètres","Solde","Transactions","Graphiques","Options","Analyse","Rapport"]
+    property var tablist: ["Solde","Transactions","Paramètres"]
     property variant account
     property bool show: false
     signal close
@@ -49,15 +49,6 @@ Item {
             interactive: false
 
             Item{
-                AccountFocusParameter{
-                    id:parameter
-                    height:swipeview.height
-                    width:swipeview.width
-                    account:page.account
-                }
-            }
-
-            Item{
                 AccountFocusSold{
                     height:swipeview.height
                     width:swipeview.width
@@ -73,17 +64,12 @@ Item {
                 }
             }
 
-            Rectangle{
-                height:swipeview.height
-                width:swipeview.width
-                color:"red"
-                border.color: "black"
-
-                StyledText{
-                    id:txt
-                    anchors.centerIn:parent
-                    text: tablist[tab.currentIndex]
-                    color:"black"
+            Item{
+                AccountFocusParameter{
+                    id:parameter
+                    height:swipeview.height
+                    width:swipeview.width
+                    account:page.account
                 }
             }
         }
@@ -92,7 +78,5 @@ Item {
         Component.onDestruction: console.log("Focus account main destroyed")
 
         }
-
     }
-
 }
