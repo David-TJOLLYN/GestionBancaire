@@ -40,7 +40,7 @@ Item {
 
 
         Rectangle{
-            width: 0.4*parent.width
+            width: 0.5*parent.width
             height:parent.height
             anchors.left: parent.left
             color:"transparent"
@@ -71,13 +71,14 @@ Item {
         }
 
         GridLayout{
-            width: 0.6*parent.width
+            width: 0.5*parent.width
             height:parent.height
             anchors{
                 right:parent.right
                 top:parent.top
                 bottom:parent.bottom
                 margins:5
+                rightMargin: 20
             }
 
             columns: 2
@@ -88,10 +89,10 @@ Item {
             }
 
             Text{
-                id:expense
-                text:negList[focusIndex].toFixed(2)+" €"
-                color:"blue"
-                Layout.alignment: Qt.AlignCenter
+                id: expense
+                text: num2money(negList[focusIndex])
+                color: "blue"
+                Layout.alignment: Qt.AlignRight
             }
 
             Text{
@@ -100,10 +101,10 @@ Item {
             }
 
             Text{
-                id:revenue
-                text:"+ "+posList[focusIndex].toFixed(2)+" €"
-                color:"black"
-                Layout.alignment: Qt.AlignCenter
+                id: revenue
+                text: num2money(posList[focusIndex])
+                color: "black"
+                Layout.alignment: Qt.AlignRight
             }
 
             Text{
@@ -116,13 +117,13 @@ Item {
                 radius:10
                 width: 80
                 height: 20
-                color:(difference>=0) ? "green" : "red"
-                Layout.alignment: Qt.AlignCenter
+                color: difference ? ((difference>=0) ? "green" : "red") : "green"
+                Layout.alignment: Qt.AlignRight
 
                 Text{
                     id:sold
                     anchors.centerIn: parent
-                    text:(difference>0 ? "+" : "") + difference.toFixed(2) + "€"
+                    text: num2money(difference)
                     color:"white"
                     font.bold: true
                 }
@@ -313,5 +314,12 @@ Item {
     function extractMonthToShortString(inputDate) {
         var monthNames =["jan.", "fév.", "mars", "avr.", "mai", "juin", "juil.", "août", "sept.", "oct.", "nov.", "dec."];
         return monthNames[parseInt(inputDate.split('/')[0])-1];
+    }
+
+    function num2money(number){
+        if(isNaN(number)) return "+ 0.00 €";
+        var str = number>= 0 ? "+ " : "- ";
+        str += Math.abs(number).toFixed(2);
+        return str += " €";
     }
 }
