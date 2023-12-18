@@ -91,3 +91,23 @@ function maxAbsoluteValue(arr) {
 
   return maxAbsolute;
 }
+
+
+
+
+
+// Assuming inputDate is in the format "MM/YYYY"
+
+function extractMonthToLongString(inputDate) {
+    var monthNames =["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
+    return monthNames[parseInt(inputDate.split('/')[0])-1];
+}
+
+function extractYear(inputDate){
+    return inputDate.split('/')[1]
+}
+
+function extractMonthToShortString(inputDate) {
+    var monthNames =["jan.", "fév.", "mars", "avr.", "mai", "juin", "juil.", "août", "sept.", "oct.", "nov.", "dec."];
+    return monthNames[parseInt(inputDate.split('/')[0])-1];
+}

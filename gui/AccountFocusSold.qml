@@ -2,7 +2,7 @@ import QtQuick 2.15
 import QtCharts 2.3
 import QtQuick.Layouts
 import QtQuick.Controls
-import "../js/extract.js" as BDD
+import "../js/extract.js" as JS
 
 Item {
     id: page
@@ -15,8 +15,8 @@ Item {
     property var posList: if(account) account.getMonthlyPositiveSold("2019-05-01", "2021-12-01")
     property var negList: if(account) account.getMonthlyNegativeSold("2019-05-01", "2021-12-01")
     property real difference: if(account) posList[focusIndex]+negList[focusIndex]
-    property var xlabels: BDD.generateDateList("2019-05-01", "2022-01-01")
-    property real absMax: Math.max(BDD.maxAbsoluteValue(posList),BDD.maxAbsoluteValue(negList))
+    property var xlabels: JS.generateDateList("2019-05-01", "2022-01-01")
+    property real absMax: Math.max(JS.maxAbsoluteValue(posList),JS.maxAbsoluteValue(negList))
     property real focusIndex: xlabels.length-1
     property real minOpacity: 0.4
 
@@ -56,7 +56,7 @@ Item {
                     id:infoMonth
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.top:parent.top
-                    text: extractMonthToLongString(xlabels[focusIndex])
+                    text: JS.extractMonthToLongString(xlabels[focusIndex])
                     font.bold: true
                 }
 
@@ -64,7 +64,7 @@ Item {
                     id:infoYear
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.bottom: parent.bottom
-                    text: "20"+extractYear(xlabels[focusIndex])
+                    text: "20"+JS.extractYear(xlabels[focusIndex])
                     font.bold: true
                 }
             }
@@ -278,7 +278,7 @@ Item {
                             id:labelMonth
                             anchors.horizontalCenter: parent.horizontalCenter
                             anchors.top:parent.top
-                            text: extractMonthToShortString(modelData)
+                            text: JS.extractMonthToShortString(modelData)
                             font.bold: (focusIndex==index)
                         }
 
@@ -286,7 +286,7 @@ Item {
                             id:labelYear
                             anchors.horizontalCenter: parent.horizontalCenter
                             anchors.bottom: parent.bottom
-                            text: extractYear(modelData)
+                            text: JS.extractYear(modelData)
                             font.bold: (focusIndex==index)
                         }
 
@@ -298,22 +298,6 @@ Item {
                 }
             }
         }
-    }
-
-    // Assuming inputDate is in the format "MM/YYYY"
-
-    function extractMonthToLongString(inputDate) {
-        var monthNames =["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
-        return monthNames[parseInt(inputDate.split('/')[0])-1];
-    }
-
-    function extractYear(inputDate){
-        return inputDate.split('/')[1]
-    }
-
-    function extractMonthToShortString(inputDate) {
-        var monthNames =["jan.", "fév.", "mars", "avr.", "mai", "juin", "juil.", "août", "sept.", "oct.", "nov.", "dec."];
-        return monthNames[parseInt(inputDate.split('/')[0])-1];
     }
 
     function num2money(number){
