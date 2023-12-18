@@ -111,3 +111,8 @@ function extractMonthToShortString(inputDate) {
     var monthNames =["jan.", "fév.", "mars", "avr.", "mai", "juin", "juil.", "août", "sept.", "oct.", "nov.", "dec."];
     return monthNames[parseInt(inputDate.split('/')[0])-1];
 }
+
+function format2db(inputDate){
+    var date = inputDate.split('/')
+    return "20"+date[1]+"-"+date[0]+"-01";
+}

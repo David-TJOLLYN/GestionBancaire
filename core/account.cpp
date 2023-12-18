@@ -240,3 +240,33 @@ QVariantList Account::getMonthlyPositiveSold(QString start, QString end){
 QVariantList Account::getMonthlyNegativeSold(QString start, QString end){
     return getMonthlySold(start,end,2);
 }
+
+QVariantMap Account::getSoldGroupByCategories(QString date, int type){
+    QVariantMap list;
+    QString condition[] = {"amount > 0","amount<0"};
+
+    //qDebug()<<"Get categories' sold of "<<date;
+    QSqlQuery query;
+    query.prepare(
+        "SELECT category.name, SUM(m.amount) AS total_amount "
+        "FROM moneytransaction m "
+        "JOIN category ON m.category = category.id "
+        "WHERE strftime('%Y-%m', m.date) = strftime('%Y-%m', :targetMonth) "
+        "  AND m.account = :targetAccount "
+        "  AND " + condition[type] + " "
+        "GROUP BY m.category"
+    );
+    query.bindValue(":targetAccount", _id);
+    query.bindValue(":targetMonth",date);
+
+    if (!_bdd->exec(&query)){
+        qDebug()<<"Fail to get categories' sold of "<<date;
+        return list;
+    }
+
+    while (query.next()) {
+        //qDebug() << query.value("name").toString() << " " << query.value("total_amount").toDouble();
+        list.insert(query.value("name").toString(), query.value("total_amount").toFloat());
+    }
+    return list;
+}

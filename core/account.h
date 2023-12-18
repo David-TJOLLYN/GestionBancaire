@@ -41,6 +41,7 @@ public slots:
     QVariantList getMonthlySold(QString start, QString end, int type=0);
     QVariantList getMonthlyPositiveSold(QString start, QString end);
     QVariantList getMonthlyNegativeSold(QString start, QString end);
+    QVariantMap  getSoldGroupByCategories(QString date, int type);
 
 signals:
     void soldChanged();
@@ -50,9 +51,10 @@ signals:
     void bankChanged();
     void transactionsChanged();
 
-public:
+private:
     DatabaseHandler *_bdd;
     QString _id;
+
 };
 
 #endif // ACCOUNT_H
