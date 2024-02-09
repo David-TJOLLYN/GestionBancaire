@@ -9,7 +9,7 @@ Item {
     width:parent.width
     height:parent.height
 
-    property string title: "Default"
+    property string title: qsTr("Default")
     property bool expense: false
     property variant account
     property string amount: amountValue.prefix+amountValue.text
@@ -63,7 +63,7 @@ Item {
             implicitWidth: parent.width
             implicitHeight: 25
 
-            text: "détails"
+            text: qsTr("détails")
         }
 
         CustomButton{

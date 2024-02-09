@@ -8,7 +8,7 @@ Item {
     width:parent.width
     height:parent.height
 
-    property var tablist: ["Compte","Solde","Revenues","Dépenses","Transactions","Paramètres"]
+    property var tablist: [qsTr("Compte"),qsTr("Solde"),qsTr("Revenues"),qsTr("Dépenses"),qsTr("Transactions"),qsTr("Paramètres")]
     property variant account
     property bool show: false
     signal close
@@ -16,7 +16,7 @@ Item {
     HeaderAndExitBtn{
         id:header
         anchors.top:parent.top
-        title: account ? account.name : "default"
+        title: account ? account.name : "défault"
         onClosed: page.close()
     }
 

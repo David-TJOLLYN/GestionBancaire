@@ -13,7 +13,7 @@ Item {
 
     Header{
         id:header
-        text:"Transactions"
+        text:qsTr("Transactions")
     }
 
     ColumnLayout {
@@ -65,8 +65,8 @@ Item {
 
     ListModel {
         id: modelList
-        ListElement { type: 0; name: "Virement interne" }
-        ListElement { type: 1; name: "Ajouter un revenu" }
-        ListElement { type: 2; name: "Ajouter une dépense" }
+        ListElement { type: 0; name: qsTr("Virement interne") }
+        ListElement { type: 1; name: qsTr("Ajouter un revenu") }
+        ListElement { type: 2; name: qsTr("Ajouter une dépense") }
     }
 }

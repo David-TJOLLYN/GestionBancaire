@@ -12,7 +12,7 @@ Item {
 
     Header{
         id:header
-        text:"Comptes et Livrets"
+        text:qsTr("Comptes et Livrets")
     }
 
     Flickable {
@@ -66,7 +66,7 @@ Item {
             }
 
             Text{
-                text:"Ajouter un compte ou livret"
+                text:qsTr("Ajouter un compte ou livret")
                 anchors.centerIn: parent
             }
 

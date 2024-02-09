@@ -1,17 +1,27 @@
 #include <QApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
+#include <QTranslator>
+
 #include "core/databasehandler.h"
 
 int main(int argc, char *argv[]){
     QApplication app(argc, argv);
+
+    QTranslator translator;
+    if(!translator.load("bankhandler_en.qm")){
+        qDebug()<<"Fail to load translator";
+        return 1;
+    }
+    app.installTranslator(&translator);
+
 
     bool status = true;
     DatabaseHandler *bdd = new DatabaseHandler(&status);
 
     if(!status){
         delete bdd;
-        return -1;
+        return 2;
     }
 
     QQmlApplicationEngine engine;

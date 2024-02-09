@@ -4,8 +4,8 @@ import "../customElements"
 
 Popup {
     id:popup
-    property var titles:["Virement interne", "Ajouter un revenu", "Ajouter une dépense"]
-    property var infos: ["Choix du compte a débiter", "Choix du compte a créditer", "Choix du compte a débiter"];
+    property var titles:[qsTr("Virement interne"), qsTr("Ajouter un revenu"), qsTr("Ajouter une dépense")]
+    property var infos: [qsTr("Choix du compte a débiter"), qsTr("Choix du compte a créditer"), qsTr("Choix du compte a débiter")];
     property real type : 0
 
     modal: true

@@ -36,7 +36,7 @@ Item {
         Text{
             id:txt
             anchors.centerIn: parent
-            text: "Choix du compte à créditer"
+            text: qsTr("Choix du compte à créditer")
         }
     }
 

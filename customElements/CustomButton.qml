@@ -3,7 +3,7 @@ import QtQuick.Controls
 
 Item{
     id:btn
-    property string text: "valider"
+    property string text: qsTr("valider")
     property color color: "white"
     property color fill: "#3C6888"
     property string font: "Comic sans MS"

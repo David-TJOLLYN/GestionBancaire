@@ -84,7 +84,7 @@ Item {
             columns: 2
 
             Text{
-                text:"Dépense"
+                text:qsTr("Dépense")
                 Layout.alignment: Qt.AlignLeft
             }
 
@@ -96,7 +96,7 @@ Item {
             }
 
             Text{
-                text:"Revenu"
+                text:qsTr("Revenu")
                 Layout.alignment: Qt.AlignLeft
             }
 
@@ -109,7 +109,7 @@ Item {
 
             Text{
                 id:txt
-                text:"Différence"
+                text:qsTr("Différence")
                 Layout.alignment: Qt.AlignLeft
             }
 

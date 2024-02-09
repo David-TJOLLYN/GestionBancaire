@@ -19,7 +19,7 @@ Item {
 
     Header{
         id:header
-        text:"Home"
+        text:qsTr("Acceuil")
         width: parent.width
     }
 

@@ -10,7 +10,7 @@ Rectangle {
 
     Text {
         id: accountName
-        text: account ? account.name : "compte"
+        text: account ? account.name : qsTr("compte")
         anchors{ left:parent.left; top:parent.top}
         anchors.margins: 10
     }

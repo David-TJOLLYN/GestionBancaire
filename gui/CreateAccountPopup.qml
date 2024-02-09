@@ -18,7 +18,7 @@ Popup {
 
     HeaderAndExitBtn{
         id:header
-        title:"Créer un Compte / Livret"
+        title:qsTr("Créer un Compte / Livret")
         anchors.top:parent.top
         onClosed: popup.close()
     }
@@ -36,7 +36,7 @@ Popup {
             implicitHeight: 25
             implicitWidth: parent.width
             Text{
-                text:"Banque :"
+                text:qsTr("Banque")+" :"
                 anchors.left:parent.left
                 anchors.verticalCenter: parent.verticalCenter
             }
@@ -55,7 +55,7 @@ Popup {
             implicitWidth: parent.width
 
             Text{
-                text:"Nom :"
+                text:qsTr("Nom")+" :"
                 anchors.left:parent.left
                 anchors.verticalCenter: parent.verticalCenter
             }
@@ -77,7 +77,7 @@ Popup {
             implicitWidth: parent.width
 
             Text{
-                text:"Numéro :"
+                text:qsTr("Numéro")+" :"
                 anchors.left:parent.left
                 anchors.verticalCenter: parent.verticalCenter
             }

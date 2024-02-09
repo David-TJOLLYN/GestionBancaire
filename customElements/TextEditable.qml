@@ -4,7 +4,7 @@ import QtQuick.Controls 2.15
 Item {
     id:itm
     property bool editing: false
-    property bool enebleEditing: true
+    property bool enebleEditing: false
     property string text: "default"
     property color textColor: "grey"
     property real type:0 // 0 : editText , 1 : editFloat , 2 : editDate
@@ -66,7 +66,7 @@ Item {
             height: itm.height
             anchors.left: parent.left
             defaultText: formatAmount(itm.text)
-            suffix: "  €"
+            suffix: qsTr("  €")
             onAccepted: {
                 editing = false
                 itm.text = parseFloat(text.replace(",",".")).toFixed(2) + " €";

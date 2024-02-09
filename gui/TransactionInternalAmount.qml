@@ -7,7 +7,7 @@ Item {
     width:parent.width
     height:parent.height
 
-    property string title: "Default"
+    property string title: qsTr("Default")
     property variant debitAccount
     property variant creditAccount
 
@@ -45,7 +45,7 @@ Item {
                 verticalCenter: parent.verticalCenter
                 margins:10
             }
-            text: creditAccount ? creditAccount.name : "Default"
+            text: creditAccount ? creditAccount.name : qsTr("Default")
             color:"white"
         }
 
@@ -91,7 +91,7 @@ Item {
         color: "#3C6888"
 
         StyledText{
-            text:"valider"
+            text:qsTr("valider")
             color:"white"
             anchors.centerIn: parent
         }

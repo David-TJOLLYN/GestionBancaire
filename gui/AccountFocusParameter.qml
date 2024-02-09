@@ -14,7 +14,7 @@ Item {
         anchors.top:parent.top
         anchors.left:parent.left
         anchors.margins:15
-        text:"Paramètres du compte"
+        text:qsTr("Paramètres du compte")
         color:"#3C6888"
     }
 
@@ -35,7 +35,7 @@ Item {
             implicitWidth: parent.width
 
             Text{
-                text:"Nom :"
+                text:qsTr("Nom")+" :"
                 anchors.left:parent.left
                 anchors.verticalCenter: parent.verticalCenter
             }
@@ -59,7 +59,7 @@ Item {
             implicitHeight: 25
             implicitWidth: parent.width
             Text{
-                text:"Banque :"
+                text:qsTr("Banque")+" :"
                 anchors.left:parent.left
                 anchors.verticalCenter: parent.verticalCenter
             }
@@ -92,7 +92,7 @@ Item {
             implicitWidth: parent.width
 
             Text{
-                text:"Numéro :"
+                text:qsTr("Numéro")+" :"
                 anchors.left:parent.left
                 anchors.verticalCenter: parent.verticalCenter
             }

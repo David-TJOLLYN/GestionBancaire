@@ -27,3 +27,5 @@ HEADERS += \
     core/account.h \
     core/databasehandler.h \
     core/transaction.h
+
+TRANSLATIONS = language/bankhandler_en.ts
