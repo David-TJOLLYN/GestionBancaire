@@ -8,5 +8,9 @@
 	<file>icon/homepagefilled.png</file>
 	<file>icon/accountpagefilled.png</file>
 	<file>icon/transactionpagefilled.png</file>
+	
+	<file>icon/parameterIcon.png</file>
+	<file>icon/parameterIcon.svg</file>
+	
 </qresource>
 </RCC>	
