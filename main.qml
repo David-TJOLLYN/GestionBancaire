@@ -5,6 +5,7 @@ import QtQuick.Layouts 1.15
 
 import "gui"
 import "customElements"
+import "dsvg"
 
 Window {
     id: mainWindows
@@ -58,33 +59,62 @@ Window {
             height: 2
             width:parent.width
             color:"#3C6888"
-
         }
+
 
         RowLayout{
             anchors.fill:parent
-            anchors.margins: 10
 
-            property real currentItem: 0
+            Button{
+                Layout.fillWidth: true
+                height: parent.height
 
-            IconButton{
-                focus: homePage.visible
-                icon: "../icon/homepage.png"
-                iconfocus: "../icon/homepagefilled.png"
+                Dynamic_SVG{
+                    id:homesvg
+                    anchors.centerIn: parent
+                    height: parent.height-10
+                    width: parent.width-10
+
+                    filled: homePage.visible
+
+                    svgComponent: Home_SVG{}
+                }
+
                 onClicked: body.currentIndex = 0
             }
 
-            IconButton{
-                focus:accountPage.visible
-                icon: "../icon/accountpage.png"
-                iconfocus: "../icon/accountpagefilled.png"
+            Button{
+                Layout.fillWidth: true
+                height: parent.height
+
+                Dynamic_SVG{
+                    anchors.centerIn: parent
+                    height: parent.height-10
+                    width: parent.width-10
+
+                    filled: accountPage.visible
+
+                    svgComponent: Account_SVG{}
+                }
+
                 onClicked: body.currentIndex = 1
             }
 
-            IconButton{
-                focus:transactionPage.visible
-                icon: "../icon/transactionpage.png"
-                iconfocus: "../icon/transactionpagefilled.png"
+            Button{
+                Layout.fillWidth: true
+                height: parent.height
+
+                Dynamic_SVG{
+                    id:svg
+                    anchors.centerIn: parent
+                    height: parent.height-10
+                    width: parent.width-10
+
+                    filled: transactionPage.visible
+
+                    svgComponent: Transaction_SVG{}
+                }
+
                 onClicked: body.currentIndex = 2
             }
         }

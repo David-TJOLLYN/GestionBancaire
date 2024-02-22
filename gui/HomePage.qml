@@ -2,7 +2,7 @@
 import QtQuick.Layouts 1.15
 import Qt.labs.qmlmodels
 
-
+import "../dsvg"
 import "../customElements"
 import "../js/extract.js" as BDD
 
@@ -24,22 +24,23 @@ Item {
         text:qsTr("Acceuil")
         width: homePage.width
 
-        Rectangle{
+        Button{
             anchors.right: parent.right
             width: parent.height
             height: parent.height
-            color:"transparent"
 
-            MouseArea{
-                anchors.fill:parent
-                onClicked: loader.active = true
+            Dynamic_SVG{
+                width: 0.6*parent.height
+                height: 0.6*parent.height
+                anchors.centerIn:parent
+
+                fillColor: strokeColor
+                filled:true
+
+                svgComponent: Parameter_SVG{}
             }
 
-            Image{
-                source: "../icon/parameterIcon.svg"
-                anchors.fill:parent
-                anchors.margins: 10
-            }
+            onClicked: loader.active = true
         }
     }
 

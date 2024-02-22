@@ -1,38 +1,43 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
-        <file>customElements/CustomButton.qml</file>
-        <file>customElements/TextLineEdit.qml</file>
         <file>js/extract.js</file>
-        <file>customElements/FloatLineEdit.qml</file>
-        <file>customElements/ExitButton.qml</file>
         <file>gui/HomePage.qml</file>
         <file>gui/AccountsPage.qml</file>
         <file>gui/TransactionPage.qml</file>
-        <file>customElements/IconButton.qml</file>
-        <file>customElements/StyledText.qml</file>
         <file>gui/TransactionPopup.qml</file>
-        <file>customElements/AccountTemplate.qml</file>
-        <file>customElements/Header.qml</file>
-        <file>customElements/HeaderAndExitBtn.qml</file>
         <file>gui/TransactionSelectAccount.qml</file>
         <file>gui/TransactionExpenseRevenue.qml</file>
         <file>gui/TransactionInternal.qml</file>
-        <file>customElements/TransactionAccountSelected.qml</file>
-        <file>customElements/AccountsList.qml</file>
         <file>gui/TransactionInternalAmount.qml</file>
         <file>gui/CreateAccountPopup.qml</file>
         <file>gui/AccountFocusMain.qml</file>
         <file>gui/AccountDisplay.qml</file>
-        <file>customElements/Tabs.qml</file>
         <file>gui/AccountFocusParameter.qml</file>
         <file>gui/AccountFocusTransactions.qml</file>
-        <file>customElements/TransactionForm.qml</file>
         <file>gui/AccountFocusSold.qml</file>
-        <file>customElements/TextEditable.qml</file>
-        <file>customElements/AccountHeaderForm.qml</file>
         <file>gui/AccountFocusAccount.qml</file>
         <file>gui/AccountFocusCategories.qml</file>
         <file>gui/ParametersPopup.qml</file>
+        <file>customElements/Tabs.qml</file>
+        <file>customElements/TransactionAccountSelected.qml</file>
+        <file>customElements/AccountsList.qml</file>
+        <file>customElements/TransactionForm.qml</file>
+        <file>customElements/TextEditable.qml</file>
+        <file>customElements/AccountHeaderForm.qml</file>
+        <file>customElements/CustomButton.qml</file>
+        <file>customElements/TextLineEdit.qml</file>
+        <file>customElements/FloatLineEdit.qml</file>
+        <file>customElements/ExitButton.qml</file>
+        <file>customElements/StyledText.qml</file>
+        <file>customElements/AccountTemplate.qml</file>
+        <file>customElements/Header.qml</file>
+        <file>customElements/HeaderAndExitBtn.qml</file>
+        <file>dsvg/Home_SVG.qml</file>
+        <file>dsvg/Account_SVG.qml</file>
+        <file>dsvg/Parameter_SVG.qml</file>
+        <file>dsvg/Transaction_SVG.qml</file>
+        <file>dsvg/Dynamic_SVG.qml</file>
+        <file>customElements/Button.qml</file>
     </qresource>
 </RCC>
