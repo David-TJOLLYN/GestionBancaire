@@ -13,7 +13,7 @@ Item {
     width: parent.width
     height:parent.height
 
-    property color color: "#3C6888"
+    property color color: strokeColor
     property string font: "Comic Sans MS"
     property real px: 15
     property bool small: false

@@ -39,5 +39,6 @@
         <file>dsvg/Transaction_SVG.qml</file>
         <file>dsvg/Dynamic_SVG.qml</file>
         <file>customElements/Button.qml</file>
+        <file>Settings.js</file>
     </qresource>
 </RCC>

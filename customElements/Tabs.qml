@@ -1,12 +1,13 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts
+import "../Settings.js" as Setting
 
 Item {
     id: item
     height: 30
     width: parent.width
-    property color background: "#3C6888"
+    property color background: Setting.strokeColor
     property color color: "white"
     property var tabs
     property real currentIndex: 0

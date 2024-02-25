@@ -2,6 +2,7 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts
 import "../customElements"
+import "../Settings.js" as Setting
 
 Item {
     id:page
@@ -37,8 +38,8 @@ Item {
                     height: 50
                     radius: 5
 
-                    color: "#98D7E5"
-                    border.color: "#3C6888"
+                    color: Setting.fillColor
+                    border.color: Setting.strokeColor
                     border.width: 2
 
                     StyledText {

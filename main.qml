@@ -13,6 +13,9 @@ Window {
     height: 600
     visible: true
 
+    property string strokeColor: "#3c6c8c"
+    property string fillColor: "#9bd3e3"
+
     minimumWidth: 300
     minimumHeight: 400
 
@@ -58,7 +61,7 @@ Window {
         Rectangle{
             height: 2
             width:parent.width
-            color:"#3C6888"
+            color: fillColor
         }
 
 

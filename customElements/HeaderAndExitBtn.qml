@@ -1,4 +1,5 @@
 import QtQuick 2.15
+import "../Settings.js" as Setting
 
 Item {
     id:header
@@ -6,7 +7,7 @@ Item {
     width:parent.width
 
     property string title: "Default"
-    property color backgroung : "#3C6888"
+    property color backgroung : Setting.strokeColor
     property color color: "white"
     signal closed
 

@@ -1,4 +1,5 @@
 import QtQuick
+import "../Settings.js" as Setting
 
 Image {
     id:itm
@@ -6,9 +7,9 @@ Image {
     property bool filled: false
     fillMode: Image.PreserveAspectFit // Preserve aspect ratio
 
-    property color strokeColor: "#3c6c8c"
-    property color fillColor:   "#9bd3e3"
-    property color emptyColor:  "#FFFFFF"
+    property color strokeColor: Setting.strokeColor
+    property color fillColor:   Setting.fillColor
+    property color emptyColor:  Setting.emptyColor
 
     property Item svgComponent
 

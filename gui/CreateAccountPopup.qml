@@ -2,6 +2,7 @@ import QtQuick 2.15
 import QtQuick.Controls
 import QtQuick.Layouts
 import "../customElements"
+import "../Settings.js" as Setting
 
 Popup {
     id:popup
@@ -13,7 +14,7 @@ Popup {
 
     background: Rectangle{
         anchors.fill:parent
-        color:"white"
+        color: Setting.emptyColor
     }
 
     HeaderAndExitBtn{

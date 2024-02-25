@@ -1,4 +1,5 @@
 import QtQuick 2.15
+import "../Settings.js" as Setting
 
 Rectangle {
     id: frame
@@ -6,7 +7,7 @@ Rectangle {
     height: 10+frametitle.height+33+itemNbr*(17+5)+10
     width: parent.width
     border.width: 2
-    border.color: "#3C6888"
+    border.color: Setting.strokeColor
     radius: 10
 
     property variant account
