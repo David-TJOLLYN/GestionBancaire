@@ -1,5 +1,4 @@
 import QtQuick
-import "../Settings.js" as Setting
 
 Image {
     id:itm
@@ -7,9 +6,9 @@ Image {
     property bool filled: false
     fillMode: Image.PreserveAspectFit // Preserve aspect ratio
 
-    property color strokeColor: Setting.strokeColor
-    property color fillColor:   Setting.fillColor
-    property color emptyColor:  Setting.emptyColor
+    property color strokeColor: root.strokeColor
+    property color fillColor:   root.fillColor
+    property color emptyColor:  "white"
 
     property Item svgComponent
 
@@ -26,6 +25,7 @@ Image {
     source: "data:image/svg+xml," + encodeURIComponent(svg)
 
     onFilledChanged: bufferFillColor = filled ? fillColor : emptyColor
+    onFillColorChanged: bufferFillColor = filled ? fillColor : emptyColor
 
 
     function fill(){

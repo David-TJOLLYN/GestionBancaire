@@ -1,12 +1,11 @@
 import QtQuick 2.15
 import QtQuick.Controls
-import "../Settings.js" as Setting
 
 Item{
     id:btn
     property string text: qsTr("valider")
     property color color: "white"
-    property color fill: Setting.strokeColor
+    property color fill: root.strokeColor
     property string font: "Comic sans MS"
     signal clicked
 

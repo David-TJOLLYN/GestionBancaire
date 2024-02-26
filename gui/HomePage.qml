@@ -13,7 +13,6 @@ Item {
     width: parent.width
     height:parent.height
 
-    property color color: strokeColor
     property string font: "Comic Sans MS"
     property real px: 15
     property bool small: false
@@ -34,7 +33,7 @@ Item {
                 height: 0.6*parent.height
                 anchors.centerIn:parent
 
-                fillColor: strokeColor
+                strokeColor: root.fillColor
                 filled:true
 
                 svgComponent: Parameter_SVG{}

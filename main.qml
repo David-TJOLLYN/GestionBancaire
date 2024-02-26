@@ -8,13 +8,15 @@ import "customElements"
 import "dsvg"
 
 Window {
-    id: mainWindows
+    id: root
     width: 375
     height: 600
     visible: true
 
-    property string strokeColor: "#3c6c8c"
-    property string fillColor: "#9bd3e3"
+    // Global Settings
+    property color strokeColor: "#3c6c8c"
+    property color fillColor:   "#9bd3e3"
+
 
     minimumWidth: 300
     minimumHeight: 400
@@ -61,7 +63,7 @@ Window {
         Rectangle{
             height: 2
             width:parent.width
-            color: fillColor
+            color: root.strokeColor
         }
 
 

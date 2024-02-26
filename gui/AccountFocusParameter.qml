@@ -2,7 +2,6 @@ import QtQuick 2.15
 import QtQuick.Layouts
 import QtQuick.Controls
 import "../customElements"
-import "../Settings.js" as Setting
 
 Item {
     id:page
@@ -16,7 +15,7 @@ Item {
         anchors.left:parent.left
         anchors.margins:15
         text:qsTr("Paramètres du compte")
-        color: Setting.strokeColor
+        color: root.strokeColor
     }
 
     ColumnLayout{

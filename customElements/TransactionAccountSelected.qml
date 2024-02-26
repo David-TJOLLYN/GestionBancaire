@@ -1,5 +1,4 @@
 import QtQuick 2.15
-import "../Settings.js" as Setting
 
 Item {
     id:page
@@ -14,7 +13,7 @@ Item {
         width: parent.width
         height: 51
 
-        color: Setting.fillColor
+        color: root.fillColor
 
         StyledText {
             anchors{
@@ -52,7 +51,7 @@ Item {
             height: parent.height + radius
             y:-radius
             radius: 15
-            color: Setting.fillColor
+            color: root.fillColor
         }
     }
 }

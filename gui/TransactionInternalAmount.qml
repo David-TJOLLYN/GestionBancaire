@@ -1,7 +1,6 @@
 import QtQuick 2.15
 import "../customElements"
 import "../js/extract.js" as BDD
-import "../Settings.js" as Setting
 
 Item {
     id:page
@@ -32,7 +31,7 @@ Item {
         id:creditAccountInfo
         height: 50
         width: 0.95*parent.width
-        color: Setting.fillColor
+        color: root.fillColor
         anchors{
             horizontalCenter: parent.horizontalCenter
             top:info.bottom
@@ -89,7 +88,7 @@ Item {
             margins:20
         }
         radius: 25
-        color: Setting.strokeColor
+        color: root.strokeColor
 
         StyledText{
             text:qsTr("valider")

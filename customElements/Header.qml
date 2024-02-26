@@ -1,10 +1,9 @@
 import QtQuick 2.15
-import "../Settings.js" as Setting
 
 Item {
     id:header
     property string text: "default"
-    property color background: Setting.strokeColor
+    property color background: root.strokeColor
     property color color: "white"
     height: 60
     width: parent.width

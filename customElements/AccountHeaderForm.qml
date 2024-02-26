@@ -1,5 +1,4 @@
 import QtQuick 2.15
-import "../Settings.js" as Setting
 
 Rectangle {
     id: frame
@@ -7,7 +6,7 @@ Rectangle {
     height: 10+frametitle.height+33+itemNbr*(17+5)+10
     width: parent.width
     border.width: 2
-    border.color: Setting.strokeColor
+    border.color: root.strokeColor
     radius: 10
 
     property variant account
@@ -28,7 +27,7 @@ Rectangle {
         StyledText {
             id: rowAccount
             text: account.name
-            color: homePage.color
+            color: root.strokeColor
             anchors.left:parent.left
 
         }
@@ -36,7 +35,7 @@ Rectangle {
         StyledText {
             id: rowSold
             text: qsTr(account.sold.toFixed(2)+" €")
-            color: homePage.color
+            color: root.strokeColor
             anchors.right:parent.right
         }
     }
@@ -45,7 +44,7 @@ Rectangle {
         id:line
         width: parent.width
         height:3
-        color:homePage.color
+        color: root.strokeColor
         anchors{
             left:parent.left
             right:parent.right
