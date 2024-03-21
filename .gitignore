@@ -43,3 +43,4 @@ build-qml-Desktop_Qt_6_6_0_MinGW_64_bit-Debug/gestion_bancaire.sqlite
 build-qml-Desktop_Qt_6_6_0_MinGW_64_bit-Debug/Makefile
 build-qml-Desktop_Qt_6_6_0_MinGW_64_bit-Debug/Makefile.Debug
 build-qml-Desktop_Qt_6_6_0_MinGW_64_bit-Debug/Makefile.Release
+qml.pro.user
